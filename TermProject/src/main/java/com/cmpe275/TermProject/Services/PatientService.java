@@ -10,5 +10,7 @@ public interface PatientService {
 
     public ResponseEntity<?> loginUser(Map<String, Object> reqBody);
 
+    public ResponseEntity<?> googleSignon(Map<String, Object> reqBody);
+
 
 }
