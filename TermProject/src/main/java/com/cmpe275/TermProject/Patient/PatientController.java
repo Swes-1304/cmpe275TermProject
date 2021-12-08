@@ -30,4 +30,10 @@ public class PatientController{
 
         return new ResponseEntity<>(patientService.loginUser(inputJson), HttpStatus.OK);
     }
+
+    @RequestMapping(value="/googlesignon", method = RequestMethod.POST, produces = {"application/json"})
+    public ResponseEntity<?> googleSignon(@RequestBody Map<String, Object> inputJson){
+
+        return new ResponseEntity<>(patientService.googleSignon(inputJson), HttpStatus.OK);
+    }
 }
