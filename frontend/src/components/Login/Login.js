@@ -2,12 +2,29 @@ import React, { useState } from "react";
 import axios from 'axios';
 import backendServer from "../../../src/webConfig"
 import { useNavigate } from 'react-router-dom';
+import GoogleLogin from 'react-google-login';
+
 
 function Login(props) {
 const [password, setPassword] = useState("");
 const [email, setEmail] = useState("");
 
 let navigate = useNavigate();
+
+const responseGoogle = (response) => {
+    console.log(response.tokenId);
+
+    var data = {
+        tokenId: response.tokenId
+    }; 
+
+    axios.post(`${backendServer}/login`, data).then((response) => {
+        console.log('Got response data', response.data);
+        console.log(response.status)
+        navigate('/adminDashboard');
+    });
+
+  }
 
 
 const loginSubmit=(e)=>
@@ -25,7 +42,7 @@ const loginSubmit=(e)=>
     console.log('Printing data', data);
 
     axios.post(`${backendServer}/login`, data).then((response) => {
-        console.log('Got response data', response);
+        console.log('Got response data', response.data);
         console.log(response.status)
         navigate('/adminDashboard');
     });
@@ -78,6 +95,14 @@ const loginSubmit=(e)=>
               <center><button type="submit" className="btn btn-primary">
                 Login
               </button></center>
+              or
+              <GoogleLogin
+                clientId="688669885321-12u8129b1kddkg15shhfk2cl2m8dr2qi.apps.googleusercontent.com"
+                buttonText="Login"
+                onSuccess={responseGoogle}
+                onFailure={responseGoogle}
+                cookiePolicy={'single_host_origin'}
+            />
               </div>
             </form>
           </div>

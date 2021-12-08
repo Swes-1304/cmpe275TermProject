@@ -12,75 +12,85 @@ function App() {
   const [lastName, setLastName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [gender, setGender] = useState("");
-  
+  const [state, setState] = useState("");
+  const [address, setAddress] = useState("");
+
 
   const loginSubmit = (e) => {
     e.preventDefault();
+    console.log("Got First Name",firstName)
+    console.log("Got Last Name",lastName)
+    console.log("Got Middle Name",middleName)
+    console.log("Got Date of Birth",dateOfBirth)
+    console.log("Got Email",email)
+    console.log("Got state", state)
+    console.log("Gender",gender)
+    console.log("Address",address)
   };
 
 
 
-  const states=[{
-    "AL": "Alabama",
-    "AK": "Alaska",
-    "AS": "American Samoa",
-    "AZ": "Arizona",
-    "AR": "Arkansas",
-    "CA": "California",
-    "CO": "Colorado",
-    "CT": "Connecticut",
-    "DE": "Delaware",
-    "DC": "District Of Columbia",
-    "FM": "Federated States Of Micronesia",
-    "FL": "Florida",
-    "GA": "Georgia",
-    "GU": "Guam",
-    "HI": "Hawaii",
-    "ID": "Idaho",
-    "IL": "Illinois",
-    "IN": "Indiana",
-    "IA": "Iowa",
-    "KS": "Kansas",
-    "KY": "Kentucky",
-    "LA": "Louisiana",
-    "ME": "Maine",
-    "MH": "Marshall Islands",
-    "MD": "Maryland",
-    "MA": "Massachusetts",
-    "MI": "Michigan",
-    "MN": "Minnesota",
-    "MS": "Mississippi",
-    "MO": "Missouri",
-    "MT": "Montana",
-    "NE": "Nebraska",
-    "NV": "Nevada",
-    "NH": "New Hampshire",
-    "NJ": "New Jersey",
-    "NM": "New Mexico",
-    "NY": "New York",
-    "NC": "North Carolina",
-    "ND": "North Dakota",
-    "MP": "Northern Mariana Islands",
-    "OH": "Ohio",
-    "OK": "Oklahoma",
-    "OR": "Oregon",
-    "PW": "Palau",
-    "PA": "Pennsylvania",
-    "PR": "Puerto Rico",
-    "RI": "Rhode Island",
-    "SC": "South Carolina",
-    "SD": "South Dakota",
-    "TN": "Tennessee",
-    "TX": "Texas",
-    "UT": "Utah",
-    "VT": "Vermont",
-    "VI": "Virgin Islands",
-    "VA": "Virginia",
-    "WA": "Washington",
-    "WV": "West Virginia",
-    "WI": "Wisconsin",
-    "WY": "Wyoming"
-}]
+  const states=[
+     "Alabama",
+     "Alaska",
+     "American Samoa",
+    "Arizona",
+    "Arkansas",
+    "California",
+    "Colorado",
+    "Connecticut",
+    "Delaware",
+    "District Of Columbia",
+    "Federated States Of Micronesia",
+    "Florida",
+    "Georgia",
+    "Guam",
+    "Hawaii",
+    "Idaho",
+    "Illinois",
+    "Indiana",
+    "Iowa",
+    "Kansas",
+    "Kentucky",
+    "Louisiana",
+    "Maine",
+    "Marshall Islands",
+    "Maryland",
+    "Massachusetts",
+    "Michigan",
+    "Minnesota",
+    "Mississippi",
+    "Missouri",
+    "Montana",
+    "Nebraska",
+    "Nevada",
+    "New Hampshire",
+    "New Jersey",
+    "New Mexico",
+    "New York",
+    "North Carolina",
+    "North Dakota",
+    "Northern Mariana Islands",
+    "Ohio",
+    "Oklahoma",
+    "Oregon",
+    "Palau",
+    "Pennsylvania",
+    "Puerto Rico",
+    "Rhode Island",
+    "South Carolina",
+    "South Dakota",
+    "Tennessee",
+    "Texas",
+    "Utah",
+    "Vermont",
+    "Virgin Islands",
+    "Virginia",
+    "Washington",
+    "West Virginia",
+    "Wisconsin",
+     "Wyoming"
+]
 
   return (
     <div className="App">
@@ -93,11 +103,11 @@ function App() {
                 <input
                   type="text"
                   className="form-control"
-                  id="EmailInput"
-                  name="EmailInput"
+                  id="First Name"
+                  name="First Name"
                   aria-describedby="emailHelp"
                   placeholder="Enter First Name"
-                  onChange={(event) => setEmail(event.target.value)}
+                  onChange={(event) => setFirstName(event.target.value)}
                 />
                 </div>
                  <br/>
@@ -111,7 +121,7 @@ function App() {
                   name="Middle Name"
                   aria-describedby="emailHelp"
                   placeholder="Enter Middle Name"
-                  onChange={(event) => setEmail(event.target.value)}
+                  onChange={(event) => setMiddleName(event.target.value)}
                 />
                 </div>
                  <br/>
@@ -121,11 +131,11 @@ function App() {
                 <input
                   type="text"
                   className="form-control"
-                  id="EmailInput"
-                  name="EmailInput"
+                  id="Last Name"
+                  name="Last Name"
                   aria-describedby="emailHelp"
                   placeholder="Enter Last Name"
-                  onChange={(event) => setEmail(event.target.value)}
+                  onChange={(event) => setLastName(event.target.value)}
                 />
                 </div>
                  <br/>
@@ -165,7 +175,7 @@ function App() {
                   name="EmailInput"
                   aria-describedby="emailHelp"
                   placeholder="Enter email"
-                  onChange={(event) => setEmail(event.target.value)}
+                  onChange={(event) => setDateOfBirth(event.target.value)}
                 />
                 </div>
                  <br/>
@@ -173,13 +183,13 @@ function App() {
                  <div className="form-group">
                  <label>Street Address</label>
                 <input
-                  type="email"
+                  type="text"
                   className="form-control"
-                  id="EmailInput"
-                  name="EmailInput"
+                  id="StreetAddress"
+                  name="Street Address"
                   aria-describedby="emailHelp"
                   placeholder="Enter Street Address"
-                  onChange={(event) => setEmail(event.target.value)}
+                  onChange={(event) => setAddress(event.target.value)}
                 />
                 </div>
                 <br/>
@@ -194,15 +204,15 @@ function App() {
                                             <TextField
                                                 style={{marginTop:"7px"}}
                                                 {...params}
-                                                label='Select State'
+                                               
                                                 variant='outlined'
-                                                InputLabelProps={{ style: { padding: '0px 0px', color: '#555555', fontSize: 11.5 } }}
+                                                InputLabelProps={{ style: { padding: '0px 0px', color: '#555555', fontSize: 10.5 } }}
                                             />
                                         )}
-                                        // onChange={(event, newValue) => {
-                                        //     setDestination(newValue);
-                                        //     console.log(destination);
-                                        // }}
+                                        onChange={(event, newValue) => {
+                                          setState(newValue);
+                                          
+                                        }}
                                     />
                 <br/>
                 <div className="form-group">
@@ -214,8 +224,10 @@ function App() {
               name="gender"
               type="radio"
               value="m"
-              // checked={this.state.gender === "male"}
-              //   onChange={this.handleChange}
+              value="Male"
+              onChange={(event) => {
+                setGender(event.target.value);
+              }}
             />
               &nbsp; Male
               <br/>
@@ -224,9 +236,12 @@ function App() {
               id="male"
               name="gender"
               type="radio"
-              value="m"
+              value="Female"
               // checked={this.state.gender === "male"}
-              //   onChange={this.handleChange}
+              onChange={(event) => {
+                setGender(event.target.value);
+                
+              }}
             />
               &nbsp; Female
               <br/>
@@ -235,9 +250,12 @@ function App() {
               id="other"
               name="gender"
               type="radio"
-              value="m"
+              value="Other"
               // checked={this.state.gender === "male"}
-              //   onChange={this.handleChange}
+              onChange={(event) => {
+                setGender(event.target.value);
+                
+              }}
             />
               &nbsp; Other
 
