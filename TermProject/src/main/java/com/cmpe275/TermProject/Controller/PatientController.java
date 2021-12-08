@@ -1,6 +1,6 @@
-package com.cmpe275.TermProject.Patient;
+package com.cmpe275.TermProject.Controller;
 
-import net.minidev.json.JSONObject;
+import com.cmpe275.TermProject.Services.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import java.util.Map;
-import java.util.Optional;
 
 @Transactional
 @RestController

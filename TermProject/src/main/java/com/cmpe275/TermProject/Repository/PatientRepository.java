@@ -1,5 +1,6 @@
-package com.cmpe275.TermProject.Patient;
+package com.cmpe275.TermProject.Repository;
 
+import com.cmpe275.TermProject.Models.Patient;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

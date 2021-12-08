@@ -1,6 +1,9 @@
-package com.cmpe275.TermProject.Patient;
+package com.cmpe275.TermProject.Services;
 
 
+import com.cmpe275.TermProject.Models.Patient;
+import com.cmpe275.TermProject.Repository.PatientRepository;
+import com.cmpe275.TermProject.Services.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,11 +12,10 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Transactional
 @Service
-public class PatientServiceImpl implements PatientService{
+public class PatientServiceImpl implements PatientService {
 
     @Autowired
     PatientRepository patientRepository;

@@ -1,4 +1,4 @@
-package com.cmpe275.TermProject.Patient;
+package com.cmpe275.TermProject.Services;
 
 import org.springframework.http.ResponseEntity;
 
