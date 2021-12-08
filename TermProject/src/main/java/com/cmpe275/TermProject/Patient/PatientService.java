@@ -1,5 +1,14 @@
 package com.cmpe275.TermProject.Patient;
 
+import org.springframework.http.ResponseEntity;
+
+import java.util.Map;
+
 public interface PatientService {
+
+    public ResponseEntity<?> signUpUser(Map<String, Object> reqBody);
+
+    public ResponseEntity<?> loginUser(Map<String, Object> reqBody);
+
 
 }

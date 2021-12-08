@@ -16,6 +16,7 @@ public class Patient {
     private String Address; // changes to me made;
     private String gender;
     private boolean adminBoolean;
+    private String password;
 
     public Patient(){
 
@@ -25,7 +26,15 @@ public class Patient {
     // Add getter Setter and constructor
 
 
-    public Patient(int mrn, String email, String firstName, String middleName, String lastName, String DOB, String address, String gender, boolean adminBoolean) {
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Patient(int mrn, String email, String firstName, String middleName, String lastName, String DOB, String address, String gender, boolean adminBoolean, String password) {
         this.mrn = mrn;
         this.email = email;
         this.firstName = firstName;
@@ -35,6 +44,7 @@ public class Patient {
         Address = address;
         this.gender = gender;
         this.adminBoolean = adminBoolean;
+        this.password = password;
     }
 
     public int getMrn() {
