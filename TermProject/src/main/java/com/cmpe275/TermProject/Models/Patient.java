@@ -1,7 +1,11 @@
-package com.cmpe275.TermProject.Patient;
+package com.cmpe275.TermProject.Models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.cmpe275.TermProject.Models.Address;
+import com.cmpe275.TermProject.Models.Appointment;
+import com.cmpe275.TermProject.Models.Vaccine;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Patient {
@@ -13,11 +17,16 @@ public class Patient {
     private String middleName;
     private String lastName;
     private String DOB;
+//    @Embedded
+//    private Address address; // Embedded,
     private String Address; // changes to me made;
     private String gender;
     private boolean adminBoolean;
     private String password;
-
+//    @OneToMany(targetEntity = Vaccine.class)
+//    private List<Vaccine> vaccinations;
+    @OneToMany(targetEntity = Appointment.class, cascade = CascadeType.DETACH)
+    private List<Appointment> appointments;
     public Patient(){
 
     }
@@ -117,5 +126,21 @@ public class Patient {
 
     public void setAdminBoolean(boolean adminBoolean) {
         this.adminBoolean = adminBoolean;
+    }
+
+//    public List<Vaccine> getVaccinations() {
+//        return vaccinations;
+//    }
+//
+//    public void setVaccinations(List<Vaccine> vaccinations) {
+//        this.vaccinations = vaccinations;
+//    }
+
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(List<Appointment> appointments) {
+        this.appointments = appointments;
     }
 }
