@@ -4,6 +4,6 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.Map;
 
-public interface DiseaseService {
-    public ResponseEntity<?> addDisease(Map<String, Object> reqBody);
+public interface VaccineService {
+    public ResponseEntity<?> addVaccine(Map<String, Object> reqBody);
 }

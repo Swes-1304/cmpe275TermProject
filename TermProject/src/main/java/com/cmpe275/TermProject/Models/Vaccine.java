@@ -32,6 +32,8 @@ public class Vaccine {
         this.duration = duration;
     }
 
+
+
     public Vaccine(String vaccineName, List<Disease> diseases, String manufacturer, int numberOfShots, int duration) {
         this.vaccineName = vaccineName;
         this.diseases = diseases;

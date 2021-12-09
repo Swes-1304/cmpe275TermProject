@@ -18,7 +18,7 @@ public class Clinic {
     @Column(columnDefinition = "TIME DEFAULT '18:00:00'")
     private LocalTime businessHoursEnd;
     private int numberOfPhysicians;
-    @OneToMany(targetEntity = Appointment.class)
+    @OneToMany(targetEntity = Appointment.class, cascade = CascadeType.DETACH)
     private List<Appointment> clinicAppointments;
 
     public Clinic(){}

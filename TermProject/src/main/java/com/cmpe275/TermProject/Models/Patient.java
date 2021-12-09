@@ -23,8 +23,8 @@ public class Patient {
     private String gender;
     private boolean adminBoolean;
     private String password;
-    @OneToMany(targetEntity = Vaccine.class)
-    private List<Vaccine> vaccinations;
+//    @OneToMany(targetEntity = Vaccine.class)
+//    private List<Vaccine> vaccinations;
     @OneToMany(targetEntity = Appointment.class, cascade = CascadeType.DETACH)
     private List<Appointment> appointments;
     public Patient(){
@@ -128,13 +128,13 @@ public class Patient {
         this.adminBoolean = adminBoolean;
     }
 
-    public List<Vaccine> getVaccinations() {
-        return vaccinations;
-    }
-
-    public void setVaccinations(List<Vaccine> vaccinations) {
-        this.vaccinations = vaccinations;
-    }
+//    public List<Vaccine> getVaccinations() {
+//        return vaccinations;
+//    }
+//
+//    public void setVaccinations(List<Vaccine> vaccinations) {
+//        this.vaccinations = vaccinations;
+//    }
 
     public List<Appointment> getAppointments() {
         return appointments;

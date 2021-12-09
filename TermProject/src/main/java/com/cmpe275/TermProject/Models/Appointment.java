@@ -3,6 +3,7 @@ package com.cmpe275.TermProject.Models;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 public class Appointment {
@@ -15,7 +16,7 @@ public class Appointment {
     @ManyToOne(targetEntity = Clinic.class)
     private Clinic clinic;
     @ManyToOne (targetEntity = Vaccine.class)
-    private Vaccine vaccine;
+    private List<Vaccine> vaccines;
     private LocalDate appointmentDate;
     private LocalTime appointmentTime;
 //    1 for checkedin and 0 for no show
@@ -23,10 +24,10 @@ public class Appointment {
 
     public Appointment(){}
 
-    public Appointment(Patient patient, Clinic clinic, Vaccine vaccine, LocalDate appointmentDate, LocalTime appointmentTime, boolean status) {
+    public Appointment(Patient patient, Clinic clinic, List<Vaccine> vaccines, LocalDate appointmentDate, LocalTime appointmentTime, boolean status) {
         this.patient = patient;
         this.clinic = clinic;
-        this.vaccine = vaccine;
+        this.vaccines = vaccines;
         this.appointmentDate = appointmentDate;
         this.appointmentTime = appointmentTime;
         this.status = status;
@@ -48,12 +49,12 @@ public class Appointment {
         this.clinic = clinic;
     }
 
-    public Vaccine getVaccine() {
-        return vaccine;
+    public List<Vaccine> getVaccines() {
+        return vaccines;
     }
 
-    public void setVaccine(Vaccine vaccine) {
-        this.vaccine = vaccine;
+    public void setVaccines(List<Vaccine> vaccines) {
+        this.vaccines = vaccines;
     }
 
     public LocalDate getAppointmentDate() {
