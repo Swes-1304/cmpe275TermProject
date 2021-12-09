@@ -264,7 +264,7 @@ function App() {
               <div className="form-group form-check">
               
               <center><button type="submit" className="btn btn-primary">
-                Submit
+                Register
               </button></center>
               </div>
             </form>

@@ -95,14 +95,17 @@ const loginSubmit=(e)=>
               <center><button type="submit" className="btn btn-primary">
                 Login
               </button></center>
-              or
+              <br/>
+              
+              <center>
               <GoogleLogin
                 clientId="688669885321-12u8129b1kddkg15shhfk2cl2m8dr2qi.apps.googleusercontent.com"
-                buttonText="Login"
+                buttonText="Login with Google"
                 onSuccess={responseGoogle}
                 onFailure={responseGoogle}
                 cookiePolicy={'single_host_origin'}
-            />
+            /></center>
+            
               </div>
             </form>
           </div>

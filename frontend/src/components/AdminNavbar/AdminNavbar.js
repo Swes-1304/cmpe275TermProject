@@ -22,6 +22,7 @@ import { withStyles } from '@material-ui/core/styles';
 import './AdminNavbar.css';
 import { Link } from 'react-router-dom';
 import { BsFillPersonFill } from 'react-icons/bs';
+import {FaFileMedical} from 'react-icons/fa'
 import backendServer from "../../../src/webConfig" 
 
 
@@ -92,9 +93,9 @@ function PersistentDrawerLeft(props) {
         setOpen(false);
     };
 
-    const handleLogout = () => {
-        localStorage.removeItem('adminEmail');
-    };
+    // const handleLogout = () => {
+    //     localStorage.removeItem('adminEmail');
+    // };
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -112,7 +113,7 @@ function PersistentDrawerLeft(props) {
                     </IconButton>
 
                     <Typography className='header' variant='h3' noWrap component='div'>
-                        Jet Airways
+                        Spartan Vaccination
                     </Typography>
                 </Toolbar>
             </AppBar>
@@ -134,27 +135,29 @@ function PersistentDrawerLeft(props) {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    <ListItem button component={Link} to='/adminDashboard'>
+                    {/* <ListItem button component={Link} to='/adminDashboard'> */}
+                    <ListItem>
                         <ListItemIcon>
-                            <FaPlane fontSize='large' />
+                            <FaFileMedical fontSize='large' />
                         </ListItemIcon>
-                        <ListItemText sx={{ fontSize: '2rem' }} disableTypography primary='Add Flights' />
+                        <ListItemText sx={{ fontSize: '1.2rem' }} disableTypography primary='Admin Portal' />
                     </ListItem>
                     <Divider />
 
-                    <ListItem button component={Link} to='/adminDeleteFlight'>
+                    {/* <ListItem button component={Link} to='/adminDeleteFlight'> */}
+                    <ListItem>
                         <ListItemIcon>
-                            <FaPlane fontSize='large' />
+                            <FaFileMedical fontSize='large' />
                         </ListItemIcon>
-                        <ListItemText sx={{ fontSize: '2rem' }} disableTypography primary='View Flights' />
+                        <ListItemText sx={{ fontSize: '1.2rem' }} disableTypography primary='Patient Portal' />
                     </ListItem>
                     <Divider />
 
-                    <ListItem button component={Link} to='/home' onClick={handleLogout}>
+                    <ListItem button component={Link} to='/login'>
                         <ListItemIcon>
                             <BsFillPersonFill fontSize='large' />
                         </ListItemIcon>
-                        <ListItemText sx={{ fontSize: '2rem' }} disableTypography primary='Logout' />
+                        <ListItemText sx={{ fontSize: '1.2rem' }} disableTypography primary='Logout' />
                     </ListItem>
                 </List>
             </Drawer>
