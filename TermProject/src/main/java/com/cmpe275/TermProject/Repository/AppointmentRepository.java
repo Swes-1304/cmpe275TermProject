@@ -1,6 +1,8 @@
 package com.cmpe275.TermProject.Repository;
 
+import com.cmpe275.TermProject.Models.Appointment;
 import com.cmpe275.TermProject.Models.Patient;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Propagation;
@@ -9,11 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.SQLException;
 
 @Transactional(rollbackFor = SQLException.class)
-public interface PatientRepository extends JpaRepository<Patient, String> {
-
-    @Query("SELECT p from Patient p WHERE p.email =?1")
-    Patient findByEmail(String email);
-    
-    @Query("SELECT p from Patient p WHERE p.mrn =?1")
-    Patient findByMRN(long mrnId);
+public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
+	//@Query("SELECT * from Appointment WHERE Patient =?")
+    //Appointment findByPatientId(Patient patient);
 }
