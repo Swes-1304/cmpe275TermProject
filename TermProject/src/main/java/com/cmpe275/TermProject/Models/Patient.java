@@ -23,6 +23,16 @@ public class Patient {
     private String gender;
     private boolean adminBoolean;
     private String password;
+    //for google auth
+    private String googleSubId; // not added to the constructor
+
+    public String getGoogleSubId() {
+        return googleSubId;
+    }
+
+    public void setGoogleSubId(String googleSubId) {
+        this.googleSubId = googleSubId;
+    }
 //    @OneToMany(targetEntity = Vaccine.class)
 //    private List<Vaccine> vaccinations;
 

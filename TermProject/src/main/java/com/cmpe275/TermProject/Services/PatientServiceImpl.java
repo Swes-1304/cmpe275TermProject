@@ -114,10 +114,10 @@ public class PatientServiceImpl implements PatientService {
 
             System.out.println("Patient:"+patient);
             if(patient == null){
-                return new ResponseEntity<>("Email does not exist",HttpStatus.CREATED);
+                return new ResponseEntity<>("Email does not exist",HttpStatus.BAD_GATEWAY);
             }
 
-            if(patient.getPassword().equalsIgnoreCase((String) reqBody.get("password"))){
+            if(patient.getPassword().equals((String) reqBody.get("password"))){
                 return new ResponseEntity<>(patient, HttpStatus.OK);
             }else{
                 return new ResponseEntity<>("Password does not Match",HttpStatus.BAD_REQUEST);
@@ -127,10 +127,6 @@ public class PatientServiceImpl implements PatientService {
             error.printStackTrace();
             return new ResponseEntity<>("Error while querying",HttpStatus.BAD_REQUEST);
         }
-
-
-
-
     }
 
     @Override
@@ -142,7 +138,7 @@ public class PatientServiceImpl implements PatientService {
         String subId = (String) reqBody.get("subId");
 
 
-        boolean flag = false;
+
 
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
                 // Specify the CLIENT_ID of the app that accesses the backend:
@@ -171,7 +167,6 @@ public class PatientServiceImpl implements PatientService {
 
                 System.out.println("email:"+email);
                 System.out.println("givenName:"+name);
-                flag = true;
 
                 // New or Existing user Logic
                 List<Patient> patientList = patientRepository.findAll();
@@ -191,12 +186,10 @@ public class PatientServiceImpl implements PatientService {
             System.out.println(error);
         }
 
-        if(flag){
-            // user does not exist
-            return new ResponseEntity<>("Newuser", HttpStatus.PARTIAL_CONTENT); // code - 206
-        }
 
-        return new ResponseEntity<>("Token not decrypted", HttpStatus.BAD_REQUEST);
+        // user does not exist // should make changes
+        return new ResponseEntity<>("Newuser", HttpStatus.PARTIAL_CONTENT); // code - 206
+
     }
 
     @Override
@@ -205,7 +198,85 @@ public class PatientServiceImpl implements PatientService {
         System.out.println("ReqBody:"+reqBody);
         //New Google sign in user
         // get all details
+        Patient newPatient = new Patient();
+        newPatient.setFirstName((String) reqBody.get("firstName"));
+        newPatient.setMiddleName((String) reqBody.get("middleName"));
+        newPatient.setLastName((String) reqBody.get("lastName"));
+        newPatient.setDOB((String) reqBody.get("dob"));
 
-        return null;
+        Map<String, String> addressMap =(Map<String, String>) reqBody.get("address");
+
+        Address newAddress = new Address();
+        newAddress.setStreet(addressMap.get("street"));
+        newAddress.setNumber(addressMap.get("apt"));
+        newAddress.setCity(addressMap.get("city"));
+        newAddress.setState(addressMap.get("state"));
+        newAddress.setZipCode(String.valueOf(addressMap.get("zipcode")));
+
+        newPatient.setAddress(newAddress);
+        newPatient.setGender((String) reqBody.get("gender"));
+
+        // Email and sub id part
+
+        String token = (String) reqBody.get("token");
+        String subId = (String) reqBody.get("subId");
+
+        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
+                // Specify the CLIENT_ID of the app that accesses the backend:
+                .setAudience(Collections.singletonList("688669885321-12u8129b1kddkg15shhfk2cl2m8dr2qi.apps.googleusercontent.com"))
+                // Or, if multiple clients access the backend:
+                //.setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
+                .build();
+
+        try{
+            GoogleIdToken idToken = verifier.verify(token);
+            if (idToken != null) {
+                Payload payload = idToken.getPayload();
+
+                // Print user identifier
+                String userId = payload.getSubject();
+                System.out.println("User ID: " + userId);
+
+                // Get profile information from payload
+                String email = payload.getEmail();
+                boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
+                String name = (String) payload.get("name");
+                String pictureUrl = (String) payload.get("picture");
+                String locale = (String) payload.get("locale");
+                String familyName = (String) payload.get("family_name");
+                String givenName = (String) payload.get("given_name");
+
+                System.out.println("email:"+email);
+                System.out.println("givenName:"+name);
+                newPatient.setEmail(email);
+                newPatient.setGoogleSubId(subId);
+
+                // Checking if the patient can be admin or not
+                String[] fullEmail = (String[]) (email).split("@");
+                String[] domain = fullEmail[1].split("\\."); // For splitting on . use \\.
+
+                if(domain[0].equalsIgnoreCase("sjsu")){
+                    newPatient.setAdminBoolean(true);
+                }else{
+                    newPatient.setAdminBoolean(false);
+                }
+
+                newPatient.setPassword("-1");
+
+                return new ResponseEntity<>(newPatient, HttpStatus.OK);
+
+
+
+
+            } else {
+                System.out.println("Invalid ID token.");
+
+            }
+
+        }catch(Exception error){
+            System.out.println(error);
+        }
+
+        return new ResponseEntity<>("Some Error Occured. Redirect to home page",HttpStatus.BAD_REQUEST);
     }
 }
