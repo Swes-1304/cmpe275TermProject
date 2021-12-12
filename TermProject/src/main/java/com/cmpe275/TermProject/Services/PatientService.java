@@ -14,5 +14,7 @@ public interface PatientService {
 
     public ResponseEntity<?> googleSignup(Map<String, Object> reqBody);
 
+    public ResponseEntity<?> testEmail();
+
 
 }

@@ -8,8 +8,10 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@TableGenerator(name="tab", initialValue=100, allocationSize=50)
 public class Patient {
 
+    @GeneratedValue(strategy=GenerationType.TABLE, generator="tab")
     @Id
     private long mrn;// Medical Record Number
     private String email;

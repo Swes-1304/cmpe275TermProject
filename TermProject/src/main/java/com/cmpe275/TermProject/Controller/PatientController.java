@@ -21,18 +21,24 @@ public class PatientController{
     @RequestMapping(value = "/signup" , method = RequestMethod.POST, produces = {"application/json"})
     public ResponseEntity<?> addPatient(@RequestBody Map<String, Object> inputJson){
 
-        return new ResponseEntity<>(patientService.signUpUser(inputJson), HttpStatus.OK);
+        return patientService.signUpUser(inputJson);
     }
 
     @RequestMapping(value="/login", method = RequestMethod.POST, produces = {"application/json"})
     public ResponseEntity<?> loginUser(@RequestBody Map<String, Object> inputJson){
 
-        return new ResponseEntity<>(patientService.loginUser(inputJson), HttpStatus.OK);
+        return patientService.loginUser(inputJson);
     }
 
     @RequestMapping(value="/googlesignon", method = RequestMethod.POST, produces = {"application/json"})
     public ResponseEntity<?> googleSignon(@RequestBody Map<String, Object> inputJson){
 
-        return new ResponseEntity<>(patientService.googleSignon(inputJson), HttpStatus.OK);
+        return patientService.googleSignon(inputJson);
+    }
+
+    @RequestMapping(value="/testemail", method = RequestMethod.POST, produces = {"application/json"})
+    public ResponseEntity<?> testEmail(){
+
+        return patientService.testEmail();
     }
 }

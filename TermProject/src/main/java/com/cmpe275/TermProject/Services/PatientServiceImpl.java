@@ -1,5 +1,6 @@
 package com.cmpe275.TermProject.Services;
 import com.cmpe275.TermProject.Models.Address;
+import com.cmpe275.TermProject.Models.Email;
 import com.cmpe275.TermProject.Models.Patient;
 import com.cmpe275.TermProject.Repository.PatientRepository;
 import com.cmpe275.TermProject.Services.PatientService;
@@ -15,15 +16,18 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.logging.Logger;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 @Transactional(rollbackFor = SQLException.class, propagation = Propagation.REQUIRED)
 @Service
@@ -31,6 +35,9 @@ public class PatientServiceImpl implements PatientService {
 
     @Autowired
     PatientRepository patientRepository;
+
+    @Autowired
+    EmailServiceImpl emailService;
 
 
 
@@ -83,12 +90,6 @@ public class PatientServiceImpl implements PatientService {
             newPatient.setAdminBoolean(false);
         }
 
-        // MRN Logic
-
-        newPatient.setMrn(2);
-
-        //
-
         newPatient.setGoogleSubId("-1"); // Normal User no Google sign on
 
         try{
@@ -99,8 +100,23 @@ public class PatientServiceImpl implements PatientService {
             return new ResponseEntity<>("error",HttpStatus.BAD_REQUEST);
         }
 
+        // Mailing part
+        // Create email object
+        //Then pass to that emailserivceimplementaion
 
-        return new ResponseEntity<>("Patient Created",HttpStatus.CREATED);
+        Email email = new Email();
+        email.setReciver((String) reqBody.get("email"));
+        email.setSubject("Verification Code Vaccination Management System.");
+        //Random 5 digit code
+        int code = generateVerificationCode();
+        email.setBody("Your verification code is:"+ code);
+
+        emailService.sendEmail(email);
+        //
+        Map<String, Object> res = new HashMap<>();
+        res.put("patient", newPatient);
+        res.put("code",code);
+        return new ResponseEntity<>(res,HttpStatus.CREATED);
 
     }
 
@@ -279,4 +295,56 @@ public class PatientServiceImpl implements PatientService {
 
         return new ResponseEntity<>("Some Error Occured. Redirect to home page",HttpStatus.BAD_REQUEST);
     }
+
+    @Override
+    public ResponseEntity<?> testEmail() {
+//        Properties props = new Properties();
+//        props.put("mail.smtp.auth", "true");
+//        props.put("mail.smtp.starttls.enable", "true");
+//        props.put("mail.smtp.host", "smtp.gmail.com");
+//        props.put("mail.smtp.port", "587");
+//
+//        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+//            protected PasswordAuthentication getPasswordAuthentication() {
+//                return new PasswordAuthentication("cmpe275vaccinemanagementsystem@gmail.com", "vaccine1234");
+//            }
+//        });
+//
+//        try{
+//            Message msg = new MimeMessage(session);
+//            msg.setFrom(new InternetAddress("cmpe275vaccinemanagementsystem@gmail.com", false));
+//            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("swaroop07patwari@gmail.com"));
+//            msg.setSubject("SUBJECT");
+//            msg.setContent("BODY", "text/html");
+//            msg.setSentDate(new Date());
+//
+//            MimeBodyPart messageBodyPart = new MimeBodyPart();
+//            messageBodyPart.setContent("BODY1", "text/html"); // Main Body!
+//
+//            Multipart multipart = new MimeMultipart();
+//            multipart.addBodyPart(messageBodyPart);
+//
+//            msg.setContent(multipart);
+//            Transport.send(msg);
+//
+//
+//        }catch(Exception error){
+//            System.out.println(error);
+//        }
+
+        Email email = new Email();
+        email.setReciver("swes1304@gmail.com");
+        email.setSubject("Verification Code Vaccination Management System.");
+        email.setBody("Your code is:12345");
+
+        emailService.sendEmail(email);
+
+        return new ResponseEntity<>("Email sent!", HttpStatus.OK);
+    }
+
+    public int generateVerificationCode(){
+        Random r = new Random( System.currentTimeMillis() );
+        return 10000 + r.nextInt(20000);
+    }
+
 }
