@@ -1,11 +1,11 @@
 import React from 'react';
-import AdminNavbar from '../AdminNavbar/AdminNavbar';
+import AdminNavbar from '../CommonNavbar/CommonNavbar';
 
 function AdminDashboard(props) {
     return (
         <div>
             <AdminNavbar/>
-            HELLO FROM ADMIN DASHBOARD!
+            HELLO FROM COMMON DASHBOARD!
         </div>
     );
 }
