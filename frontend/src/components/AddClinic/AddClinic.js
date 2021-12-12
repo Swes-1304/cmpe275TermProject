@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import AdminNavbar from '../AdminNavbar/AdminNavbar';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@material-ui/core/TextField';
+import axios from 'axios';
+
 
 function AddClinic() {
     const [clinicName, setClinicName] = useState("");
@@ -12,6 +16,83 @@ function AddClinic() {
     const [state, setState] = useState("");
     const [zipCode, setZipCode] = useState("");
 
+
+    const states=[
+        "Alabama",
+        "Alaska",
+        "American Samoa",
+       "Arizona",
+       "Arkansas",
+       "California",
+       "Colorado",
+       "Connecticut",
+       "Delaware",
+       "District Of Columbia",
+       "Federated States Of Micronesia",
+       "Florida",
+       "Georgia",
+       "Guam",
+       "Hawaii",
+       "Idaho",
+       "Illinois",
+       "Indiana",
+       "Iowa",
+       "Kansas",
+       "Kentucky",
+       "Louisiana",
+       "Maine",
+       "Marshall Islands",
+       "Maryland",
+       "Massachusetts",
+       "Michigan",
+       "Minnesota",
+       "Mississippi",
+       "Missouri",
+       "Montana",
+       "Nebraska",
+       "Nevada",
+       "New Hampshire",
+       "New Jersey",
+       "New Mexico",
+       "New York",
+       "North Carolina",
+       "North Dakota",
+       "Northern Mariana Islands",
+       "Ohio",
+       "Oklahoma",
+       "Oregon",
+       "Palau",
+       "Pennsylvania",
+       "Puerto Rico",
+       "Rhode Island",
+       "South Carolina",
+       "South Dakota",
+       "Tennessee",
+       "Texas",
+       "Utah",
+       "Vermont",
+       "Virgin Islands",
+       "Virginia",
+       "Washington",
+       "West Virginia",
+       "Wisconsin",
+        "Wyoming"
+   ]
+
+   const handleSubmit=(e)=>
+   {
+       e.preventDefault()
+        console.log("Got Clinic Name",clinicName)
+        console.log("Got Number of Physicians",noOfPhysicians)
+        console.log("Got Start Time",startTime)
+        console.log("Got End Time",endTime)
+        console.log("Got Street Address",street)
+        console.log("Got Number",number)
+        console.log("Got City",city)
+        console.log("Got State",state)
+        console.log("Got Zip Code",zipCode)
+   }
+
     return (
         <div>
             <AdminNavbar/>
@@ -21,7 +102,7 @@ function AddClinic() {
           <center><h4 data-testid='LoginTest' style={{ color: 'black', fontSize: 25, marginBottom: 22, fontWeight:"bold" }}>
                             ADD A CLINIC
                         </h4></center>
-            <form id="loginform">
+            <form id="loginform" onSubmit={handleSubmit}>
               <div className="form-group">
               <label>Clinic Name</label>
                 <input
@@ -31,100 +112,128 @@ function AddClinic() {
                   name="First Name"
                   aria-describedby="emailHelp"
                   placeholder="Enter Clinic Name"
-                //   onChange={(event) => setFirstName(event.target.value)}
+                  onChange={(event) => setClinicName(event.target.value)}
                 />
                 </div>
                  <br/>
                 
                  <div className="form-group">
-                <label>Middle Name</label>
+                <label>Number of Physicians</label>
                 <input
-                  type="text"
+                  type="number"
                   className="form-control"
                   id="Middle Name"
                   name="Middle Name"
                   aria-describedby="emailHelp"
-                  placeholder="Enter Middle Name"
-                //   onChange={(event) => setMiddleName(event.target.value)}
+                  placeholder="Enter Number of Physicians"
+                  onChange={(event) => setNoOfPhysicians(event.target.value)}
                 />
                 </div>
                  <br/>
                 
                  <div className="form-group">
-                 <label>Last Name</label>
+                 <label>Start Time</label>
                 <input
-                  type="text"
+                  type="time"
                   className="form-control"
-                  id="Last Name"
+                  id="startTime"
                   name="Last Name"
                   aria-describedby="emailHelp"
-                  placeholder="Enter Last Name"
-                //   onChange={(event) => setLastName(event.target.value)}
+                  
+                  onChange={(event) => setStartTime(event.target.value)}
                 />
                 </div>
                  <br/>
                 
                  <div className="form-group">
-                <label>Email Address</label>
+                <label>End Time</label>
                 <input
-                  type="email"
+                  type="time"
                   className="form-control"
-                  id="EmailInput"
+                  id="endTime"
                   name="EmailInput"
                   aria-describedby="emailHelp"
-                  placeholder="Enter Email Address"
-                //   onChange={(event) => setEmail(event.target.value)}
+                  
+                  onChange={(event) => setEndTime(event.target.value)}
                 />
                 </div>
                  <br/>
               
               <div className="form-group">
-                <label>Create Password</label>
+                <label>Street Address</label>
                 <input
-                  type="password"
+                  type="text"
                   className="form-control"
-                  id="exampleInputPassword1"
-                  placeholder="Password"
-                //   onChange={(event) => setPassword(event.target.value)}
+                  id="streetAddress"
+                  placeholder="Enter Street Address"
+                  onChange={(event) => setStreet(event.target.value)}
                 />
                 </div>
                 <br/>
 
                 <div className="form-group">
-                <label>Date of Birth</label>
+                <label>Number</label>
                 <input
-                  type="date" id="txtDate"
+                  type="number"
                   className="form-control"
-                  
-                  name="EmailInput"
-                  aria-describedby="emailHelp"
-                  placeholder="Enter email"
-                //   onChange={(event) => setDateOfBirth(event.target.value)}
+                  id="streetAddress2"
+                  placeholder="Enter Street Number"
+                  onChange={(event) => setNumber(event.target.value)}
                 />
                 </div>
                  <br/>
-
+                
                  <div className="form-group">
-                 <label>Street Address</label>
+                <label>City</label>
                 <input
                   type="text"
                   className="form-control"
-                  id="StreetAddress"
-                  name="Street Address"
-                  aria-describedby="emailHelp"
-                  placeholder="Enter Street Address"
-                //   onChange={(event) => setAddress(event.target.value)}
+                  id="city"
+                  placeholder="Enter City"
+                  onChange={(event) => setCity(event.target.value)}
                 />
                 </div>
                 <br/>
-                
                 <label>State</label>
-                <div className="form-group">          
-              </div>
+                <Autocomplete
+                                        className='searchContainer'
+                                        id='combo-box-demo'
+                                        options={states}
+                                        getOptionLabel={(option) => option}
+                                        style={{ width: "relative" }}
+                                        renderInput={(params) => (
+                                            <TextField
+                                                style={{marginTop:"7px"}}
+                                                {...params}
+                                               
+                                                variant='outlined'
+                                                InputLabelProps={{ style: { padding: '0px 0px', color: '#555555', fontSize: 10.5 } }}
+                                            />
+                                        )}
+                                        onChange={(event, newValue) => {
+                                          setState(newValue);
+                                          
+                                        }}
+                                    />
+                <br/>
+
+                <div className="form-group">
+                <label>Zip Code</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  id="streetAddress2"
+                  placeholder="Enter Zip Code"
+                  onChange={(event) => setZipCode(event.target.value)}
+                />
+                </div>
+                 
+
+                <br/>
               <div className="form-group form-check">
               
               <center><button type="submit" className="btn btn-primary">
-                Register
+                Add Clinic
               </button></center>
               </div>
             </form>
