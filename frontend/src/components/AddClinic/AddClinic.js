@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdminNavbar from '../AdminNavbar/AdminNavbar';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
+import backendServer from "../../../src/webConfig"
 
 
 function AddClinic() {
@@ -15,6 +16,7 @@ function AddClinic() {
     const [city, setCity] = useState("");
     const [state, setState] = useState("");
     const [zipCode, setZipCode] = useState("");
+    const [status, setStatus] = useState(false);
 
 
     const states=[
@@ -82,16 +84,60 @@ function AddClinic() {
    const handleSubmit=(e)=>
    {
        e.preventDefault()
-        console.log("Got Clinic Name",clinicName)
-        console.log("Got Number of Physicians",noOfPhysicians)
-        console.log("Got Start Time",startTime)
-        console.log("Got End Time",endTime)
-        console.log("Got Street Address",street)
-        console.log("Got Number",number)
-        console.log("Got City",city)
-        console.log("Got State",state)
-        console.log("Got Zip Code",zipCode)
+        // console.log("Got Clinic Name",clinicName)
+        // console.log("Got Number of Physicians",noOfPhysicians)
+        // console.log("Got Start Time",startTime)
+        // console.log("Got End Time",endTime)
+        // console.log("Got Street Address",street)
+        // console.log("Got Number",number)
+        // console.log("Got City",city)
+        // console.log("Got State",state)
+        // console.log("Got Zip Code",zipCode)
+
+        
+   
+    console.log("Inside calculate time")
+    var timeStart = new Date("01/01/2007 " + startTime).getHours();
+    var timeEnd = new Date("01/01/2007 " + endTime).getHours();
+    
+    var hourDiff = timeEnd - timeStart;      
+    console.log(hourDiff)
+    if(hourDiff<8)
+    {
+        alert("Start and End Time should be atleast 8 hours");
+    }
+    else
+    {
+        let data=
+        {
+            clinicName:clinicName,
+            noOfPhysicians:parseInt(noOfPhysicians),
+            startTime:startTime,
+            endTime:endTime,
+            street:street,
+            number:number,
+            city:city,
+            state:state,
+            zipCode:zipCode
+        }
+        console.log("Got data",data)
+        axios.post(`${backendServer}/addClinic`, data).then((response) => {
+            console.log('Got response data', response.data);
+            console.log(response.status)
+            alert("Clinic Added Successfully!")
+            window.location.reload()            
+        });
+    
+    }
+   
    }
+
+   useEffect(()=>{
+
+   },[status])
+   
+
+   
 
     return (
         <div>
@@ -112,6 +158,7 @@ function AddClinic() {
                   name="First Name"
                   aria-describedby="emailHelp"
                   placeholder="Enter Clinic Name"
+                  required
                   onChange={(event) => setClinicName(event.target.value)}
                 />
                 </div>
@@ -126,6 +173,7 @@ function AddClinic() {
                   name="Middle Name"
                   aria-describedby="emailHelp"
                   placeholder="Enter Number of Physicians"
+                  required
                   onChange={(event) => setNoOfPhysicians(event.target.value)}
                 />
                 </div>
@@ -138,6 +186,7 @@ function AddClinic() {
                   className="form-control"
                   id="startTime"
                   name="Last Name"
+                  required
                   aria-describedby="emailHelp"
                   
                   onChange={(event) => setStartTime(event.target.value)}
@@ -153,7 +202,7 @@ function AddClinic() {
                   id="endTime"
                   name="EmailInput"
                   aria-describedby="emailHelp"
-                  
+                  required
                   onChange={(event) => setEndTime(event.target.value)}
                 />
                 </div>
@@ -166,6 +215,7 @@ function AddClinic() {
                   className="form-control"
                   id="streetAddress"
                   placeholder="Enter Street Address"
+                  required
                   onChange={(event) => setStreet(event.target.value)}
                 />
                 </div>
@@ -178,6 +228,7 @@ function AddClinic() {
                   className="form-control"
                   id="streetAddress2"
                   placeholder="Enter Street Number"
+                  required
                   onChange={(event) => setNumber(event.target.value)}
                 />
                 </div>
@@ -190,6 +241,7 @@ function AddClinic() {
                   className="form-control"
                   id="city"
                   placeholder="Enter City"
+                  required
                   onChange={(event) => setCity(event.target.value)}
                 />
                 </div>
@@ -204,7 +256,7 @@ function AddClinic() {
                                         renderInput={(params) => (
                                             <TextField
                                                 style={{marginTop:"7px"}}
-                                                {...params}
+                                                {...params} required
                                                
                                                 variant='outlined'
                                                 InputLabelProps={{ style: { padding: '0px 0px', color: '#555555', fontSize: 10.5 } }}
@@ -225,6 +277,7 @@ function AddClinic() {
                   id="streetAddress2"
                   placeholder="Enter Zip Code"
                   onChange={(event) => setZipCode(event.target.value)}
+                  required
                 />
                 </div>
                  
