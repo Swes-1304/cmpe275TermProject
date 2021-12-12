@@ -1,118 +1,71 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import AdminNavbar from '../AdminNavbar/AdminNavbar';
+import axios from 'axios';
+import backendServer from "../../../src/webConfig"
 
 function AddDisease(props) {
+    const [diseaseName, setDiseaseName] = useState("");
+    const [diseaseDescription, setDiseaseDescription] = useState("");
+
+    const handleAddDisease=(e)=>
+    {
+        e.preventDefault()
+        let data={
+            diseaseName:diseaseName,
+            diseaseDescription:diseaseDescription
+        }
+        console.log("Got data",data)
+        axios.post(`${backendServer}/addDisease`, data).then((response) => {
+            console.log('Got response data', response.data);
+            console.log(response.status)
+            alert("Disease Added Successfully!")
+            window.location.reload()            
+        });
+    }
+
     return (
         <div>
             <AdminNavbar/>
-            ADD DISEASE PAGE
             <div className="container">
         <div className="row d-flex justify-content-center">
           <div className="col-md-4">
-            <form id="loginform">
+            <form id="addDiseaseForm" onSubmit={handleAddDisease}>
               <div className="form-group">
-              <label>First Name</label>
+              <label>Disease Name</label>
                 <input
                   type="text"
                   className="form-control"
                   id="First Name"
                   name="First Name"
                   aria-describedby="emailHelp"
-                  placeholder="Enter First Name"
-                //   onChange={(event) => setFirstName(event.target.value)}
+                  placeholder="Enter Disease Name"
+                  required
+                  onChange={(event) => setDiseaseName(event.target.value)}
                 />
                 </div>
                  <br/>
                 
                  <div className="form-group">
-                <label>Middle Name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="Middle Name"
-                  name="Middle Name"
-                  aria-describedby="emailHelp"
-                  placeholder="Enter Middle Name"
-                //   onChange={(event) => setMiddleName(event.target.value)}
-                />
-                </div>
-                 <br/>
-                
-                 <div className="form-group">
-                 <label>Last Name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="Last Name"
-                  name="Last Name"
-                  aria-describedby="emailHelp"
-                  placeholder="Enter Last Name"
-                //   onChange={(event) => setLastName(event.target.value)}
-                />
-                </div>
-                 <br/>
-                
-                 <div className="form-group">
-                <label>Email Address</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  id="EmailInput"
-                  name="EmailInput"
-                  aria-describedby="emailHelp"
-                  placeholder="Enter Email Address"
-                //   onChange={(event) => setEmail(event.target.value)}
-                />
-                </div>
-                 <br/>
-              
-              <div className="form-group">
-                <label>Create Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="exampleInputPassword1"
-                  placeholder="Password"
-                //   onChange={(event) => setPassword(event.target.value)}
-                />
-                </div>
-                <br/>
-
-                <div className="form-group">
-                <label>Date of Birth</label>
-                <input
-                  type="date" id="txtDate"
-                  className="form-control"
-                  
-                  name="EmailInput"
-                  aria-describedby="emailHelp"
-                  placeholder="Enter email"
-                //   onChange={(event) => setDateOfBirth(event.target.value)}
-                />
-                </div>
-                 <br/>
-
-                 <div className="form-group">
-                 <label>Street Address</label>
+                 <label>Disease Description</label>
                 <input
                   type="text"
                   className="form-control"
                   id="StreetAddress"
-                  name="Street Address"
+                  name="Disease Description"
                   aria-describedby="emailHelp"
-                  placeholder="Enter Street Address"
-                //   onChange={(event) => setAddress(event.target.value)}
+                  placeholder="Enter Disease Description"
+                  onChange={(event) => setDiseaseDescription(event.target.value)}
                 />
                 </div>
                 <br/>
                 
-                <label>State</label>
+                
                 <div className="form-group">          
               </div>
               <div className="form-group form-check">
               
               <center><button type="submit" className="btn btn-primary">
-                Register
+                Add Disease
               </button></center>
               </div>
             </form>
