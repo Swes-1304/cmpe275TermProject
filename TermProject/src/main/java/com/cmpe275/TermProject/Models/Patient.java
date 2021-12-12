@@ -11,7 +11,7 @@ import java.util.List;
 public class Patient {
 
     @Id
-    private int mrn;// Medical Record Number
+    private long mrn;// Medical Record Number
     private String email;
     private String firstName;
     private String middleName;
@@ -56,11 +56,11 @@ public class Patient {
         this.password = password;
     }
 
-    public int getMrn() {
+    public long getMrn() {
         return mrn;
     }
 
-    public void setMrn(int mrn) {
+    public void setMrn(long mrn) {
         this.mrn = mrn;
     }
 

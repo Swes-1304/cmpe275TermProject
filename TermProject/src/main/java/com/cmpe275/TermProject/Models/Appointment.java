@@ -19,12 +19,15 @@ public class Appointment {
     private List<Vaccine> vaccines;
     private LocalDate appointmentDate;
     private LocalTime appointmentTime;
-//    1 for checkedin and 0 for no show
-    private boolean status;
+    private LocalTime mimicTime;
+    private LocalDate mimicDate;
+//    1 for checkedin and 0 for no show 2 for booked(default)
+    private int status;
+    private int mimicStatus;
 
     public Appointment(){}
 
-    public Appointment(Patient patient, Clinic clinic, List<Vaccine> vaccines, LocalDate appointmentDate, LocalTime appointmentTime, boolean status) {
+    public Appointment(Patient patient, Clinic clinic, List<Vaccine> vaccines, LocalDate appointmentDate, LocalTime appointmentTime, int status) {
         this.patient = patient;
         this.clinic = clinic;
         this.vaccines = vaccines;
@@ -73,11 +76,11 @@ public class Appointment {
         this.appointmentTime = appointmentTime;
     }
 
-    public boolean isStatus() {
+    public int isStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 }
