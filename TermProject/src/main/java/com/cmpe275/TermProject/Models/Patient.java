@@ -17,19 +17,36 @@ public class Patient {
     private String middleName;
     private String lastName;
     private String DOB;
-//    @Embedded
-//    private Address address; // Embedded,
-    private String Address; // changes to me made;
+    @Embedded
+    private Address address; // Embedded,
+//    private String Address; // changes to me made;
     private String gender;
     private boolean adminBoolean;
     private String password;
 //    @OneToMany(targetEntity = Vaccine.class)
 //    private List<Vaccine> vaccinations;
+
     @OneToMany(targetEntity = Appointment.class, cascade = CascadeType.DETACH)
     private List<Appointment> appointments;
     public Patient(){
 
     }
+
+    public Patient(int mrn, String email, String firstName, String middleName, String lastName, String DOB, Address address, String gender, boolean adminBoolean, String password, String googleSubId, List<Vaccine> vaccinations, List<Appointment> appointments) {
+        this.mrn = mrn;
+        this.email = email;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.DOB = DOB;
+        this.address = address;
+        this.gender = gender;
+        this.adminBoolean = adminBoolean;
+        this.password = password;
+//        this.vaccinations = vaccinations;
+        this.appointments = appointments;
+    }
+
 
 
     // Add getter Setter and constructor
@@ -43,17 +60,12 @@ public class Patient {
         this.password = password;
     }
 
-    public Patient(int mrn, String email, String firstName, String middleName, String lastName, String DOB, String address, String gender, boolean adminBoolean, String password) {
-        this.mrn = mrn;
-        this.email = email;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.DOB = DOB;
-        Address = address;
-        this.gender = gender;
-        this.adminBoolean = adminBoolean;
-        this.password = password;
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public int getMrn() {
@@ -104,13 +116,6 @@ public class Patient {
         this.DOB = DOB;
     }
 
-    public String getAddress() {
-        return Address;
-    }
-
-    public void setAddress(String address) {
-        Address = address;
-    }
 
     public String getGender() {
         return gender;
