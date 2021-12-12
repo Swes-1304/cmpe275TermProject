@@ -43,8 +43,16 @@ const loginSubmit=(e)=>
 
     axios.post(`${backendServer}/login`, data).then((response) => {
         console.log('Got response data', response.data);
-        console.log(response.status)
+        console.log(response)
+        if(response.data.statusCodeValue==201)
+        {
+          console.log("Inside alert")
+          alert('Email does not exist!')
+        }
+        else if(response.data.statusCodeValue==200)
+        {
         navigate('/adminDashboard');
+        }
     });
 
 }

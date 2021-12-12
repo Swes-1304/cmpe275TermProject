@@ -12,5 +12,7 @@ public interface PatientService {
 
     public ResponseEntity<?> googleSignon(Map<String, Object> reqBody);
 
+    public ResponseEntity<?> googleSignup(Map<String, Object> reqBody);
+
 
 }

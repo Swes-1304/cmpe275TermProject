@@ -1,4 +1,5 @@
 package com.cmpe275.TermProject.Services;
+import com.cmpe275.TermProject.Models.Address;
 import com.cmpe275.TermProject.Models.Patient;
 import com.cmpe275.TermProject.Repository.PatientRepository;
 import com.cmpe275.TermProject.Services.PatientService;
@@ -57,20 +58,16 @@ public class PatientServiceImpl implements PatientService {
 
         // Address
 
-        System.out.println(reqBody.get("address"));
         Map<String, String> addressMap =(Map<String, String>) reqBody.get("address");
-        System.out.println(addressMap);
-        StringBuilder address = new StringBuilder("");
-        address.append(addressMap.get("street"));
-        address.append(",");
-        address.append(addressMap.get("apt"));
-        address.append(",");
-        address.append(addressMap.get("city"));
-        address.append(",");
-        address.append(addressMap.get("state"));
-        address.append(",");
-        address.append(String.valueOf(addressMap.get("zipcode")));
-        newPatient.setAddress(address.toString());
+
+        Address newAddress = new Address();
+        newAddress.setStreet(addressMap.get("street"));
+        newAddress.setNumber(addressMap.get("apt"));
+        newAddress.setCity(addressMap.get("city"));
+        newAddress.setState(addressMap.get("state"));
+        newAddress.setZipCode(String.valueOf(addressMap.get("zipcode")));
+
+        newPatient.setAddress(newAddress);
 
         //
 
@@ -92,6 +89,8 @@ public class PatientServiceImpl implements PatientService {
 
         //
 
+        newPatient.setGoogleSubId("-1"); // Normal User no Google sign on
+
         try{
             Patient returnedPatient = patientRepository.save(newPatient);
 
@@ -99,6 +98,7 @@ public class PatientServiceImpl implements PatientService {
             e.printStackTrace();
             return new ResponseEntity<>("error",HttpStatus.BAD_REQUEST);
         }
+
 
         return new ResponseEntity<>("Patient Created",HttpStatus.CREATED);
 
@@ -112,6 +112,7 @@ public class PatientServiceImpl implements PatientService {
         try{
             Patient patient = patientRepository.findByEmail((String) reqBody.get("email"));
 
+            System.out.println("Patient:"+patient);
             if(patient == null){
                 return new ResponseEntity<>("Email does not exist",HttpStatus.CREATED);
             }
@@ -138,10 +139,10 @@ public class PatientServiceImpl implements PatientService {
         System.out.println("Req.body" + reqBody);
 
         String token = (String) reqBody.get("token");
+        String subId = (String) reqBody.get("subId");
+
 
         boolean flag = false;
-
-
 
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
                 // Specify the CLIENT_ID of the app that accesses the backend:
@@ -149,7 +150,6 @@ public class PatientServiceImpl implements PatientService {
                 // Or, if multiple clients access the backend:
                 //.setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
                 .build();
-
 
         try{
             GoogleIdToken idToken = verifier.verify(token);
@@ -173,9 +173,15 @@ public class PatientServiceImpl implements PatientService {
                 System.out.println("givenName:"+name);
                 flag = true;
 
-                // Use or store profile information
-                // ...
+                // New or Existing user Logic
+                List<Patient> patientList = patientRepository.findAll();
 
+                for(Patient patient: patientList){
+                    if(patient.getGoogleSubId().equals(subId)){
+                        // Existing user directly login to dashboard
+                        return new ResponseEntity<>(patient, HttpStatus.OK);
+                    }
+                }
             } else {
                 System.out.println("Invalid ID token.");
 
@@ -186,10 +192,20 @@ public class PatientServiceImpl implements PatientService {
         }
 
         if(flag){
-            return new ResponseEntity<>("Token decrypted", HttpStatus.OK);
+            // user does not exist
+            return new ResponseEntity<>("Newuser", HttpStatus.PARTIAL_CONTENT); // code - 206
         }
 
         return new ResponseEntity<>("Token not decrypted", HttpStatus.BAD_REQUEST);
+    }
 
+    @Override
+    public ResponseEntity<?> googleSignup(Map<String, Object> reqBody) {
+
+        System.out.println("ReqBody:"+reqBody);
+        //New Google sign in user
+        // get all details
+
+        return null;
     }
 }
