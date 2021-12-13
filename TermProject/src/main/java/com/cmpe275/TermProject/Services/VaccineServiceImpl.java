@@ -95,4 +95,12 @@ public class VaccineServiceImpl implements VaccineService{
         return new ResponseEntity<>("Vaccine Added successfully",HttpStatus.CREATED);
     }
 
+    @Override
+    public ResponseEntity<?> getVaccine() {
+
+        List<Vaccine> vaccineList =  vaccinationRepository.findAll();
+        System.out.println(vaccineList);
+
+        return new ResponseEntity<>(vaccineList, HttpStatus.OK);
+    }
 }

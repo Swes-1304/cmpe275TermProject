@@ -6,4 +6,6 @@ import java.util.Map;
 
 public interface VaccineService {
     public ResponseEntity<?> addVaccine(Map<String, Object> reqBody);
+
+    public ResponseEntity<?> getVaccine();
 }
