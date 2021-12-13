@@ -3,6 +3,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import "./UserRegister.css"
+import {Modal,Button} from "react-bootstrap"
+import axios from 'axios'
+import backendServer from "../../webConfig";
+import { useNavigate } from 'react-router-dom';
 
 function App() {
   const [password, setPassword] = useState("");
@@ -13,20 +17,77 @@ function App() {
   const [middleName, setMiddleName] = useState("");
   const [gender, setGender] = useState("");
   const [state, setState] = useState("");
-  const [address, setAddress] = useState("");
+  const [street, setStreet] = useState("");
+  const [otp, setOtp] = useState("");
+  const [backendotp, setBackendOtp] = useState("");
+  const[patient, setPatient] = useState({});
+  const [apartmentNumber, setApartmentNumber] = useState("");
+  const [city, setCity] = useState("");
+  const [zipCode, setZipCode] = useState("");
+  const[validationText, setValidation] = useState("");
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+
+  let navigate = useNavigate();
 
 
   const loginSubmit = (e) => {
-    e.preventDefault();
-    console.log("Got First Name",firstName)
-    console.log("Got Last Name",lastName)
-    console.log("Got Middle Name",middleName)
-    console.log("Got Date of Birth",dateOfBirth)
-    console.log("Got Email",email)
-    console.log("Got state", state)
-    console.log("Gender",gender)
-    console.log("Address",address)
+    e.preventDefault()
+    let data={
+      firstName:firstName,
+      lastName:lastName,
+      email:email,
+      dob:dateOfBirth,
+      middleName:middleName,
+      gender:gender,
+      password:password,
+      lastName:lastName,
+      address:{
+          street:street,
+          apt:apartmentNumber,
+          city:city,
+          state:state,
+          zipcode:parseInt(zipCode)
+
+      }
+    }
+    console.log("DATA",data)
+
+    axios.post(`${backendServer}/signup`, data).then((response) => {
+      console.log('Got response data', response.data);
+      handleShow();
+      console.log(response.status)
+      console.log("Response", response);
+      setBackendOtp(response.data.code);
+      setPatient(response.data.patient);
+      // navigate('/adminDashboard');
+  });
+
   };
+
+  const handleOtp = (e) =>{
+    e.preventDefault();
+
+    if(otp == backendotp){
+
+      if(patient.adminBoolean == true){
+          console.log("Navigate to admin page!");
+          navigate('/adminDashboard')
+          
+      }else{
+        console.log("Navigate to patient dashboard");
+      }
+
+    }else{
+      setValidation("Wrong Otp!");
+    }
+
+
+  }
 
 
 
@@ -181,7 +242,7 @@ function App() {
                  <br/>
 
                  <div className="form-group">
-                 <label>Street Address</label>
+                 <label>Street</label>
                 <input
                   type="text"
                   className="form-control"
@@ -189,10 +250,43 @@ function App() {
                   name="Street Address"
                   aria-describedby="emailHelp"
                   placeholder="Enter Street Address"
-                  onChange={(event) => setAddress(event.target.value)}
+                  onChange={(event) => setStreet(event.target.value)}
                 />
                 </div>
                 <br/>
+
+                <label>Apartment Number</label>
+                <div className="form-group">
+                <input
+                  type="text"
+                  className="form-control"
+                  id="ApartmentNumber"
+                  name="Apartment Number"
+                  aria-describedby="emailHelp"
+                  placeholder="Number"
+                  onChange={(event) => setApartmentNumber(event.target.value)}
+                />
+                </div>
+
+                <br/>
+
+
+                <label>City</label>
+                <div className="form-group">
+                <input
+                  type="text"
+                  className="form-control"
+                  id="city"
+                  name="City"
+                  aria-describedby="emailHelp"
+                  placeholder="Number"
+                  onChange={(event) => setCity(event.target.value)}
+                />
+                </div>
+
+                <br/>
+                
+
                 <label>State</label>
                 <Autocomplete
                                         className='searchContainer'
@@ -215,9 +309,26 @@ function App() {
                                         }}
                                     />
                 <br/>
+
+
+                <label>Zip Code</label>
+                <div className="form-group">
+                <input
+                  type="text"
+                  className="form-control"
+                  id="zipCode"
+                  name="Zip Code"
+                  aria-describedby="emailHelp"
+                  placeholder="Enter Zip Code"
+                  onChange={(event) => setZipCode(event.target.value)}
+                />
+                </div>
+
+                <br/>
+
+
                 <div className="form-group">
                  <label for="show">Gender<br/></label><br/>
-
                  <input
               // onChange={e => console.log(e.currentTarget.value)}
               id="male"
@@ -266,10 +377,40 @@ function App() {
               <center><button type="submit" className="btn btn-primary">
                 Register
               </button></center>
+              
               </div>
             </form>
           </div>
-         
+          <Modal show={show} onHide={handleClose}>
+              <Modal.Header closeButton>
+                <Modal.Title>Enter Verification Code</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+              
+              <div className="form-group">
+                 <label>Verify OTP</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="otp"
+                  name="OTP"
+                  aria-describedby="emailHelp"
+                  placeholder="Enter OTP"
+                  onChange={(event) => setOtp(event.target.value)}
+                />
+                </div>
+                 <br/>
+                 {validationText}
+              </Modal.Body>
+              <Modal.Footer>
+                
+                <Button variant="primary" onClick={(event)=>{
+                  handleOtp(event);
+                }}>
+                  Verify
+                </Button>
+              </Modal.Footer>
+            </Modal>
         </div>
       </div>
     </div>

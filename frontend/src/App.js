@@ -7,6 +7,7 @@ import ViewClinic from './components/ViewClinic/ViewClinic';
 import AdminNavbar from './components/AdminNavbar/AdminNavbar';
 import AddClinic from './components/AddClinic/AddClinic';
 import AddDisease from './components/AddDisease/AddDisease'
+import AddVaccination from './components/AddVaccination/AddVaccination';
 
 
 
@@ -22,6 +23,7 @@ function App() {
         <Route exact path='/adminNavbar' element={<AdminNavbar />} />
         <Route exact path='/adminDashboard' element={<AddClinic />} />
         <Route exact path='/addDisease' element={<AddDisease />} />
+        <Route exact path='/addVaccination' element={<AddVaccination />} />
         </Routes>
     </BrowserRouter>
   );

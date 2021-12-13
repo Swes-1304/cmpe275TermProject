@@ -143,14 +143,6 @@ function PersistentDrawerLeft(props) {
                     </ListItem>
                     <Divider />
 
-                    <ListItem button component={Link} to='/viewClinic'>
-                   <ListItemIcon>
-                            <FaFileMedical fontSize='large' />
-                        </ListItemIcon>
-                        <ListItemText sx={{ fontSize: '1.2rem' }} disableTypography primary='View Clinics' />
-                    </ListItem>
-                    <Divider />
-
                     <ListItem button component={Link} to='/addDisease'>
                    <ListItemIcon>
                             <FaFileMedical fontSize='large' />
@@ -159,12 +151,32 @@ function PersistentDrawerLeft(props) {
                     </ListItem>
                     <Divider />
 
+                    <ListItem button component={Link} to='/addVaccination'>
+                        <ListItemIcon>
+                            <FaFileMedical fontSize='large' />
+                        </ListItemIcon>
+                        <ListItemText sx={{ fontSize: '1.2rem' }} disableTypography primary='Add Vaccination' />
+                    </ListItem>
+
+                    <Divider />
+
+                    <ListItem button component={Link} to='/login'>
+                        <ListItemIcon>
+                            <BsFillPersonFill fontSize='large' />
+                        </ListItemIcon>
+                        <ListItemText sx={{ fontSize: '1.2rem' }} disableTypography primary='Patient Portal' />
+                    </ListItem>
+
+                    <Divider />
+
                     <ListItem button component={Link} to='/login'>
                         <ListItemIcon>
                             <BsFillPersonFill fontSize='large' />
                         </ListItemIcon>
                         <ListItemText sx={{ fontSize: '1.2rem' }} disableTypography primary='Logout' />
                     </ListItem>
+                    <Divider />
+
                 </List>
             </Drawer>
             <Main open={open}>
