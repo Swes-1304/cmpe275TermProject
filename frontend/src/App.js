@@ -9,6 +9,7 @@ import AddClinic from './components/AddClinic/AddClinic';
 import AddDisease from './components/AddDisease/AddDisease'
 import AddVaccination from './components/AddVaccination/AddVaccination';
 import PatientDashboard from './components/PatientDashboard/PatientDashboard';
+import BookAppointmentPage from './components/BookAppointmentPage/BookAppointmentPage';
 
 
 
@@ -26,6 +27,7 @@ function App() {
         <Route exact path='/addDisease' element={<AddDisease />} />
         <Route exact path='/addVaccination' element={<AddVaccination />} />
         <Route exact path='/patientDashboard' element={<PatientDashboard />} />
+        <Route exact path='/bookAppointment' element={<BookAppointmentPage />} />
         </Routes>
     </BrowserRouter>
   );
