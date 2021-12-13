@@ -2,7 +2,10 @@ package com.cmpe275.TermProject.Models;
 
 
 import javax.persistence.*;
-import java.time.LocalTime;
+
+import java.util.*;
+
+import java.time.*;
 
 @Entity
 public class Patient_Vaccination {
@@ -14,17 +17,21 @@ public class Patient_Vaccination {
     private Patient patient;
     @ManyToOne(targetEntity = Vaccine.class)
     private Vaccine vaccine;
+    @OneToOne(targetEntity = Clinic.class)    
+    private Clinic clinic;
 
     private int shotNumber;
-    @Column(columnDefinition = "TIMESTAMP DEFAULT (CONVERT_TZ(NOW(),'UTC', 'US/Pacific'))")
-    private LocalTime vaccinationDate;
+    //@Column(columnDefinition = "TIMESTAMP DEFAULT (CONVERT_TZ(NOW(),'UTC', 'US/Pacific'))")
+    private LocalDate vaccinationDate;
+    private LocalTime vaccinationTime;
 
     public Patient_Vaccination() {}
-    public Patient_Vaccination(Patient patient, Vaccine vaccine, int shotNumber, LocalTime vaccinationDate) {
+    public Patient_Vaccination(Patient patient, Vaccine vaccine, int shotNumber, LocalDate vaccinationDate, LocalTime vaccinationTime) {
         this.patient = patient;
         this.vaccine = vaccine;
         this.shotNumber = shotNumber;
         this.vaccinationDate = vaccinationDate;
+        this.vaccinationTime = vaccinationTime;
     }
 
     public Patient getPatient() {
@@ -51,11 +58,31 @@ public class Patient_Vaccination {
         this.shotNumber = shotNumber;
     }
 
-    public LocalTime getVaccinationDate() {
+    public LocalDate getVaccinationDate() {
         return vaccinationDate;
     }
 
-    public void setVaccinationDate(LocalTime vaccinationDate) {
+    public void setVaccinationDate(LocalDate vaccinationDate) {
         this.vaccinationDate = vaccinationDate;
     }
+    
+    public LocalTime getVaccinationTime() {
+        return vaccinationTime;
+    }
+
+    public void setVaccinationTime(LocalTime vaccinationTime) {
+        this.vaccinationTime = vaccinationTime;
+    }
+    
+	public void setClinic(Clinic clinic) {
+		this.clinic = clinic;		
+	}
+	public Clinic getClinic() {
+		return clinic;		
+	}
+	public long getPatientVaccinationId() {
+		// TODO Auto-generated method stub
+		return patientVaccinationId;
+	}
+	
 }

@@ -32,6 +32,9 @@ public class Clinic {
         this.clinicAppointments = clinicAppointments;
     }
 
+    public long getClinicId() {
+    	return clinicId;
+    }
     public String getClinicName() {
         return clinicName;
     }

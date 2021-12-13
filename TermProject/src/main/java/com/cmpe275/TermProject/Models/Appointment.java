@@ -15,7 +15,7 @@ public class Appointment {
     private Patient patient;
     @ManyToOne(targetEntity = Clinic.class)
     private Clinic clinic;
-    @ManyToOne (targetEntity = Vaccine.class)
+    @ManyToMany (targetEntity = Vaccine.class)
     private List<Vaccine> vaccines;
     private LocalDate appointmentDate;
     private LocalTime appointmentTime;

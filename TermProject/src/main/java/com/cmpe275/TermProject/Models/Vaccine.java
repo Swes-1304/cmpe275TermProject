@@ -11,7 +11,7 @@ public class Vaccine {
     private long vaccineId;
     @Column(unique = true)
     private String vaccineName;
-    @OneToMany(targetEntity= Disease.class)
+    @ManyToMany(targetEntity= Disease.class)
     private List<Disease> diseases;
     @Size(min = 3)
     private String Manufacturer;
