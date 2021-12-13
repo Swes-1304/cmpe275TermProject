@@ -3,6 +3,7 @@ import axios from 'axios';
 import backendServer from "../../../src/webConfig"
 import { useNavigate } from 'react-router-dom';
 import GoogleLogin from 'react-google-login';
+import {Button} from 'react-bootstrap'
 
 
 function Login(props) {
@@ -19,11 +20,20 @@ const responseGoogle = (response) => {
     }; 
 
     axios.post(`${backendServer}/login`, data).then((response) => {
-        console.log('Got response data', response.data);
-        console.log(response.status)
+      console.log('Got response data', response.data);
+      console.log(response.status)
+      localStorage.setItem('patientDetails',response.data)
+      if(response.data.adminBoolean==true)
+      {
+        console.log("Inside admin")
         navigate('/adminDashboard');
-    });
-
+      }
+      else
+      {
+        navigate('/patientDashboard');
+      }
+      
+  });
   }
 
 
@@ -42,18 +52,20 @@ const loginSubmit=(e)=>
     console.log('Printing data', data);
 
     axios.post(`${backendServer}/login`, data).then((response) => {
-        console.log('Got response data', response.data);
-        console.log(response)
-        if(response.data.statusCodeValue==201)
-        {
-          console.log("Inside alert")
-          alert('Email does not exist!')
-        }
-        else if(response.data.statusCodeValue==200)
-        {
+      console.log('Got response data', response.data);
+      console.log(response.status)
+      localStorage.setItem('patientDetails',JSON.stringify(response.data))
+      if(response.data.adminBoolean==true)
+      {
+        console.log("Inside admin")
         navigate('/adminDashboard');
-        }
-    });
+      }
+      else
+      {
+        navigate('/patientDashboard');
+      }
+      
+  });
 
 }
 
@@ -73,6 +85,7 @@ const loginSubmit=(e)=>
                   name="EmailInput"
                   aria-describedby="emailHelp"
                   placeholder="Enter Email Address"
+                  required
                   onChange={(event) => {
                     //   console.log(event.target.value)
                       setEmail(event.target.value)}
@@ -89,6 +102,7 @@ const loginSubmit=(e)=>
                   className="form-control"
                   id="exampleInputPassword1"
                   placeholder="Password"
+                  required
                   onChange={(event) =>{
                     // console.log(event.target.value)
                     setPassword(event.target.value)}
@@ -113,6 +127,8 @@ const loginSubmit=(e)=>
                 onFailure={responseGoogle}
                 cookiePolicy={'single_host_origin'}
             /></center>
+            <br/>
+           <center><Button href='/userRegister'>Sign Up</Button></center>
             
               </div>
             </form>

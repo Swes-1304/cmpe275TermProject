@@ -8,6 +8,7 @@ import AdminNavbar from './components/AdminNavbar/AdminNavbar';
 import AddClinic from './components/AddClinic/AddClinic';
 import AddDisease from './components/AddDisease/AddDisease'
 import AddVaccination from './components/AddVaccination/AddVaccination';
+import PatientDashboard from './components/PatientDashboard/PatientDashboard';
 
 
 
@@ -24,6 +25,7 @@ function App() {
         <Route exact path='/adminDashboard' element={<AddClinic />} />
         <Route exact path='/addDisease' element={<AddDisease />} />
         <Route exact path='/addVaccination' element={<AddVaccination />} />
+        <Route exact path='/patientDashboard' element={<PatientDashboard />} />
         </Routes>
     </BrowserRouter>
   );

@@ -76,10 +76,12 @@ function App() {
 
       if(patient.adminBoolean == true){
           console.log("Navigate to admin page!");
+          localStorage.setItem('patientDetails',JSON.stringify(patient))
           navigate('/adminDashboard')
           
       }else{
         console.log("Navigate to patient dashboard");
+        navigate('/patientDashboard')
       }
 
     }else{
