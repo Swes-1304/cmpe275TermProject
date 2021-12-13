@@ -22,4 +22,9 @@ public class VaccineController {
 
         return new ResponseEntity<>(vaccineService.addVaccine(inputJson), HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/getvaccine", method = RequestMethod.POST, produces = {"application/json"})
+    public ResponseEntity<?> getVaccine(){
+        return vaccineService.getVaccine();
+    }
 }
