@@ -64,7 +64,7 @@ function AddDisease(props) {
               </div>
               <div className="form-group form-check">
               
-              <center><button type="submit" className="btn btn-primary">
+              <center><button type="submit" className="btn btn-primary" style={{backgroundColor:"#7C0200"}}>
                 Add Disease
               </button></center>
               </div>

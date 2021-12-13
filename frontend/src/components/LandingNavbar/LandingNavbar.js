@@ -19,7 +19,7 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { FaPlane } from 'react-icons/fa';
 import { withStyles } from '@material-ui/core/styles';
-import './AdminNavbar.css';
+import '../AdminNavbar/AdminNavbar.css'
 import { Link } from 'react-router-dom';
 import { BsFillPersonFill } from 'react-icons/bs';
 import {FaFileMedical} from 'react-icons/fa'
@@ -102,7 +102,7 @@ function PersistentDrawerLeft(props) {
             <CssBaseline />
             <AppBar position='fixed' open={open} style={{backgroundColor:"#7C0200"}}>
                 <Toolbar>
-                    <IconButton
+                    {/* <IconButton
                         color='inherit'
                         aria-label='open drawer'
                         onClick={handleDrawerOpen}
@@ -110,7 +110,7 @@ function PersistentDrawerLeft(props) {
                         sx={{ mr: 2, ...(open && { display: 'none' }) }}
                     >
                         <MenuIcon sx={{ fontSize: 30 }} />
-                    </IconButton>
+                    </IconButton> */}
 
                     <Typography className='header' variant='h3' noWrap component='div'>
                         Spartan Vaccination

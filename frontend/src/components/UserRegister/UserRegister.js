@@ -7,6 +7,7 @@ import {Modal,Button} from "react-bootstrap"
 import axios from 'axios'
 import backendServer from "../../webConfig";
 import { useNavigate } from 'react-router-dom';
+import LandingNavbar from "../LandingNavbar/LandingNavbar";
 
 function App() {
   const [password, setPassword] = useState("");
@@ -157,9 +158,12 @@ function App() {
 
   return (
     <div className="App">
+      <LandingNavbar/>
       <div className="container">
         <div className="row d-flex justify-content-center">
-          <div className="col-md-4">
+          <div className="col-md-4" style={{borderStyle:"solid",marginTop:"6%"}}>
+            <center><h4>USER REGISTRATION</h4></center>
+            <br/>
             <form id="loginform" onSubmit={loginSubmit}>
               <div className="form-group">
               <label>First Name</label>
@@ -376,7 +380,7 @@ function App() {
               </div>
               <div className="form-group form-check">
               
-              <center><button type="submit" className="btn btn-primary">
+              <center><button type="submit" className="btn btn-primary" style={{backgroundColor:"#7C0200"}}>
                 Register
               </button></center>
               

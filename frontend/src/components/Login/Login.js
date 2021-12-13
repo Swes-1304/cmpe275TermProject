@@ -3,7 +3,10 @@ import axios from 'axios';
 import backendServer from "../../../src/webConfig"
 import { useNavigate } from 'react-router-dom';
 import GoogleLogin from 'react-google-login';
-import {Button} from 'react-bootstrap'
+import {Button,Row,Col} from 'react-bootstrap'
+import bg_image from '../../images/medical-wallpaper-4.jpeg' 
+import './Login.css'
+import LandingNavbar from "../LandingNavbar/LandingNavbar";
 
 
 function Login(props) {
@@ -13,24 +16,31 @@ const [email, setEmail] = useState("");
 let navigate = useNavigate();
 
 const responseGoogle = (response) => {
-    console.log(response.tokenId);
+    console.log(response);
 
     var data = {
-        tokenId: response.tokenId
+        token: response.tokenId,
+        subId:response.googleId
     }; 
+      console.log(data)
 
-    axios.post(`${backendServer}/login`, data).then((response) => {
+    axios.post(`${backendServer}/googlesignon`, data).then((response) => {
       console.log('Got response data', response.data);
       console.log(response.status)
-      localStorage.setItem('patientDetails',response.data)
-      if(response.data.adminBoolean==true)
-      {
-        console.log("Inside admin")
-        navigate('/adminDashboard');
-      }
-      else
-      {
-        navigate('/patientDashboard');
+      // localStorage.setItem('patientDetails',response.data)
+      // if(response.data.adminBoolean==true)
+      // {
+      //   console.log("Inside admin")
+      //   navigate('/adminDashboard');
+      // }
+      // else
+      // {
+      //   navigate('/patientDashboard');
+      // }
+
+      if(response.status == 206){
+        console.log("Navigate to differet sign up page!");
+        console.log("Navigate with subId and tokenID");
       }
       
   });
@@ -70,10 +80,13 @@ const loginSubmit=(e)=>
 }
 
     return (
-        <div className="App">
-      <div className="container">
+      
+        <div className="thisLogin">
+          <LandingNavbar/>
+      <div className="thiscontainer">
         <div className="row d-flex justify-content-center">
-          <div className="col-md-4">
+          <div className="col-md-4" style={{borderStyle:"solid",marginTop:"6%"}}>
+            <center><h4>LOGIN</h4></center>
             <form id="loginform" onSubmit={loginSubmit}>
                 
                  <div className="form-group">
@@ -112,25 +125,30 @@ const loginSubmit=(e)=>
                 <br/>
                 
                 
-              <div className="form-group form-check">
               
-              <center><button type="submit" className="btn btn-primary">
+              
+              <Row>
+              <Col>
+              <button type="submit" className="btn btn-primary" style={{backgroundColor:"#7C0200"}}>
                 Login
-              </button></center>
-              <br/>
+              </button>
+              </Col>
               
-              <center>
+              <Col sm={6}>
               <GoogleLogin
                 clientId="688669885321-12u8129b1kddkg15shhfk2cl2m8dr2qi.apps.googleusercontent.com"
                 buttonText="Login with Google"
                 onSuccess={responseGoogle}
                 onFailure={responseGoogle}
                 cookiePolicy={'single_host_origin'}
-            /></center>
-            <br/>
-           <center><Button href='/userRegister'>Sign Up</Button></center>
-            
-              </div>
+                
+                
+            />
+            </Col>
+            <Col>
+           <Button href='/userRegister' style={{backgroundColor:"#7C0200"}}>Sign Up</Button>
+            </Col>
+            </Row>
             </form>
           </div>
          

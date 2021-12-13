@@ -136,7 +136,7 @@ function AddVaccination() {
                 <br/>
               <div className="form-group form-check">
               
-              <center><button type="submit" className="btn btn-primary">
+              <center><button type="submit" className="btn btn-primary" style={{backgroundColor:"#7C0200"}}>
                 Add Vaccine
               </button></center>
               </div>

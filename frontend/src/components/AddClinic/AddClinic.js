@@ -285,7 +285,7 @@ function AddClinic() {
                 <br/>
               <div className="form-group form-check">
               
-              <center><button type="submit" className="btn btn-primary">
+              <center><button type="submit" className="btn btn-primary" style={{backgroundColor:"#7C0200"}}>
                 Add Clinic
               </button></center>
               </div>
