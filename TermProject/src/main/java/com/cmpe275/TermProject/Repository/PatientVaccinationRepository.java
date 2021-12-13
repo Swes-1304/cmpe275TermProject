@@ -17,6 +17,6 @@ import java.util.List;
 public interface PatientVaccinationRepository extends JpaRepository<Patient_Vaccination, Long> {
 	 @Query("SELECT pv from Patient_Vaccination pv WHERE pv.patient.mrn =?1 and pv.vaccinationDate = ?2 and vaccinationTime = ?3")
 	 List<Patient_Vaccination> findByMrn(long mrn, LocalDate appointmentDate, LocalTime appointmentTime);
-
+	  
 	
 }

@@ -2,6 +2,7 @@ package com.cmpe275.TermProject.Services;
 
 
 import com.cmpe275.TermProject.Models.Address;
+import com.cmpe275.TermProject.Services.AppointmentServiceImpl;
 import com.cmpe275.TermProject.Models.Clinic;
 import com.cmpe275.TermProject.Repository.ClinicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +25,8 @@ public class ClinicServiceImpl implements ClinicService{
 
     @Autowired
     ClinicRepository clinicRepository;
+    @Autowired
+    AppointmentServiceImpl appointmentService;
 
     @Override
     public ResponseEntity<?> addClinic(Map<String, Object> reqBody) {
@@ -66,5 +71,26 @@ public class ClinicServiceImpl implements ClinicService{
             return new ResponseEntity<>("Error creating Clinic",HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("Clinic Added successfully",HttpStatus.CREATED);
+    }
+    
+    public ResponseEntity<?> getClinics(LocalDate localDate, LocalTime localTime){
+    	try {
+    	List<Clinic> lstClinic = clinicRepository.findAll();
+    	List<Clinic> lstClinicRes = new ArrayList<Clinic>();
+    	System.out.println(localDate + " " + localTime);
+    	
+    	for(Clinic clinic : lstClinic) {
+    		  if(appointmentService.getApppointmentsHelper(clinic.getClinicId(), localDate, localTime, clinic.getNumberOfPhysicians())) {       	
+    	         	 lstClinicRes.add(clinic);
+    	      }
+    	}
+    	
+    	return new ResponseEntity<>(lstClinicRes,HttpStatus.CREATED);
+    	}
+    	catch (Exception e) {
+		  return new ResponseEntity<>("Internal Server Error",HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+    	
+    	
     }
 }

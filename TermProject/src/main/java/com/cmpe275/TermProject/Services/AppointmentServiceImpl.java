@@ -117,6 +117,7 @@ public class AppointmentServiceImpl implements AppointmentService{
         System.out.println(" after setvaccices");
         appointment.setAppointmentDate(appointmentDate);
         appointment.setStatus(status);
+        appointment.setMimicStatus(status);
         appointment.setAppointmentTime(appointmentTime);
         appointment.setPatient(patient);        
         
@@ -134,7 +135,7 @@ public class AppointmentServiceImpl implements AppointmentService{
     	int count = 0;
     	
     	for(Appointment appointment : lstAppointment) {
-    		if(appointment.getClinic().getClinicId() == clinicId && appointment.getAppointmentDate().equals(date) && appointment.getAppointmentTime().equals(time	)) {
+    		if(appointment.getClinic().getClinicId() == clinicId && appointment.getAppointmentDate().equals(date) && appointment.getAppointmentTime().equals(time)) {
     			count++;
     		}
     	}
@@ -245,25 +246,28 @@ public class AppointmentServiceImpl implements AppointmentService{
 		}
     }
     
-    public ResponseEntity<?> getAppointments(Map<String, Object> reqBody) {
-    	System.out.println("Inside getAppointments service:"+reqBody);
-    	String date = (String)reqBody.get("date");
-    	int patientId = (Integer)reqBody.get("patientId");
-    	
+    public ResponseEntity<?> getFutureAppointments(int patientIdInt, LocalDate currentDate, LocalTime currentTime) {
+    	System.out.println("Inside getFutureAppointments service:");
+        //LocalDate currentDate = (LocalDate.parse((String)reqBody.get("date")));
+        //LocalTime currentTime = (LocalTime.parse((String)reqBody.get("time")));    	
+    	//int patientId = (Integer)reqBody.get("patientId");
+    	long patientId = new Long(patientIdInt);
     	try {
     		List<Appointment> lstAllAppointments = appointmentRepository.findAll();
     		List<Appointment> lstAppointment = new ArrayList<>();
     		
     		for(Appointment appointment : lstAllAppointments) {
-    			if(appointment.getPatient() != null && appointment.getPatient().getMrn() == patientId) {
+    			if(appointment.getPatient() != null && appointment.getPatient().getMrn() == patientId && appointment.getAppointmentDate().compareTo(currentDate) >= 0) {
     				//check date condition
     				
+    				if(appointment.getAppointmentDate().compareTo(currentDate) == 0 && appointment.getAppointmentTime().compareTo(currentTime) < 0) {
+    						continue;
+    				}    			
+    			
     				lstAppointment.add(appointment);
     			}
-    		}
+    		}    		
     		
-    		//Patient patient = patientRepository.getById(patientId + "");
-    		//List<Appointment> lstAppointment = appointmentRepository.findByPatientId(patient);
     		return new ResponseEntity<>(lstAppointment,HttpStatus.OK);
     	}
     	catch (Exception e) {
@@ -271,11 +275,41 @@ public class AppointmentServiceImpl implements AppointmentService{
 		}    	
     }
     
+    public ResponseEntity<?> getPastAppointments(int patientIdInt, LocalDate currentDate, LocalTime currentTime) {
+    	System.out.println("Inside getPastAppointments service:");
+       // LocalDate currentDate = (LocalDate.parse((String)reqBody.get("date")));
+        //LocalTime currentTime = (LocalTime.parse((String)reqBody.get("time")));    	
+    	//int patientId = (Integer)reqBody.get("patientId");
+    	long patientId = new Long(patientIdInt);
+    	
+    	try {
+    		List<Appointment> lstAllAppointments = appointmentRepository.findAll();
+    		List<Appointment> lstAppointment = new ArrayList<>();
+    		
+    		for(Appointment appointment : lstAllAppointments) {
+    			if(appointment.getPatient() != null && appointment.getPatient().getMrn() == patientId && appointment.getAppointmentDate().compareTo(currentDate) <= 0) {
+    				//check date condition
+    				if(appointment.getAppointmentDate().compareTo(currentDate) == 0 && appointment.getAppointmentTime().compareTo(currentTime) > 0) {
+    						continue;
+    				}    			
+    			
+    				lstAppointment.add(appointment);
+    			}
+    		}    		
+    		
+    		return new ResponseEntity<>(lstAppointment,HttpStatus.OK);
+    	}
+    	catch (Exception e) {
+    		return new ResponseEntity<>("Error in fetching appointments", HttpStatus.BAD_REQUEST);	
+		}    	  	
+    }
+    
     public ResponseEntity<?> onlineCheckIn(Map<String, Object> reqBody) {
     	System.out.println("Inside onlineCheckIn service:"+reqBody);
     	long appointmentId = new Long((Integer)reqBody.get("appointmentId"));
     	LocalDate curDate = (LocalDate.parse((String)reqBody.get("currentDate")));
     	LocalTime curTime = (LocalTime.parse((String)reqBody.get("currentTime")));
+    	boolean isMimic = (Boolean)reqBody.get("mimic");
     	
     	try {
     		Appointment appointment = appointmentRepository.getById(appointmentId);
@@ -293,7 +327,13 @@ public class AppointmentServiceImpl implements AppointmentService{
     			}
     		}
     		
-    		appointment.setStatus(1);
+    		if(isMimic) {
+    			appointment.setMimicAppointmentDate(curDate);
+    			appointment.setMimicAppointmentTime(curTime); 
+    			appointment.setMimicStatus(1);
+    		}
+    		else { appointment.setStatus(1);}
+    		
     		appointmentRepository.save(appointment);
     		return new ResponseEntity<>("Online Checkin successful",HttpStatus.OK);
     	}

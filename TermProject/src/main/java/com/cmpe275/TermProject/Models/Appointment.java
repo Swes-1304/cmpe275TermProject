@@ -1,6 +1,9 @@
 package com.cmpe275.TermProject.Models;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -12,8 +15,10 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long appointmentId;
     @ManyToOne(targetEntity = Patient.class)
+    @JsonIgnoreProperties({"firstName","lastName","middleName","DOB", "address", "gender","appointments", "adminBoolean","password","googleSubId"})
     private Patient patient;
     @ManyToOne(targetEntity = Clinic.class)
+    @JsonIgnoreProperties({"businessHoursStart","BusinessHoursEnd","clinicAppointments"})
     private Clinic clinic;
     @ManyToMany (targetEntity = Vaccine.class)
     private List<Vaccine> vaccines;
@@ -76,11 +81,35 @@ public class Appointment {
         this.appointmentTime = appointmentTime;
     }
 
-    public int isStatus() {
+    public int getStatus() {
         return status;
     }
 
     public void setStatus(int status) {
         this.status = status;
+    }
+    
+    public LocalDate getMimicAppointmentDate() {
+        return mimicDate;
+    }
+
+    public void setMimicAppointmentDate(LocalDate appointmentDate) {
+        this.mimicDate = appointmentDate;
+    }
+
+    public LocalTime getMimicAppointmentTime() {
+        return mimicTime;
+    }
+
+    public void setMimicAppointmentTime(LocalTime appointmentTime) {
+        this.mimicTime = appointmentTime;
+    }
+
+    public int getMimicStatus() {
+        return mimicStatus;
+    }
+
+    public void setMimicStatus(int status) {
+        this.mimicStatus = status;
     }
 }

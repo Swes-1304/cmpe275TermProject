@@ -7,6 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Map;
 
 @Transactional
@@ -33,12 +36,26 @@ public class AppointmentController {
     public ResponseEntity<?> cancelAppointment(@RequestBody Map<String, Object> inputJson){
 
         return appointmentService.cancelAppointment(inputJson);
+    }   
+    
+    @RequestMapping(value = "/getFutureAppointments" , method = RequestMethod.GET, produces = {"application/json"})
+    public ResponseEntity<?> getFutureAppointments(@RequestParam (value = "patientId", required = true) int patientId,
+    												@RequestParam (value = "date", required= true) String date,
+    												@RequestParam ( value = "time", required= true) String time
+    												){
+
+    	System.out.println("appointmentcontroller47 : " + patientId + " " + date + " " + time);
+        return appointmentService.getFutureAppointments(patientId, LocalDate.parse(date), LocalTime.parse(time));
     }
     
-    @RequestMapping(value = "/getAppointments" , method = RequestMethod.GET, produces = {"application/json"})
-    public ResponseEntity<?> getAppointments(@RequestBody Map<String, Object> inputJson){
+    @RequestMapping(value = "/getPastAppointments" , method = RequestMethod.GET, produces = {"application/json"})
+    public ResponseEntity<?> getPastAppointments(@RequestParam (value = "patientId", required = true) int patientId,
+    												@RequestParam (value = "date", required= true) String date,
+    												@RequestParam ( value = "time", required= true) String time
+    												){
 
-        return appointmentService.getAppointments(inputJson);
+    	System.out.println("appointmentcontroller47 : " + patientId + " " + date + " " + time);
+        return appointmentService.getPastAppointments(patientId, LocalDate.parse(date), LocalTime.parse(time));
     }
     
     @RequestMapping(value = "/onlineCheckIn" , method = RequestMethod.POST, produces = {"application/json"})
