@@ -169,6 +169,17 @@ function PersistentDrawerLeft(props) {
 
                     <Divider />
 
+                    <ListItem button component={Link} to='/systemreports'>
+                        <ListItemIcon>
+                            <BsFillPersonFill fontSize='large' />
+                        </ListItemIcon>
+                        <ListItemText sx={{ fontSize: '1.2rem' }} disableTypography primary='System Reports' />
+                    </ListItem>
+
+                    <Divider />
+
+                    
+
                     <ListItem button component={Link} to='/login'>
                         <ListItemIcon>
                             <BsFillPersonFill fontSize='large' />

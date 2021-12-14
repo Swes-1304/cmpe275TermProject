@@ -6,12 +6,11 @@ import axios from 'axios';
 import backendServer from "../../../src/webConfig"
 
 
-function VaccinationsDue(props) {
-
+function VaccinationHistory() {
     const[patientid, changePatientId] = useState(-1);
     // Context 
     const {systemTime, setSystemTime, mimicTime, toggleMimicTime} = useContext(ThemeContext);
-
+    
     useEffect(()=>{
         const patientDetails=JSON.parse(localStorage.getItem('patientDetails'))
         const patientId=patientDetails.mrn
@@ -47,7 +46,7 @@ function VaccinationsDue(props) {
         console.log("Time",time)
 
 
-        axios.get(`${backendServer}/getVaccineDue`,{
+        axios.get(`${backendServer}/getVaccineHistory`,{
             params:{
                 patientId:patientDetails.mrn,
                 date:date,
@@ -57,16 +56,14 @@ function VaccinationsDue(props) {
             console.log('Got response data', response.data);
             
         });
-
-        
-
     },[]);
+    
     return (
         <div>
             <PatientNavbar/>
-            VACCINATION DUE PAGE
+            <h1>VaccinationHistory</h1>
         </div>
     );
 }
 
-export default VaccinationsDue;
+export default VaccinationHistory;

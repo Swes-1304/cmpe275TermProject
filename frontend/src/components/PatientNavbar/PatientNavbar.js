@@ -162,7 +162,7 @@ function PersistentDrawerLeft(props) {
                     </ListItem>
                     <Divider />
 
-                    <ListItem button component={Link} to='/addVaccination'>
+                    <ListItem button component={Link} to='/patientreports'>
                         <ListItemIcon>
                             <FaFileMedical fontSize='large' />
                         </ListItemIcon>
@@ -176,6 +176,15 @@ function PersistentDrawerLeft(props) {
                             <BsFillPersonFill fontSize='large' />
                         </ListItemIcon>
                         <ListItemText sx={{ fontSize: '1rem' }} disableTypography primary='Vaccinations Due' />
+                    </ListItem>
+
+                    <Divider />
+
+                    <ListItem button component={Link} to='/vaccinationHistory'>
+                        <ListItemIcon>
+                            <BsFillPersonFill fontSize='large' />
+                        </ListItemIcon>
+                        <ListItemText sx={{ fontSize: '1rem' }} disableTypography primary='Vaccinations History' />
                     </ListItem>
 
                     <Divider />

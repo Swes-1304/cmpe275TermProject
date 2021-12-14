@@ -31,6 +31,7 @@ const responseGoogle = (response) => {
     axios.post(`${backendServer}/googlesignon`, data).then((response) => {
       console.log('Got response data', response.data);
       console.log(response.status)
+      navigate('/googleSignup');
       // localStorage.setItem('patientDetails',response.data)
       // if(response.data.adminBoolean==true)
       // {
@@ -41,12 +42,12 @@ const responseGoogle = (response) => {
       // {
       //   navigate('/patientDashboard');
       // }
+      // if(response.status == 206){
+      //   console.log("Navigate to differet sign up page!");
+      //   console.log("Navigate with subId and tokenID");
+      //   navigate('/googleSignup');
 
-      if(response.status == 206){
-        console.log("Navigate to differet sign up page!");
-        console.log("Navigate with subId and tokenID");
-
-      }
+      // }
       
   });
   }
