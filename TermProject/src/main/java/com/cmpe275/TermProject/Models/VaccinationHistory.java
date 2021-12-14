@@ -1,8 +1,9 @@
 package com.cmpe275.TermProject.Models;
+
 import java.time.LocalDate;
 import java.util.List;
 
-public class VaccinationDue {
+public class VaccinationHistory {
     private long vaccineID;
     private String vaccineName;
     private List<Disease> diseases;
@@ -10,12 +11,12 @@ public class VaccinationDue {
     private int numberOfShots;
     private int shotInternalVal;
     private int duration;
-    private LocalDate dueDate;
+    private LocalDate dateCompleted;
     private int shotNumber;
 
-    public VaccinationDue(){}
+    public VaccinationHistory(){}
 
-    public VaccinationDue(long vaccineID, String vaccineName, List<Disease> diseases, String manufacturer, int numberOfShots, int shotInternalVal, int duration, LocalDate dueDate, int shotNumber) {
+    public VaccinationHistory(long vaccineID, String vaccineName, List<Disease> diseases, String manufacturer, int numberOfShots, int shotInternalVal, int duration, LocalDate dateCompleted, int shotNumber) {
         this.vaccineID = vaccineID;
         this.vaccineName = vaccineName;
         this.diseases = diseases;
@@ -23,10 +24,9 @@ public class VaccinationDue {
         this.numberOfShots = numberOfShots;
         this.shotInternalVal = shotInternalVal;
         this.duration = duration;
-        this.dueDate = dueDate;
+        this.dateCompleted = dateCompleted;
         this.shotNumber = shotNumber;
     }
-
 
     public long getVaccineID() {
         return vaccineID;
@@ -84,12 +84,12 @@ public class VaccinationDue {
         this.duration = duration;
     }
 
-    public LocalDate getDueDate() {
-        return dueDate;
+    public LocalDate getDateCompleted() {
+        return dateCompleted;
     }
 
-    public void setDueDate(LocalDate dueDate) {
-        this.dueDate = dueDate;
+    public void setDateCompleted(LocalDate dateCompleted) {
+        this.dateCompleted = dateCompleted;
     }
 
     public int getShotNumber() {

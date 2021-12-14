@@ -114,6 +114,9 @@ public class VaccineServiceImpl implements VaccineService{
 
         long patientId = new Long(patientIdInt);
         Set<Long> lstNotDueVaccine = new HashSet<>();
+        HashMap<Long, Vaccine> VaccineMapSet = new HashMap<>();
+
+        List<VaccinationDue> responseVaccinationDue = new ArrayList<>();
 
         List<Appointment> lstAppointments = appointmentRepository.findByPatientMRN(patientId);
         HashMap <Long, String> vacineNameMap = new HashMap<>();
@@ -126,17 +129,75 @@ public class VaccineServiceImpl implements VaccineService{
                 int shortNum = patientVaccinationRepository.findShots(patientId, appointment.getAppointmentDate(), appointment.getAppointmentTime(), vaccine.getVaccineId()).getShotNumber();
                 if (shortNum < vaccine.getNumberOfShots() && vaccine.getShotInternalVal() < (daysBetween)){
 //                    vaccine.setVaccineName(vaccine.getVaccineName()+":" + (shortNum+1));
+                    VaccinationDue vaccineDue = new VaccinationDue();
+                    vaccineDue.setVaccineID(vaccine.getVaccineId());
+                    vaccineDue.setVaccineName(vaccine.getVaccineName()+"-" + (shortNum+1));
+                    vaccineDue.setDiseases(vaccine.getDiseases());
+                    vaccineDue.setManufacturer(vaccine.getManufacturer());
+                    vaccineDue.setDuration(vaccine.getDuration());
+                    vaccineDue.setNumberOfShots(vaccine.getNumberOfShots());
+                    vaccineDue.setShotInternalVal(vaccine.getShotInternalVal());
+                    vaccineDue.setShotNumber(shortNum+1);
+                    vaccineDue.setDueDate(appointment.getAppointmentDate().plusDays(vaccine.getShotInternalVal()));
+                    responseVaccinationDue.add(vaccineDue);
                     vacineNameMap.put(vaccine.getVaccineId(), vaccine.getVaccineName()+"-" + (shortNum+1));
+                    lstNotDueVaccine.add(vaccine.getVaccineId());
                     continue;
                 }
                 if ((appointment.getAppointmentDate().compareTo(currentDate) <= 0 && (appointment.getStatus() == 1 || appointment.getMimicStatus() == 1))) {
                     if ((appointment.getAppointmentDate().compareTo(currentDate) == 0 && appointment.getAppointmentTime().compareTo(currentTime) > 0)) {
                         continue;
                     }
-
-
-                    if(vaccine.getDuration() > Math.abs(daysBetween))
+                    if ((appointment.getAppointmentDate().plusDays(vaccine.getDuration()).compareTo(currentDate.plusDays(new Long(365))) < 0 )){
+                        VaccinationDue vaccineDue = new VaccinationDue();
+                        vaccineDue.setVaccineID(vaccine.getVaccineId());
+                        vaccineDue.setVaccineName(vaccine.getVaccineName());
+                        vaccineDue.setDiseases(vaccine.getDiseases());
+                        vaccineDue.setManufacturer(vaccine.getManufacturer());
+                        vaccineDue.setDuration(vaccine.getDuration());
+                        vaccineDue.setNumberOfShots(vaccine.getNumberOfShots());
+                        vaccineDue.setShotInternalVal(vaccine.getShotInternalVal());
+                        vaccineDue.setShotNumber(1);
+                        vaccineDue.setDueDate(appointment.getAppointmentDate().plusDays(vaccine.getDuration()));
+                        responseVaccinationDue.add(vaccineDue);
+                        vacineNameMap.put(vaccine.getVaccineId(), vaccine.getVaccineName());
                         lstNotDueVaccine.add(vaccine.getVaccineId());
+                        continue;
+                    }
+
+                    if(vaccine.getDuration() < Math.abs(daysBetween) ){
+                        continue;
+                    }
+                    lstNotDueVaccine.add(vaccine.getVaccineId());
+//                    vacineNameMap.put(vaccine.getVaccineId(), vaccine);
+//                    if (vaccine.getDuration() < 365) {
+//                        if (shortNum < vaccine.getNumberOfShots()) {
+//                            VaccinationDue vaccineDue = new VaccinationDue();
+//                            vaccineDue.setVaccineID(vaccine.getVaccineId());
+//                            vaccineDue.setVaccineName(vaccine.getVaccineName() + "-" + (shortNum + 1));
+//                            vaccineDue.setDiseases(vaccine.getDiseases());
+//                            vaccineDue.setManufacturer(vaccine.getManufacturer());
+//                            vaccineDue.setDuration(vaccine.getDuration());
+//                            vaccineDue.setNumberOfShots(vaccine.getNumberOfShots());
+//                            vaccineDue.setShotInternalVal(vaccine.getShotInternalVal());
+//                            vaccineDue.setShotNumber(shortNum + 1);
+//                            vaccineDue.setDueDate(appointment.getAppointmentDate().plusDays(vaccine.getDuration()));
+//                            responseVaccinationDue.add(vaccineDue);
+//                        } else {
+//                            VaccinationDue vaccineDue = new VaccinationDue();
+//                            vaccineDue.setVaccineID(vaccine.getVaccineId());
+//                            vaccineDue.setVaccineName(vaccine.getVaccineName());
+//                            vaccineDue.setDiseases(vaccine.getDiseases());
+//                            vaccineDue.setManufacturer(vaccine.getManufacturer());
+//                            vaccineDue.setDuration(vaccine.getDuration());
+//                            vaccineDue.setNumberOfShots(vaccine.getNumberOfShots());
+//                            vaccineDue.setShotInternalVal(vaccine.getShotInternalVal());
+//                            vaccineDue.setShotNumber(1);
+//                            vaccineDue.setDueDate(appointment.getAppointmentDate().plusDays(vaccine.getDuration()));
+//                            responseVaccinationDue.add(vaccineDue);
+//                        }
+//                    }
+
                 }
 //                vacineNameMap.put(vaccine.getVaccineId(), vaccine.getVaccineName());
             }
@@ -160,13 +221,25 @@ public class VaccineServiceImpl implements VaccineService{
 
         for (Vaccine vaccine : lstAllVaccines){
             if(lstNotDueVaccine.contains(vaccine.getVaccineId())){
-                continue;
+                    continue;
             }
             lstVacineDue.add(vaccine);
+            VaccinationDue vaccineDue = new VaccinationDue();
+            vaccineDue.setVaccineID(vaccine.getVaccineId());
+            vaccineDue.setVaccineName(vaccine.getVaccineName());
+            vaccineDue.setDiseases(vaccine.getDiseases());
+            vaccineDue.setManufacturer(vaccine.getManufacturer());
+            vaccineDue.setDuration(vaccine.getDuration());
+            vaccineDue.setNumberOfShots(vaccine.getNumberOfShots());
+            vaccineDue.setShotInternalVal(vaccine.getShotInternalVal());
+            vaccineDue.setShotNumber(1);
+            vaccineDue.setDueDate(LocalDate.now());
+            responseVaccinationDue.add(vaccineDue);
+
         }
         res.put( vacineNameMap ,lstVacineDue);
 
-        return new ResponseEntity<>(res, HttpStatus.OK);
+        return new ResponseEntity<>(responseVaccinationDue, HttpStatus.OK);
     }
 
 //    public ResponseEntity<?> getVaccineDue(int patientIdInt, LocalDate currentDate, LocalTime currentTime){
@@ -237,6 +310,8 @@ public class VaccineServiceImpl implements VaccineService{
         Set<Vaccine> lstNotDueVaccine = new HashSet<>();
         HashMap <Long, String> vacineNameMap = new HashMap<>();
         List<Appointment> lstAppointments = appointmentRepository.findByPatientMRN(patientId);
+        List<VaccinationHistory> responseVaccinationHistory = new ArrayList<>();
+
         for ( Appointment appointment : lstAppointments) {
             long daysBetween = ChronoUnit.DAYS.between(appointment.getAppointmentDate(), currentDate);
 //                    long timeBetween = ChronoUnit.MINUTES.between(appointment.getAppointmentTime() ,currentTime);
@@ -255,6 +330,18 @@ public class VaccineServiceImpl implements VaccineService{
                     }
 
                     lstNotDueVaccine.add(vaccine);
+                    VaccinationHistory vaccineHistory = new VaccinationHistory();
+                    vaccineHistory.setVaccineID(vaccine.getVaccineId());
+                    vaccineHistory.setVaccineName(vaccine.getVaccineName());
+                    vaccineHistory.setDiseases(vaccine.getDiseases());
+                    vaccineHistory.setShotNumber(shortNum);
+                    vaccineHistory.setDateCompleted(appointment.getAppointmentDate());
+                    vaccineHistory.setDuration(vaccine.getDuration());
+                    vaccineHistory.setNumberOfShots(vaccine.getNumberOfShots());
+                    vaccineHistory.setShotInternalVal(vaccine.getShotInternalVal());
+                    vaccineHistory.setManufacturer(vaccine.getManufacturer());
+                    responseVaccinationHistory.add(vaccineHistory);
+
                 }
             }
         }
@@ -270,7 +357,7 @@ public class VaccineServiceImpl implements VaccineService{
 //        }
         HashMap<HashMap<Long, String>,Set<Vaccine>> res = new HashMap<>();
         res.put( vacineNameMap ,lstNotDueVaccine);
-        return new ResponseEntity<>(res, HttpStatus.OK);
+        return new ResponseEntity<>(responseVaccinationHistory, HttpStatus.OK);
     }
 
 
