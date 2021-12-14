@@ -171,11 +171,11 @@ function PersistentDrawerLeft(props) {
 
                     <Divider />
 
-                    <ListItem button component={Link} to='/login'>
+                    <ListItem button component={Link} to='/vaccinationDue'>
                         <ListItemIcon>
                             <BsFillPersonFill fontSize='large' />
                         </ListItemIcon>
-                        <ListItemText sx={{ fontSize: '1rem' }} disableTypography primary='Patient Portal' />
+                        <ListItemText sx={{ fontSize: '1rem' }} disableTypography primary='Vaccinations Due' />
                     </ListItem>
 
                     <Divider />

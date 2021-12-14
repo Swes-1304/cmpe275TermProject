@@ -160,7 +160,7 @@ function PersistentDrawerLeft(props) {
 
                     <Divider />
 
-                    <ListItem button component={Link} to='/login'>
+                    <ListItem button component={Link} to='/patientDashboard'>
                         <ListItemIcon>
                             <BsFillPersonFill fontSize='large' />
                         </ListItemIcon>

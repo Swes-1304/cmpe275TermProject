@@ -1,10 +1,11 @@
 import React, { useState, useContext, useEffect } from "react";
-import {Button,Row,Col,Card} from 'react-bootstrap'
+import {Button,Row,Col,Card, Modal} from 'react-bootstrap'
 import axios from 'axios';
 import backendServer from "../../../src/webConfig"
 import PatientNavbar from '../PatientNavbar/PatientNavbar';
 import {ThemeContext} from '../../App';
-import './AppointmentHistory.css'
+import './AppointmentHistory.css';
+import { useNavigate } from 'react-router-dom';
 
 
 function AppointmentHistory(props) {
@@ -18,13 +19,95 @@ function AppointmentHistory(props) {
     const [systemDate,setSystemDate]=useState(0);
     const [currentSystemTime,setCurrentSystemTime]=useState(0);
 
+    //for getting the future and past appointments states
+    const[patientid, changePatientId] = useState(-1);
+    const[Date, changeDate] = useState("");
+    const[Time, changeTime] = useState("");
+
+
+    // Modal
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    const[newDateTime, changeNewDateTime] = useState("");
+
+    let navigate = useNavigate();
+
+
     useEffect(()=>{
         console.log("System Time:",systemTime);
         console.log("Mimic Time Flag",mimicTime);
         const patientDetails=JSON.parse(localStorage.getItem('patientDetails'))
         const patientId=patientDetails.mrn
         console.log(patientId)
+        changePatientId(patientId);
         // const date= systemTime
+        console.log("System Time",systemTime)
+
+        let map = new Map();
+        map.set("Jan",1);
+        map.set("Feb",2);
+        map.set("Mar",3);
+        map.set("Apr",4);
+        map.set("May",5);
+        map.set("Jun",6);
+        map.set("Jul",7);
+        map.set("Aug",8);
+        map.set("Sep",9);
+        map.set("Oct",10);
+        map.set("Nov",11);
+        map.set("Dec",12);
+
+        const splittedDate = systemTime.toString().split(' ');
+        console.log(splittedDate)
+
+
+        const monthText = systemTime.toString().split(' ')[1];
+        const month = map.get(monthText);
+        console.log(month)
+        let date = splittedDate[3]+"-"+month+"-"+splittedDate[2];
+        console.log(date)
+        changeDate(date);
+        let time = splittedDate[4];
+        console.log(time)
+        changeTime(time)
+
+        //Setting the states 
+
+        setSystemYear(splittedDate[3]);
+        setSystemMonth(month);
+        setSystemDate(splittedDate[2]);
+        setCurrentSystemTime(splittedDate[4]);
+
+        getFutureAppointments(patientId, date, time);
+        getPastAppointments(patientId, date, time);
+
+        
+
+    },[]);
+
+
+    const getFutureAppointments = (patientId, date, time)=>{
+        axios.get(`${backendServer}/getFutureAppointments`,{params:{patientId,date,time}}).then((response) => {
+            console.log('Got response for future data', response.data);
+            console.log(response.status)
+            setFutureAppointmentDetails(response.data)  
+        });
+    }
+
+    const getPastAppointments = (patientId, date, time)=>{
+        axios.get(`${backendServer}/getPastAppointments`,{params:{patientId,date,time}}).then((response) => {
+            console.log('Got response data for past', response.data);
+            console.log(response.status)
+            setPastAppointmentDetails(response.data)
+        });
+
+    }
+
+
+    const checkIn = (appointment)=>{
         console.log("System Time",systemTime)
 
         let map = new Map();
@@ -52,41 +135,50 @@ function AppointmentHistory(props) {
         console.log(date)
         let time = splittedDate[4];
         console.log(time)
+        console.log("isMimic",mimicTime);
+        console.log(appointment);
 
-        //Setting the states 
 
-        setSystemYear(splittedDate[3]);
-        setSystemMonth(month);
-        setSystemDate(splittedDate[2]);
-        setCurrentSystemTime(splittedDate[4]);
+        const data = {
+            appointmentId:appointment.appointmentId,
+            currentDate:date,
+            currentTime:time,
+            mimic:mimicTime
+        }
+        console.log(data);
 
+        axios.post(`${backendServer}/onlineCheckIn`,data)
+        .then((response)=>{
+            console.log(response.status);
+            if(response.status == 200){
+                getFutureAppointments(patientid, Date, Time);
+                getPastAppointments(patientid, Date, Time);
+            }  
+        })
+    }
+
+
+    const cancelAppointment = (appointment) =>{
+
+        console.log(appointment);
+
+
+        const data = {
+            appointmentId:appointment.appointmentId
+        }
         
+        console.log(data);
 
-
-
-
-        //
-
-        
-
-        axios.get(`${backendServer}/getFutureAppointments`,{params:{patientId,date,time}}).then((response) => {
-            console.log('Got response for future data', response.data);
-            console.log(response.status)
-            setFutureAppointmentDetails(response.data)
+        axios.post(`${backendServer}/cancelAppointment`,data)
+        .then((response)=>{
+            console.log(response.status);
             
+            getFutureAppointments(patientid, Date, Time);
+            getPastAppointments(patientid, Date, Time);
             
-            
-        });
+        })
 
-        axios.get(`${backendServer}/getPastAppointments`,{params:{patientId,date,time}}).then((response) => {
-            console.log('Got response data for past', response.data);
-            console.log(response.status)
-            setPastAppointmentDetails(response.data)
-            
-            
-        });
-
-    },[]);
+    }
 
 
     const createFutureAppointmentCards=(row,index)=>
@@ -134,25 +226,102 @@ function AppointmentHistory(props) {
     <Button variant='danger' style={{ fontSize:"1rem", fontWeight:"bold",backgroundColor:"#7C0200"}} 
 
     
-    // onClick={(e)=>{{
-    //     handleCancelReservation(row.passengerEmailID,row.seatNumber,
-    //         row._id,row.flightNumber
-    //         ,row.parentEmailID)
-    // }
-    //     window.location.reload()
-    // }}
+    onClick={(e)=>{
+        handleShow();
+    }}
     >Change</Button>
+
+    <Modal show={show} onHide={handleClose}
+    
+    centered
+    >
+        <Modal.Header closeButton>
+        <Modal.Title>Change Appointment</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        <div className="form-group">
+        <label>Appointment Date Time</label>
+        <input
+            type="datetime-local"
+            className="form-control"
+            id="datetime"
+            name="datetime"
+            aria-describedby="emailHelp"
+            placeholder="Enter Date"
+            onChange={(event) => changeNewDateTime(event.target.value)}
+        />
+        <br/>
+        </div>
+            
+        </Modal.Body>
+        <Modal.Footer>
+        
+        <Button variant="primary" onClick={(event)=>{
+            event.preventDefault();
+            console.log(newDateTime);
+            console.log(new window.Date(newDateTime));
+            let updatedTime = new window.Date(newDateTime);
+            
+            let map = new Map();
+            map.set("Jan",1);
+            map.set("Feb",2);
+            map.set("Mar",3);
+            map.set("Apr",4);
+            map.set("May",5);
+            map.set("Jun",6);
+            map.set("Jul",7);
+            map.set("Aug",8);
+            map.set("Sep",9);
+            map.set("Oct",10);
+            map.set("Nov",11);
+            map.set("Dec",12);
+
+            const splittedDate = updatedTime.toString().split(' ');
+            console.log(splittedDate)
+
+
+            const monthText = updatedTime.toString().split(' ')[1];
+            const month = map.get(monthText);
+            console.log(month)
+            let date = splittedDate[3]+"-"+month+"-"+splittedDate[2];
+            console.log("New Date",date)
+            let time = splittedDate[4];
+            console.log("New Time",time)
+
+            console.log(row);
+
+
+            const data = {
+                appointmentDate:date,
+                appointmentTime:time,
+                clinicId: row.clinic.clinicId,
+                appointmentId:row.appointmentId,
+                mrn: patientid
+            } 
+
+            console.log(data);
+
+            axios.post(`${backendServer}/changeAppointment`,data)
+            .then((response)=>{
+                console.log(response);
+                if(response.status == 200){
+                    alert("Appointment Updated!");
+                    navigate("/patientDashboard");
+                }
+            })
+
+        }}>
+            Change Appointment
+        </Button>
+        </Modal.Footer>
+    </Modal>
     </Card.Title>
 <Card.Title>
 <Button variant='danger' style={{ fontSize:"1rem", fontWeight:"bold",backgroundColor:"#7C0200"}} 
     
-    // onClick={(e)=>{{
-    //     handleCancelReservation(row.passengerEmailID,row.seatNumber,
-    //         row._id,row.flightNumber
-    //         ,row.parentEmailID)
-    // }
-    //     window.location.reload()
-    // }}
+    onClick={()=>{
+        cancelAppointment(row);
+    }}
     >Cancel Appointment</Button>
 </Card.Title>
 
@@ -174,8 +343,8 @@ function AppointmentHistory(props) {
                     <p>Checked In</p>
                             :
                         <Button
-                            onClick={()=>{
-
+                            onClick={(event)=>{
+                                checkIn(row);
                             }}
                         >
                             Check in        
