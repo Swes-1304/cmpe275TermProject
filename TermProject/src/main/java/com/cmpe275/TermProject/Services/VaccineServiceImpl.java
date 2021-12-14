@@ -342,6 +342,7 @@ public class VaccineServiceImpl implements VaccineService{
                     vaccineHistory.setNumberOfShots(vaccine.getNumberOfShots());
                     vaccineHistory.setShotInternalVal(vaccine.getShotInternalVal());
                     vaccineHistory.setManufacturer(vaccine.getManufacturer());
+                    vaccineHistory.setClinicName(appointment.getClinic().getClinicName());
                     responseVaccinationHistory.add(vaccineHistory);
 
                 }

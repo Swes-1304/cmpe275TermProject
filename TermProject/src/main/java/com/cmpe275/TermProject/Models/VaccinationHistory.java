@@ -13,10 +13,11 @@ public class VaccinationHistory {
     private int duration;
     private LocalDate dateCompleted;
     private int shotNumber;
+    private String clinicName;
 
     public VaccinationHistory(){}
 
-    public VaccinationHistory(long vaccineID, String vaccineName, List<Disease> diseases, String manufacturer, int numberOfShots, int shotInternalVal, int duration, LocalDate dateCompleted, int shotNumber) {
+    public VaccinationHistory(long vaccineID, String vaccineName, List<Disease> diseases, String manufacturer, int numberOfShots, int shotInternalVal, int duration, LocalDate dateCompleted, int shotNumber, String clinicName) {
         this.vaccineID = vaccineID;
         this.vaccineName = vaccineName;
         this.diseases = diseases;
@@ -26,6 +27,7 @@ public class VaccinationHistory {
         this.duration = duration;
         this.dateCompleted = dateCompleted;
         this.shotNumber = shotNumber;
+        this.clinicName = clinicName;
     }
 
     public long getVaccineID() {
@@ -98,5 +100,13 @@ public class VaccinationHistory {
 
     public void setShotNumber(int shotNumber) {
         this.shotNumber = shotNumber;
+    }
+
+    public String getClinicName() {
+        return clinicName;
+    }
+
+    public void setClinicName(String clinicName) {
+        this.clinicName = clinicName;
     }
 }
