@@ -127,25 +127,26 @@ public class VaccineServiceImpl implements VaccineService{
             System.out.println("DateDiff : " + daysBetween);
             for ( Vaccine vaccine : appointment.getVaccines()){
                 int shortNum = patientVaccinationRepository.findShots(patientId, appointment.getAppointmentDate(), appointment.getAppointmentTime(), vaccine.getVaccineId()).getShotNumber();
-                if (shortNum < vaccine.getNumberOfShots() && vaccine.getShotInternalVal() < (daysBetween)){
-//                    vaccine.setVaccineName(vaccine.getVaccineName()+":" + (shortNum+1));
-                    VaccinationDue vaccineDue = new VaccinationDue();
-                    vaccineDue.setVaccineID(vaccine.getVaccineId());
-                    vaccineDue.setVaccineName(vaccine.getVaccineName()+"-" + (shortNum+1));
-                    vaccineDue.setDiseases(vaccine.getDiseases());
-                    vaccineDue.setManufacturer(vaccine.getManufacturer());
-                    vaccineDue.setDuration(vaccine.getDuration());
-                    vaccineDue.setNumberOfShots(vaccine.getNumberOfShots());
-                    vaccineDue.setShotInternalVal(vaccine.getShotInternalVal());
-                    vaccineDue.setShotNumber(shortNum+1);
-                    vaccineDue.setDueDate(appointment.getAppointmentDate().plusDays(vaccine.getShotInternalVal()));
-                    responseVaccinationDue.add(vaccineDue);
-                    vacineNameMap.put(vaccine.getVaccineId(), vaccine.getVaccineName()+"-" + (shortNum+1));
-                    lstNotDueVaccine.add(vaccine.getVaccineId());
-                    continue;
-                }
+
                 if ((appointment.getAppointmentDate().compareTo(currentDate) <= 0 && (appointment.getStatus() == 1 || appointment.getMimicStatus() == 1))) {
                     if ((appointment.getAppointmentDate().compareTo(currentDate) == 0 && appointment.getAppointmentTime().compareTo(currentTime) > 0)) {
+                        continue;
+                    }
+                    if (shortNum < vaccine.getNumberOfShots() && vaccine.getShotInternalVal() < (daysBetween)){
+//                    vaccine.setVaccineName(vaccine.getVaccineName()+":" + (shortNum+1));
+                        VaccinationDue vaccineDue = new VaccinationDue();
+                        vaccineDue.setVaccineID(vaccine.getVaccineId());
+                        vaccineDue.setVaccineName(vaccine.getVaccineName()+"-" + (shortNum+1));
+                        vaccineDue.setDiseases(vaccine.getDiseases());
+                        vaccineDue.setManufacturer(vaccine.getManufacturer());
+                        vaccineDue.setDuration(vaccine.getDuration());
+                        vaccineDue.setNumberOfShots(vaccine.getNumberOfShots());
+                        vaccineDue.setShotInternalVal(vaccine.getShotInternalVal());
+                        vaccineDue.setShotNumber(shortNum+1);
+                        vaccineDue.setDueDate(appointment.getAppointmentDate().plusDays(vaccine.getShotInternalVal()));
+                        responseVaccinationDue.add(vaccineDue);
+                        vacineNameMap.put(vaccine.getVaccineId(), vaccine.getVaccineName()+"-" + (shortNum+1));
+                        lstNotDueVaccine.add(vaccine.getVaccineId());
                         continue;
                     }
                     if ((appointment.getAppointmentDate().plusDays(vaccine.getDuration()).compareTo(currentDate.plusDays(new Long(365))) < 0 )){
@@ -168,6 +169,7 @@ public class VaccineServiceImpl implements VaccineService{
                     if(vaccine.getDuration() < Math.abs(daysBetween) ){
                         continue;
                     }
+
                     lstNotDueVaccine.add(vaccine.getVaccineId());
 //                    vacineNameMap.put(vaccine.getVaccineId(), vaccine);
 //                    if (vaccine.getDuration() < 365) {
