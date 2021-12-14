@@ -18,4 +18,6 @@ public interface AppointmentService {
 	public ResponseEntity<?> getPastAppointments(int patientId, LocalDate date, LocalTime time);
 	
 	public ResponseEntity<?> onlineCheckIn(Map<String, Object> reqBody);
+	public ResponseEntity<?> patientReport(Map<String, Object> reqBody);
+	public ResponseEntity<?> systemReport(Map<String, Object> reqBody);
 }

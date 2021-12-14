@@ -63,5 +63,18 @@ public class AppointmentController {
 
         return appointmentService.onlineCheckIn(inputJson);
     }
+
+    @RequestMapping(value = "/patientReport" , method = RequestMethod.POST, produces = {"application/json"})
+    public ResponseEntity<?> patientReport(@RequestBody Map<String, Object> inputJson){
+
+        return appointmentService.patientReport(inputJson);
+    }
+
+    @RequestMapping(value = "/systemReport" , method = RequestMethod.POST, produces = {"application/json"})
+    public ResponseEntity<?> systemReport(@RequestBody Map<String, Object> inputJson){
+
+        return appointmentService.systemReport(inputJson);
+    }
+
     
 }

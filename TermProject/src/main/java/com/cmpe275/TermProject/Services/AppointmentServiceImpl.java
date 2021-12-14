@@ -1,10 +1,6 @@
 package com.cmpe275.TermProject.Services;
 
-import com.cmpe275.TermProject.Models.Appointment;
-import com.cmpe275.TermProject.Models.Clinic;
-import com.cmpe275.TermProject.Models.Patient;
-import com.cmpe275.TermProject.Models.Vaccine;
-import com.cmpe275.TermProject.Models.Patient_Vaccination;
+import com.cmpe275.TermProject.Models.*;
 import com.cmpe275.TermProject.Repository.AppointmentRepository;
 import com.cmpe275.TermProject.Repository.ClinicRepository;
 import com.cmpe275.TermProject.Repository.VaccinationRepository;
@@ -21,10 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.time.temporal.ChronoUnit;
 
 @Transactional(rollbackFor= SQLException.class, propagation = Propagation.REQUIRED )
@@ -41,6 +34,8 @@ public class AppointmentServiceImpl implements AppointmentService{
     PatientRepository patientRepository;
     @Autowired
     PatientVaccinationRepository patientVaccinationRepository;
+	@Autowired
+	EmailServiceImpl emailService;
 
     @Override
     public ResponseEntity<?> bookAppointment(Map<String, Object> reqBody) {
@@ -122,7 +117,18 @@ public class AppointmentServiceImpl implements AppointmentService{
         appointment.setPatient(patient);        
         
         try{
-        	appointmentRepository.save(appointment);
+        	Appointment savedAppointment = appointmentRepository.save(appointment);
+			Email email = new Email();
+			email.setReciver(patient.getEmail());
+			email.setSubject("Vaccination Management System: Booking Confirmed");
+			email.setBody("Hello " + patient.getFirstName() + ",<br/><br/>" + "Appointment ID: "+ savedAppointment.getAppointmentId()
+					+ "<br/>" + "Appointment Date: " + savedAppointment.getAppointmentDate() + "<br/>" + "Appointment Time: " +
+					savedAppointment.getAppointmentTime() + "<br/>" + "Clinic Name: " + savedAppointment.getClinic().getClinicName() +
+					"<br/>" + "Clinic Address: "+ savedAppointment.getClinic().getAddress().getNumber() + " , "
+					+ savedAppointment.getClinic().getAddress().getStreet() + " , " + savedAppointment.getClinic().getAddress().getCity() +
+					" , " + savedAppointment.getClinic().getAddress().getState() + "-"+ savedAppointment.getClinic().getAddress().getZipCode());
+
+			emailService.sendEmail(email);
         	return new ResponseEntity<>("Appointment Booked successfully",HttpStatus.CREATED);
         }catch(Exception e){
             e.printStackTrace();
@@ -206,7 +212,18 @@ public class AppointmentServiceImpl implements AppointmentService{
         	appointment.setClinic(clinic);
         	
         	 try{
-             	appointmentRepository.save(appointment);
+				 Appointment savedAppointment = appointmentRepository.save(appointment);
+				 Email email = new Email();
+				 email.setReciver(savedAppointment.getPatient().getEmail());
+				 email.setSubject("Vaccination Management System: Booking Changed");
+				 email.setBody("Hello " + savedAppointment.getPatient().getFirstName() + ",<br/><br/>" + "Appointment ID: "+ savedAppointment.getAppointmentId()
+						 + "<br/>" + "Appointment Date: " + savedAppointment.getAppointmentDate() + "<br/>" + "Appointment Time: " +
+						 savedAppointment.getAppointmentTime() + "<br/>" + "Clinic Name: " + savedAppointment.getClinic().getClinicName() +
+						 "<br/>" + "Clinic Address: "+ savedAppointment.getClinic().getAddress().getNumber() + " , "
+						 + savedAppointment.getClinic().getAddress().getStreet() + " , " + savedAppointment.getClinic().getAddress().getCity() +
+						 " , " + savedAppointment.getClinic().getAddress().getState() + "-"+ savedAppointment.getClinic().getAddress().getZipCode());
+
+				 emailService.sendEmail(email);
              	return new ResponseEntity<>("Appointment Updated successfully",HttpStatus.OK);
              }catch(Exception e){
                  e.printStackTrace();
@@ -233,8 +250,21 @@ public class AppointmentServiceImpl implements AppointmentService{
             	for(Patient_Vaccination p: lstPatientVaccination) {        		
             		patientVaccinationRepository.deleteById(p.getPatientVaccinationId());
             	}
-            	
+
+
             	appointmentRepository.deleteById(appointmentId);
+				Email email = new Email();
+				email.setReciver(appointment.getPatient().getEmail());
+				email.setSubject("Vaccination Management System: Booking Cancelled");
+				email.setBody("Hello " + appointment.getPatient().getFirstName() + ",<br/><br/>" + "Appointment ID: "+ appointment.getAppointmentId()
+						+ "<br/>" + "Appointment Date: " + appointment.getAppointmentDate() + "<br/>" + "Appointment Time: " +
+						appointment.getAppointmentTime() + "<br/>" + "Clinic Name: " + appointment.getClinic().getClinicName() +
+						"<br/>" + "Clinic Address: "+ appointment.getClinic().getAddress().getNumber() + " , "
+						+ appointment.getClinic().getAddress().getStreet() + " , " + appointment.getClinic().getAddress().getCity() +
+						" , " + appointment.getClinic().getAddress().getState() + "-"+ appointment.getClinic().getAddress().getZipCode());
+
+				emailService.sendEmail(email);
+
             	return new ResponseEntity<>("Appointment Cancelled successfully",HttpStatus.CREATED);
             }
             else {
@@ -334,11 +364,83 @@ public class AppointmentServiceImpl implements AppointmentService{
     		}
     		else { appointment.setStatus(1);}
     		
-    		appointmentRepository.save(appointment);
+    		Appointment savedAppointment = appointmentRepository.save(appointment);
+			Email email = new Email();
+			email.setReciver(savedAppointment.getPatient().getEmail());
+			email.setSubject("Vaccination Management System: Online Check-in Successful");
+			email.setBody("Hello " + savedAppointment.getPatient().getFirstName() + ",<br/><br/>" + "Appointment ID: "+ savedAppointment.getAppointmentId()
+					+ "<br/>" + "Appointment Date: " + savedAppointment.getAppointmentDate() + "<br/>" + "Appointment Time: " +
+					savedAppointment.getAppointmentTime() + "<br/>" + "Clinic Name: " + savedAppointment.getClinic().getClinicName() +
+					"<br/>" + "Clinic Address: "+ savedAppointment.getClinic().getAddress().getNumber() + " , "
+					+ savedAppointment.getClinic().getAddress().getStreet() + " , " + savedAppointment.getClinic().getAddress().getCity() +
+					" , " + savedAppointment.getClinic().getAddress().getState() + "-"+ savedAppointment.getClinic().getAddress().getZipCode());
+
+			emailService.sendEmail(email);
     		return new ResponseEntity<>("Online Checkin successful",HttpStatus.OK);
     	}
     	catch (Exception e) {
     		return new ResponseEntity<>("Error in Online Checkin",HttpStatus.BAD_REQUEST);
 		}
     }
+
+
+	public ResponseEntity<?> patientReport(Map<String, Object> reqBody){
+
+		long patientID = new Long((Integer)reqBody.get("patientId"));
+		LocalDate startDate = (LocalDate.parse((String)reqBody.get("startDate")));
+		LocalDate endDate = (LocalDate.parse((String)reqBody.get("endDate")));
+		HashMap<String, Long> responseMap = new HashMap<>();
+		long N = 0 ;
+		long T = 0 ;
+		long noShowRate = 0;
+    	List<Appointment> lstAppointments = appointmentRepository.findByPatientMRN(patientID);
+    	for(Appointment appointment : lstAppointments){
+    		if(appointment.getAppointmentDate().compareTo(startDate) >= 0 && appointment.getAppointmentDate().compareTo(endDate) <= 0 ){
+    			N++;
+    			if ( appointment.getStatus() == 2 && appointment.getMimicStatus() == 2  ){
+    				T++;
+				}
+			}
+		}
+    	if (T == 0 ){
+			 noShowRate = 0;
+		}else {
+			 noShowRate = T/N;
+		}
+		responseMap.put("N: Number of Appointments", N);
+    	responseMap.put("T: No Show Appointments", T);
+    	responseMap.put("T/N: No Show Rate", noShowRate);
+
+		return new ResponseEntity<>(responseMap,HttpStatus.OK);
+	}
+
+	public ResponseEntity<?> systemReport(Map<String, Object> reqBody){
+
+		long clinicID = new Long((Integer)reqBody.get("clinicId"));
+		LocalDate startDate = (LocalDate.parse((String)reqBody.get("startDate")));
+		LocalDate endDate = (LocalDate.parse((String)reqBody.get("endDate")));
+		HashMap<String, Long> responseMap = new HashMap<>();
+		long N = 0 ;
+		long T = 0 ;
+		long noShowRate = 0;
+		List<Appointment> lstAppointments = appointmentRepository.findByClinic(clinicID);
+		for(Appointment appointment : lstAppointments){
+			if(appointment.getAppointmentDate().compareTo(startDate) >= 0 && appointment.getAppointmentDate().compareTo(endDate) <= 0 ){
+				N++;
+				if ( appointment.getStatus() == 2 && appointment.getMimicStatus() == 2  ){
+					T++;
+				}
+			}
+		}
+		if (T == 0 ){
+			noShowRate = 0;
+		}else {
+			noShowRate = T/N;
+		}
+		responseMap.put("N: Number of Appointments", N);
+		responseMap.put("T: No Show Appointments", T);
+		responseMap.put("T/N: No Show Rate", noShowRate);
+
+		return new ResponseEntity<>(responseMap,HttpStatus.OK);
+	}
 }
