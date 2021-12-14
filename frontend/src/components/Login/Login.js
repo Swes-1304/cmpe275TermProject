@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from 'axios';
 import backendServer from "../../../src/webConfig"
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +7,7 @@ import {Button,Row,Col} from 'react-bootstrap'
 import bg_image from '../../images/medical-wallpaper-4.jpeg' 
 import './Login.css'
 import LandingNavbar from "../LandingNavbar/LandingNavbar";
+import {ThemeContext} from '../../App';
 
 
 function Login(props) {
@@ -14,6 +15,9 @@ const [password, setPassword] = useState("");
 const [email, setEmail] = useState("");
 
 let navigate = useNavigate();
+
+// Context 
+const {systemTime, setSystemTime, mimicTime, toggleMimicTime} = useContext(ThemeContext);
 
 const responseGoogle = (response) => {
     console.log(response);
@@ -41,6 +45,7 @@ const responseGoogle = (response) => {
       if(response.status == 206){
         console.log("Navigate to differet sign up page!");
         console.log("Navigate with subId and tokenID");
+
       }
       
   });
@@ -65,6 +70,10 @@ const loginSubmit=(e)=>
       console.log('Got response data', response.data);
       console.log(response.status)
       localStorage.setItem('patientDetails',JSON.stringify(response.data))
+      //Time mimicing feature
+      setSystemTime(new Date());
+      toggleMimicTime(false);
+      //
       if(response.data.adminBoolean==true)
       {
         console.log("Inside admin")

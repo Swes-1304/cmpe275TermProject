@@ -11,16 +11,20 @@ function BookAppointmentPage(props) {
         return [];
     });
 
+    const [value, handleValueChange] = useState(()=>{
+        return[];
+    });
+
     const getOptions=()=>
     {
-        axios.post(`${backendServer}/getvaccines`).then((response) => {
+        axios.post(`${backendServer}/getvaccine`).then((response) => {
             console.log('Got response data', response.data);
             console.log(response.status)
             const data=response.data
             console.log(data)
             const options=data.map(vaccine=>({
-                "value":vaccine.vaccine_id,
-                "label":vaccine.vaccine_name
+                "value":vaccine.vaccineId,
+                "label":vaccine.vaccineName
             }))
             handleSelectOptionsChange(options)
         });
@@ -29,7 +33,7 @@ function BookAppointmentPage(props) {
     useEffect(() => {
         getOptions()
     
-    });
+    },[]);
 
     return (
         <div>
@@ -43,10 +47,10 @@ function BookAppointmentPage(props) {
             <label>Select Vaccinies</label>
             <Select isMulti
                 options={selectOptions}
-                // onChange={(event)=>{
-                //     handleValueChange(event);
-                //     console.log(value);
-                // }}
+                onChange={(event)=>{
+                    handleValueChange(event);
+                    console.log(value);
+                }}
                 placeholder="Select Vaccines" 
                 
                 />

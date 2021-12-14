@@ -135,19 +135,30 @@ function PersistentDrawerLeft(props) {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    <ListItem button component={Link} to='/adminDashboard'>
+                
+                <ListItem button component={Link} to='/patientDashboard'>
                         <ListItemIcon>
                             <FaFileMedical fontSize='large' />
                         </ListItemIcon>
-                        <ListItemText sx={{ fontSize: '1.2rem' }} disableTypography primary='Add Clinics' />
+                        <ListItemText sx={{ fontSize: '1rem' }} disableTypography primary='Patient Dashboard' />
                     </ListItem>
                     <Divider />
 
-                    <ListItem button component={Link} to='/addDisease'>
+
+                <ListItem button component={Link} to='/bookAppointment'>
+                        <ListItemIcon>
+                            <FaFileMedical fontSize='large' />
+                        </ListItemIcon>
+                        <ListItemText sx={{ fontSize: '1rem' }} disableTypography primary='Book Appointments' />
+                    </ListItem>
+                    <Divider />
+
+                    <ListItem button component={Link} to='/appointmentHistory'>
+                    
                    <ListItemIcon>
                             <FaFileMedical fontSize='large' />
                         </ListItemIcon>
-                        <ListItemText sx={{ fontSize: '1.2rem' }} disableTypography primary='Add Disease' />
+                        <ListItemText sx={{ fontSize: '1rem' }} disableTypography primary='Appointment History' />
                     </ListItem>
                     <Divider />
 
@@ -155,7 +166,7 @@ function PersistentDrawerLeft(props) {
                         <ListItemIcon>
                             <FaFileMedical fontSize='large' />
                         </ListItemIcon>
-                        <ListItemText sx={{ fontSize: '1.2rem' }} disableTypography primary='Add Vaccination' />
+                        <ListItemText sx={{ fontSize: '1rem' }} disableTypography primary='Patient Reports' />
                     </ListItem>
 
                     <Divider />
@@ -164,7 +175,7 @@ function PersistentDrawerLeft(props) {
                         <ListItemIcon>
                             <BsFillPersonFill fontSize='large' />
                         </ListItemIcon>
-                        <ListItemText sx={{ fontSize: '1.2rem' }} disableTypography primary='Patient Portal' />
+                        <ListItemText sx={{ fontSize: '1rem' }} disableTypography primary='Patient Portal' />
                     </ListItem>
 
                     <Divider />
@@ -173,7 +184,7 @@ function PersistentDrawerLeft(props) {
                         <ListItemIcon>
                             <BsFillPersonFill fontSize='large' />
                         </ListItemIcon>
-                        <ListItemText sx={{ fontSize: '1.2rem' }} disableTypography primary='Logout' />
+                        <ListItemText sx={{ fontSize: '1rem' }} disableTypography primary='Logout' />
                     </ListItem>
                     <Divider />
 
