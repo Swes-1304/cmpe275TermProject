@@ -34,6 +34,10 @@ public class Patient_Vaccination {
         this.vaccinationTime = vaccinationTime;
     }
 
+    public void setPatientVaccinationId(long patientVaccinationId) {
+        this.patientVaccinationId = patientVaccinationId;
+    }
+
     public Patient getPatient() {
         return patient;
     }

@@ -15,7 +15,7 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long appointmentId;
     @ManyToOne(targetEntity = Patient.class)
-    @JsonIgnoreProperties({"firstName","lastName","middleName","DOB", "address", "gender","appointments", "adminBoolean","password","googleSubId"})
+    @JsonIgnoreProperties({"firstName","lastName","middleName","DOB", "address", "appointments","gender", "adminBoolean","password","googleSubId"})
     private Patient patient;
     @ManyToOne(targetEntity = Clinic.class)
     @JsonIgnoreProperties({"businessHoursStart","BusinessHoursEnd","clinicAppointments"})
@@ -39,6 +39,30 @@ public class Appointment {
         this.appointmentDate = appointmentDate;
         this.appointmentTime = appointmentTime;
         this.status = status;
+    }
+
+    public long getAppointmentId() {
+        return appointmentId;
+    }
+
+    public void setAppointmentId(long appointmentId) {
+        this.appointmentId = appointmentId;
+    }
+
+    public LocalTime getMimicTime() {
+        return mimicTime;
+    }
+
+    public void setMimicTime(LocalTime mimicTime) {
+        this.mimicTime = mimicTime;
+    }
+
+    public LocalDate getMimicDate() {
+        return mimicDate;
+    }
+
+    public void setMimicDate(LocalDate mimicDate) {
+        this.mimicDate = mimicDate;
     }
 
     public Patient getPatient() {
