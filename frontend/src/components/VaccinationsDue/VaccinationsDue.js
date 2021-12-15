@@ -5,12 +5,60 @@ import {ThemeContext} from '../../App';
 import axios from 'axios';
 import backendServer from "../../../src/webConfig"
 
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import { makeStyles } from '@material-ui/core/styles';
+
+
+
 
 function VaccinationsDue(props) {
 
     const[patientid, changePatientId] = useState(-1);
     // Context 
     const {systemTime, setSystemTime, mimicTime, toggleMimicTime} = useContext(ThemeContext);
+    const [vaccinesDue,setVaccinesDue]=React.useState([])
+
+    const createVaccinationDueRow = (row, index) => {
+        
+         
+
+        return (
+            // <TableBody>
+            
+            <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                <TableCell align='center' style={{ fontSize: 15 }}>
+                    {row.vaccineName}
+                </TableCell>
+                <TableCell align='center' style={{ fontSize: 15 }}>
+                    {row.manufacturer}
+                </TableCell>
+                <TableCell align='center' style={{ fontSize: 15 }}>
+                    {row.duration==2147483647?<p>LifeTime Validity</p>:row.duration}
+                </TableCell>
+                <TableCell align='center' style={{ fontSize: 15 }}>
+                    {row.dueDate}
+                </TableCell>
+                <TableCell align='center' style={{ fontSize: 15 }}>
+                    {row.diseases.map(disease=>(
+                        <li>{disease.diseaseName}</li>
+                    ))}
+                </TableCell>
+                <TableCell align='center' style={{ fontSize: 15 }}>
+                     {row.shotNumber}/{row.numberOfShots}
+                </TableCell>
+            </TableRow>
+        
+            // </TableBody>
+        );
+    };
+
+    
 
     useEffect(()=>{
         const patientDetails=JSON.parse(localStorage.getItem('patientDetails'))
@@ -55,16 +103,83 @@ function VaccinationsDue(props) {
             }
         }).then((response) => {
             console.log('Got response data', response.data);
+            setVaccinesDue(response.data)
             
         });
 
         
 
     },[]);
+
+    const useStyles = makeStyles((theme) => ({
+        root: {
+            fontSize: '200pt',
+        },
+        table: {
+            fontSize: '200pt',
+        },
+        tablecell: {
+            fontSize: '40pt',
+        },
+        root: {
+            '& .Autocomplete': {
+                border: '2px solid grey',
+                minHeight: 400,
+                color: 'green',
+                fontSize: 18,
+                //hover discussed above
+                '& li': {
+                    //list item specific styling
+                    border: '2px solid green',
+                    borderRadius: 4,
+                },
+            },
+        },
+    }));
+
+    const classes = useStyles();
+    
+
     return (
         <div>
             <PatientNavbar/>
-            VACCINATION DUE PAGE
+            <div>
+            {console.log(vaccinesDue)}
+            {vaccinesDue.length>0 ? (<div><center><h3><b>VACCINATIONS DUE</b></h3></center>
+                <TableContainer component={Paper} className='tableDetails' style={{marginTop:"2%"}}>
+                    <Table sx={{ minWidth: 650 }} aria-label='simple table' className={classes.table}>
+                        <TableHead>
+                            <TableRow class='tablecell'>
+                                <TableCell align='center' style={{ fontWeight: 'bold', fontSize: 16 }}>
+                                    Vaccine Name
+                                </TableCell>
+                                <TableCell align='center' style={{ fontWeight: 'bold', fontSize: 16 }}>
+                                    Manufacturer
+                                </TableCell>
+                                <TableCell align='center' style={{ fontWeight: 'bold', fontSize: 16 }}>
+                                    Shot validity
+                                </TableCell>
+                                <TableCell align='center' style={{ fontWeight: 'bold', fontSize: 16 }}>
+                                    Due Date
+                                </TableCell>
+                                <TableCell align='center' style={{ fontWeight: 'bold', fontSize: 16 }}>
+                                Diseases covered
+                                </TableCell>
+                                <TableCell align='center' style={{ fontWeight: 'bold', fontSize: 16 }}>
+                                    Shots Taken/Total Shots
+                                </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody align='center' style={{ fontWeight: 'bold', fontSize: 16 }}>
+                            {vaccinesDue ? [vaccinesDue.map(createVaccinationDueRow)] : ''}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                </div>
+            ) : (
+                <center><h3><b>NO VACCINATIONS DUE</b></h3></center>
+            )}
+            </div>
         </div>
     );
 }
