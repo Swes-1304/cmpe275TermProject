@@ -390,10 +390,10 @@ public class AppointmentServiceImpl implements AppointmentService{
 		long patientID = new Long((Integer)reqBody.get("patientId"));
 		LocalDate startDate = (LocalDate.parse((String)reqBody.get("startDate")));
 		LocalDate endDate = (LocalDate.parse((String)reqBody.get("endDate")));
-		HashMap<String, Long> responseMap = new HashMap<>();
-		long N = 0 ;
-		long T = 0 ;
-		long noShowRate = 0;
+		HashMap<String, Double> responseMap = new HashMap<>();
+		double N = 0 ;
+		double T = 0 ;
+		double noShowRate = 0;
     	List<Appointment> lstAppointments = appointmentRepository.findByPatientMRN(patientID);
     	for(Appointment appointment : lstAppointments){
     		if(appointment.getAppointmentDate().compareTo(startDate) >= 0 && appointment.getAppointmentDate().compareTo(endDate) <= 0 ){
@@ -406,11 +406,11 @@ public class AppointmentServiceImpl implements AppointmentService{
     	if (T == 0 ){
 			 noShowRate = 0;
 		}else {
-			 noShowRate = T/N;
+			 noShowRate = (double) T/N;
 		}
 		responseMap.put("NOA", N);
     	responseMap.put("NoShow", T);
-    	responseMap.put("NoShowRate", noShowRate);
+    	responseMap.put("NoShowRate", noShowRate*100);
 
 		return new ResponseEntity<>(responseMap,HttpStatus.OK);
 	}
@@ -420,10 +420,10 @@ public class AppointmentServiceImpl implements AppointmentService{
 		long clinicID = new Long((Integer)reqBody.get("clinicId"));
 		LocalDate startDate = (LocalDate.parse((String)reqBody.get("startDate")));
 		LocalDate endDate = (LocalDate.parse((String)reqBody.get("endDate")));
-		HashMap<String, Long> responseMap = new HashMap<>();
-		long N = 0 ;
-		long T = 0 ;
-		long noShowRate = 0;
+		HashMap<String, Double> responseMap = new HashMap<>();
+		double N = 0 ;
+		double T = 0 ;
+		double noShowRate = 0;
 		List<Appointment> lstAppointments = appointmentRepository.findByClinic(clinicID);
 		for(Appointment appointment : lstAppointments){
 			if(appointment.getAppointmentDate().compareTo(startDate) >= 0 && appointment.getAppointmentDate().compareTo(endDate) <= 0 ){
@@ -438,9 +438,9 @@ public class AppointmentServiceImpl implements AppointmentService{
 		}else {
 			noShowRate = T/N;
 		}
-		responseMap.put("N: Number of Appointments", N);
-		responseMap.put("T: No Show Appointments", T);
-		responseMap.put("T/N: No Show Rate", noShowRate);
+		responseMap.put("Number_of_Appointments", N);
+		responseMap.put("No_Show_Appointments", T);
+		responseMap.put("No_Show_Rate", noShowRate*100);
 
 		return new ResponseEntity<>(responseMap,HttpStatus.OK);
 	}

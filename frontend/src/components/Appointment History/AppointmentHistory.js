@@ -223,6 +223,7 @@ function AppointmentHistory(props) {
         const rowMimicDate = row.appointmentDate.split("-")[2] - 1
         const rowDate = row.appointmentDate.split("-")[2] 
         const rowTime = row.appointmentTime.split(":")[0]
+        const updatedRowTime = row.appointmentTime
         const rowMimicTime = row.appointmentTime.split(":")[0] - 1
 
         console.log(rowYear);
@@ -243,6 +244,7 @@ function AppointmentHistory(props) {
 
         console.log("Codn1:",(systemDate == rowDate && currentSystemTime <= rowTime));
         console.log("Codn2:",((systemDate -1) == rowDate) && currentSystemTime >= rowTime);
+        console.log("Current System Time",currentSystemTime)
 
 
         return (
@@ -374,7 +376,8 @@ function AppointmentHistory(props) {
                                     &&
                 rowMonth == systemMonth
                                     &&
-                ((systemDate == rowDate && currentSystemTime <= rowTime) || (systemDate == (rowDate - 1)) && currentSystemTime >= rowTime)
+                ((systemDate == rowDate && currentSystemTime <= updatedRowTime) || (systemDate == (rowDate - 1) && currentSystemTime >= updatedRowTime &&
+                currentSystemTime.split(':')[1]>=updatedRowTime.split(':')[1]))
 
 
                             ? 

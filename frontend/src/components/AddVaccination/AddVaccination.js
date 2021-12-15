@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import AdminNavbar from '../AdminNavbar/AdminNavbar';
 import { TagsInput } from "react-tag-input-component";
 import axios from 'axios'
 import backendServer from "../../webConfig";
 import { useNavigate } from 'react-router-dom';
+import Select from 'react-select';
+// import { handleInputChange } from "react-select/dist/declarations/src/utils";
+
+
 
 function AddVaccination() {
     const [vaccineName, setVaccineName] = useState("");
@@ -12,6 +16,24 @@ function AddVaccination() {
     const [diseases, setDiseases] = useState([]);
     const [shotInterval, setShotInterval] = useState("");
     const [duration, setDuration] = useState(0);
+    const [diseaseslist, setDiseasesList] = useState([]);
+
+
+
+
+   useEffect(()=>{
+    axios.get(`${backendServer}/getDiseases`).then((response) => {
+      console.log('Got response data', response.data);
+      console.log(response.data.body)
+      for(let i=0;i<response.data.body.length;i++)
+      {
+        diseaseslist.push({value : response.data.body[i].diseaseName , label : response.data.body[i].diseaseName})
+        // diseaseslist.push(JSON.parse(response.data.body[i].diseaseName))
+      }
+      console.log(diseaseslist)
+       
+  });
+  },[])
 
 
     const handleSubmit=(e)=>
@@ -19,22 +41,40 @@ function AddVaccination() {
         e.preventDefault();
         
         console.log(diseases)
+        let arr = [];
+        for ( let i = 0 ; i < diseases.length; i ++){
+          arr.push(diseases[i].value)
+        }
         let data={
             vaccineName:vaccineName,
             vaccineManufacturer:vaccineManufacturer,
             noOfShots:parseInt(noOfShots),
             duration:parseInt(duration),
             shotInterval:parseInt(shotInterval),
-            diseases:diseases
+            diseases:arr
         }
         console.log("DATA",data)
         axios.post(`${backendServer}/addVaccine`, data).then((response) => {
             console.log('Got response data', response.data);
+
             alert("Vaccination Added!")
             window.location.reload();
         });
       
         
+    }
+    const handleChange=(newValue)=>
+    {
+      // for(let i=0;i<newValue.length;i++)
+      // {
+      //   console.log(newValue[i].value)
+      //   diseases.push(newValue[i].value)
+      // }
+      // diseases.push(newValue[0].value)
+      
+      setDiseases(newValue)
+      // console.log(diseases)
+      
     }
 
     return (
@@ -121,12 +161,16 @@ function AddVaccination() {
                 <div className="form-group">
                 <label>Diseases</label>
                 
-                <TagsInput
-            value={diseases}
-            onChange={setDiseases}
-            name="Diseases"
-        placeHolder="Enter Diseases"
+      
+      <Select 
+      isMulti 
+      options = {diseaseslist}
+      value={diseases}
+      onChange={(value) => handleChange(value)}
+      
       />
+      
+
 
 
                 </div>

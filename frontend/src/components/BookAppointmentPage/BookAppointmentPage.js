@@ -57,6 +57,8 @@ function BookAppointmentPage(props) {
     onClick={(e)=>{
         let vaccinationIds=[]
         let shotNumber=[]
+        
+        
         for(let i=0;i<value.length;i++)
         {
             vaccinationIds.push(value[i].value)
@@ -235,9 +237,11 @@ function BookAppointmentPage(props) {
                 onClick={(event)=>{
                     event.preventDefault();
                     console.log("Inside click")
+                    
                     console.log("Selected Time",selectedTime)
                     let changedDateTime = new window.Date(selectedTime);
                     console.log(changedDateTime)
+
                     let map = new Map();
         map.set("Jan",1);
         map.set("Feb",2);
@@ -252,16 +256,75 @@ function BookAppointmentPage(props) {
         map.set("Nov",11);
         map.set("Dec",12);
 
-        const splittedDate = changedDateTime.toString().split(' ');
-        console.log(splittedDate)
+
+                    const splittedDate = changedDateTime.toString().split(' ');
+                console.log(splittedDate)
 
 
-        const monthText = changedDateTime.toString().split(' ')[1];
-        const month = map.get(monthText);
-        console.log(month)
-        let date = splittedDate[3]+"-"+month+"-"+splittedDate[2];
-        console.log("Date",date)
+                const monthText = changedDateTime.toString().split(' ')[1];
+                const month = map.get(monthText);
+                console.log(month)
+                let date = splittedDate[3]+"-"+month+"-"+splittedDate[2];
+                console.log("Date",date)
+                let newDate=new window.Date(date)
+                console.log("NEW",newDate)
+
+
+                    let duedate=""
+                    for(let i=0;i<vaccineDue.length;i++)
+                    {
+                        console.log(vaccineDue[i].vaccineName,value)
+                        if(vaccineDue[i].vaccineName==value[0].label)
+                        {
+                            duedate=vaccineDue[i].dueDate
+                        }
+                    }
+                    console.log("DUE DATE",duedate)
+                    console.log("Condition",newDate<new window.Date(duedate))
+                    if(newDate<new window.Date(duedate))
+                        {
+                            alert("Cannot select a date before the due date")
+                            return
+                        }
+                    console.log(selectedTime.split(':')[1])
+                    if(selectedTime.split(':')[1]%15!=0)
+                    {
+
+                        alert("Please select 0th,15th,30th,45th minute of the hour")
+                        return
+                    }
+                
+                    // console.log("Selected Time",selectedTime)
+                    // let changedDateTime = new window.Date(selectedTime);
+                    // console.log(changedDateTime)
+
+        //             let map = new Map();
+        // map.set("Jan",1);
+        // map.set("Feb",2);
+        // map.set("Mar",3);
+        // map.set("Apr",4);
+        // map.set("May",5);
+        // map.set("Jun",6);
+        // map.set("Jul",7);
+        // map.set("Aug",8);
+        // map.set("Sep",9);
+        // map.set("Oct",10);
+        // map.set("Nov",11);
+        // map.set("Dec",12);
+
+        // const splittedDate = changedDateTime.toString().split(' ');
+        // console.log(splittedDate)
+
+
+        // const monthText = changedDateTime.toString().split(' ')[1];
+        // const month = map.get(monthText);
+        // console.log(month)
+        // let date = splittedDate[3]+"-"+month+"-"+splittedDate[2];
+        // console.log("Date",date)
+        // let newDate=new Date(date)
+        // console.log("NEW",newDate)
         changeDate(date);
+        
         
         
         let time = splittedDate[4];
@@ -275,7 +338,36 @@ function BookAppointmentPage(props) {
                         }
                     }).then((response) => {
                         console.log('Got response data', response.data);
-                        setClinicResponse(response.data)
+                        let arr=[]
+                        for(let i=0;i<response.data.length;i++)
+                        {
+                            console.log(new window.Date(response.data[i].businessHoursStart).getTime())
+                            let startTime=response.data[i].businessHoursStart.split(':')
+                            let endTime=response.data[i].businessHoursEnd.split(':')
+
+                            let selected=selectedTime.split('T')[1].split(':');
+
+                            // if(response.data[i].businessHoursStart<=selectedTime 
+                            //     && response.data[i].businessHoursEnd>=selectedTime)
+                            //     {
+                            //         arr.push(response.data[i])
+                            //     }
+
+                            if(startTime[0]<=selected[0] && endTime[0]>=selected[0])
+                            {
+                                arr.push(response.data[i])
+                            }
+
+                                
+                        }
+                        if(arr.length==0)
+                        {
+                            alert("No clinics available for the selected time")
+                            return
+                        }
+                        setClinicResponse(arr)
+                        
+                        
 
                     });
                     

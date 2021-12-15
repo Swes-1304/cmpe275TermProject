@@ -34,7 +34,7 @@ function App() {
           <Routes>
           <Route exact path='/userRegister' element={<UserRegister />} />
           <Route exact path='/login' element={<Login />} />
-          <Route exact path='/commonDashboard' element={<CommonDashboard />} />
+          <Route exact path='/adminlanding' element={<CommonDashboard />} />
           <Route exact path='/viewClinic' element={<ViewClinic />} />
           <Route exact path='/adminNavbar' element={<AdminNavbar />} />
           <Route exact path='/adminDashboard' element={<AddClinic />} />
