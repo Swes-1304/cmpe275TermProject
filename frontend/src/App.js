@@ -11,6 +11,11 @@ import AddVaccination from './components/AddVaccination/AddVaccination';
 import PatientDashboard from './components/PatientDashboard/PatientDashboard';
 import BookAppointmentPage from './components/BookAppointmentPage/BookAppointmentPage';
 import AppointmentHistory from './components/Appointment History/AppointmentHistory';
+import VaccinationsDue from "./components/VaccinationsDue/VaccinationsDue";
+import VaccinationHistory from "./components/VaccinationHistory/VaccinationHistory";
+import GoogleSignup from "./components/GoogleSignup/GoogleSignup";
+import SystemReport from "./components/SystemReports/SystemReport";
+import PatientReports from "./components/PatientReports/PatientReports";
 
 export const ThemeContext=React.createContext()
 
@@ -38,6 +43,11 @@ function App() {
           <Route exact path='/patientDashboard' element={<PatientDashboard />} />
           <Route exact path='/bookAppointment' element={<BookAppointmentPage />} />
           <Route exact path='/appointmentHistory' element={<AppointmentHistory />} />
+          <Route exact path='/vaccinationDue' element={<VaccinationsDue />} />
+          <Route exact path='/vaccinationHistory' element={<VaccinationHistory/>} />
+          <Route exact path='/googleSignup' element={<GoogleSignup/>}/>
+          <Route exact path='/systemreports' element={<SystemReport/>} />
+          <Route exact path= '/patientreports' element={<PatientReports/>} />
           </Routes>
       </BrowserRouter>
     </ThemeContext.Provider>

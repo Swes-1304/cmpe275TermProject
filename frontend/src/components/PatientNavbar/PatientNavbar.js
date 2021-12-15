@@ -24,6 +24,7 @@ import { Link } from 'react-router-dom';
 import { BsFillPersonFill } from 'react-icons/bs';
 import {FaFileMedical} from 'react-icons/fa'
 import backendServer from "../../webConfig" 
+import { useEffect } from 'react';
 
 
 const drawerWidth = 240;
@@ -84,6 +85,9 @@ function PersistentDrawerLeft(props) {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const { classes } = props;
+    const [isAdmin,setAdmin]=React.useState(false)
+   
+    
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -97,7 +101,26 @@ function PersistentDrawerLeft(props) {
     //     localStorage.removeItem('adminEmail');
     // };
 
+    const handleLogout=(e)=>
+    {
+        console.log("Inside Handle Logout")
+        localStorage.removeItem("patientDetails")
+    }
+
+    useEffect(()=>{
+        const patientDetails=JSON.parse(localStorage.getItem('patientDetails'))
+        console.log(patientDetails)
+        console.log("This patient",patientDetails)
+        if(patientDetails.adminBoolean==true)
+        {
+            setAdmin(true)
+            console.log(isAdmin)
+        }
+    },[])
+    
+
     return (
+        
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
             <AppBar position='fixed' open={open} style={{backgroundColor:"#7C0200"}}>
@@ -162,7 +185,7 @@ function PersistentDrawerLeft(props) {
                     </ListItem>
                     <Divider />
 
-                    <ListItem button component={Link} to='/addVaccination'>
+                    <ListItem button component={Link} to='/patientreports'>
                         <ListItemIcon>
                             <FaFileMedical fontSize='large' />
                         </ListItemIcon>
@@ -171,16 +194,33 @@ function PersistentDrawerLeft(props) {
 
                     <Divider />
 
-                    <ListItem button component={Link} to='/login'>
+                    <ListItem button component={Link} to='/vaccinationDue'>
                         <ListItemIcon>
-                            <BsFillPersonFill fontSize='large' />
+                        <FaFileMedical fontSize='large' />
                         </ListItemIcon>
-                        <ListItemText sx={{ fontSize: '1rem' }} disableTypography primary='Patient Portal' />
+                        <ListItemText sx={{ fontSize: '1rem' }} disableTypography primary='Vaccinations Due' />
                     </ListItem>
 
                     <Divider />
 
-                    <ListItem button component={Link} to='/login'>
+                    <ListItem button component={Link} to='/vaccinationHistory'>
+                        <ListItemIcon>
+                        <FaFileMedical fontSize='large' />
+                        </ListItemIcon>
+                        <ListItemText sx={{ fontSize: '1rem' }} disableTypography primary='Vaccinations History' />
+                    </ListItem>
+
+                    <Divider />
+
+                    {isAdmin?<div><ListItem button component={Link} to='/adminDashboard' >
+                        <ListItemIcon>
+                            <BsFillPersonFill fontSize='large' />
+                        </ListItemIcon>
+                        <ListItemText sx={{ fontSize: '1rem' }} disableTypography primary='Admin Portal' />
+                    </ListItem>
+                    <Divider /></div>:''}
+
+                    <ListItem button component={Link} to='/login' onClick={handleLogout}>
                         <ListItemIcon>
                             <BsFillPersonFill fontSize='large' />
                         </ListItemIcon>

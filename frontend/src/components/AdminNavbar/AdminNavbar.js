@@ -93,6 +93,12 @@ function PersistentDrawerLeft(props) {
         setOpen(false);
     };
 
+    const handleLogout=(e)=>
+    {
+        console.log("Inside Handle Logout")
+        localStorage.removeItem('patientDetails')
+    }
+
     // const handleLogout = () => {
     //     localStorage.removeItem('adminEmail');
     // };
@@ -160,7 +166,7 @@ function PersistentDrawerLeft(props) {
 
                     <Divider />
 
-                    <ListItem button component={Link} to='/login'>
+                    <ListItem button component={Link} to='/patientDashboard'>
                         <ListItemIcon>
                             <BsFillPersonFill fontSize='large' />
                         </ListItemIcon>
@@ -169,7 +175,18 @@ function PersistentDrawerLeft(props) {
 
                     <Divider />
 
-                    <ListItem button component={Link} to='/login'>
+                    <ListItem button component={Link} to='/systemreports'>
+                        <ListItemIcon>
+                            <BsFillPersonFill fontSize='large' />
+                        </ListItemIcon>
+                        <ListItemText sx={{ fontSize: '1.2rem' }} disableTypography primary='System Reports' />
+                    </ListItem>
+
+                    <Divider />
+
+                    
+
+                    <ListItem button component={Link} to='/login' onClick={handleLogout}>
                         <ListItemIcon>
                             <BsFillPersonFill fontSize='large' />
                         </ListItemIcon>

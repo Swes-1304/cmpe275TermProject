@@ -100,7 +100,7 @@ function PersistentDrawerLeft(props) {
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            <AppBar position='fixed' open={open}>
+            <AppBar position='fixed' open={open} style={{backgroundColor:"#7C0200"}}>
                 <Toolbar>
                     <IconButton
                         color='inherit'
@@ -108,6 +108,7 @@ function PersistentDrawerLeft(props) {
                         onClick={handleDrawerOpen}
                         edge='start'
                         sx={{ mr: 2, ...(open && { display: 'none' }) }}
+
                     >
                         <MenuIcon sx={{ fontSize: 30 }} />
                     </IconButton>
