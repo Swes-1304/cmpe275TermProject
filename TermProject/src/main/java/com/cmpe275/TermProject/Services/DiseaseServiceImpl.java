@@ -60,4 +60,12 @@ public class DiseaseServiceImpl implements DiseaseService{
 
     }
 
+    public ResponseEntity<?> getDiseases() {
+
+        System.out.println("inside getDiseases service:");
+
+        List<Disease> diseaseList = diseaseRepository.findAll();
+        return new ResponseEntity<>(diseaseList,HttpStatus.OK);
+    }
+
 }

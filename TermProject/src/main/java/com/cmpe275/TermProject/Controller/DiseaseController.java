@@ -23,4 +23,9 @@ public class DiseaseController {
         return new ResponseEntity<>(diseaseService.addDisease(inputJson), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/getDiseases" , method = RequestMethod.GET, produces = {"application/json"})
+    public ResponseEntity<?> getDiseases(){
+
+        return new ResponseEntity<>(diseaseService.getDiseases(), HttpStatus.OK);
+    }
 }
