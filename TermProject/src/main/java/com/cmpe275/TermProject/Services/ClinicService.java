@@ -10,4 +10,7 @@ public interface ClinicService {
     public ResponseEntity<?> addClinic(Map<String, Object> reqBody);
 
 	public ResponseEntity<?> getClinics(LocalDate parse, LocalTime parse2);
+
+    public ResponseEntity<?> getAllClinics();
+
 }

@@ -36,4 +36,9 @@ public class ClinicController {
         return clinicService.getClinics(LocalDate.parse(date), LocalTime.parse(time));
     }
 
+
+    @RequestMapping(value = "/getAllClinics" , method = RequestMethod.GET, produces = {"application/json"})
+    public ResponseEntity<?> getAllClinics(){
+        return clinicService.getAllClinics();
+    }
 }

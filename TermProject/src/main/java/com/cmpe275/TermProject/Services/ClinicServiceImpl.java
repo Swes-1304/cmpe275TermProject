@@ -93,4 +93,9 @@ public class ClinicServiceImpl implements ClinicService{
     	
     	
     }
+
+    public ResponseEntity<?> getAllClinics(){
+        List<Clinic> lstClinic = clinicRepository.findAll();
+        return new ResponseEntity<>(lstClinic,HttpStatus.OK);
+    }
 }
