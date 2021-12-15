@@ -123,10 +123,17 @@ function AddClinic() {
         console.log("Got data",data)
         axios.post(`${backendServer}/addClinic`, data).then((response) => {
             console.log('Got response data', response.data);
-            console.log(response.status)
-            alert("Clinic Added Successfully!")
-            window.location.reload()            
-        });
+            if(response.data.statusCodeValue == 400 ){
+              alert(response.data.body);
+            }
+            if(response.data.statusCodeValue == 201){
+              alert("Clinic Added!")
+              window.location.reload();
+            }            
+        }).catch((error)=>
+        {
+          alert(error.response.data)
+        })
     
     }
    

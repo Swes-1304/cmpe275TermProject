@@ -278,11 +278,29 @@ public class PatientServiceImpl implements PatientService {
                 }
 
                 newPatient.setPassword("-1");
+                try{
+                    patientRepository.save(newPatient);
 
-                return new ResponseEntity<>(newPatient, HttpStatus.OK);
+                    Email thisemail = new Email();
+                    thisemail.setReciver(email);
+                    thisemail.setSubject("Verification Code Vaccination Management System.");
+                    //Random 5 digit code
+                    int code = generateVerificationCode();
+                    thisemail.setBody("Your verification code is:"+ code);
+
+                    emailService.sendEmail(thisemail);
+                    //
+                    Map<String, Object> res = new HashMap<>();
+                    res.put("patient", newPatient);
+                    res.put("code",code);
+                    return new ResponseEntity<>(res,HttpStatus.CREATED);
 
 
+                }catch (Exception error){
+                    System.out.println("Error");
+                    return new ResponseEntity<>("Error saving the patient details", HttpStatus.BAD_REQUEST);
 
+                }
 
             } else {
                 System.out.println("Invalid ID token.");
@@ -293,7 +311,7 @@ public class PatientServiceImpl implements PatientService {
             System.out.println(error);
         }
 
-        return new ResponseEntity<>("Some Error Occured. Redirect to home page",HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("Some Error Occured. Please try again",HttpStatus.BAD_REQUEST);
     }
 
     @Override

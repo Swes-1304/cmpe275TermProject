@@ -52,9 +52,13 @@ function App() {
           apt:apartmentNumber,
           city:city,
           state:state,
-          zipcode:parseInt(zipCode)
+          zipcode:parseInt(zipCode),
+          
 
-      }
+
+      },
+      token:localStorage.getItem('token'),
+      subId:localStorage.getItem('subId')
     }
     console.log("DATA",data)
 
@@ -63,9 +67,13 @@ function App() {
       handleShow();
       console.log(response.status)
       console.log("Response", response);
+      localStorage.setItem('patientDetails',JSON.stringify(response.data.patient))
       setBackendOtp(response.data.code);
       setPatient(response.data.patient);
       // navigate('/adminDashboard');
+  }).catch((error)=>
+  {
+    alert(error.response.data)
   });
 
   };
@@ -173,6 +181,7 @@ function App() {
                   id="First Name"
                   name="First Name"
                   aria-describedby="emailHelp"
+                  required
                   placeholder="Enter First Name"
                   onChange={(event) => setFirstName(event.target.value)}
                 />
@@ -187,6 +196,7 @@ function App() {
                   id="Middle Name"
                   name="Middle Name"
                   aria-describedby="emailHelp"
+                  required
                   placeholder="Enter Middle Name"
                   onChange={(event) => setMiddleName(event.target.value)}
                 />
@@ -201,6 +211,7 @@ function App() {
                   id="Last Name"
                   name="Last Name"
                   aria-describedby="emailHelp"
+                  required
                   placeholder="Enter Last Name"
                   onChange={(event) => setLastName(event.target.value)}
                 />
@@ -216,6 +227,7 @@ function App() {
                   
                   name="EmailInput"
                   aria-describedby="emailHelp"
+                  required
                   placeholder="Enter email"
                   onChange={(event) => setDateOfBirth(event.target.value)}
                 />
@@ -230,6 +242,7 @@ function App() {
                   id="StreetAddress"
                   name="Street Address"
                   aria-describedby="emailHelp"
+                  required
                   placeholder="Enter Street Address"
                   onChange={(event) => setStreet(event.target.value)}
                 />
@@ -244,6 +257,7 @@ function App() {
                   id="ApartmentNumber"
                   name="Apartment Number"
                   aria-describedby="emailHelp"
+                  required
                   placeholder="Number"
                   onChange={(event) => setApartmentNumber(event.target.value)}
                 />
@@ -260,6 +274,7 @@ function App() {
                   id="city"
                   name="City"
                   aria-describedby="emailHelp"
+                  required
                   placeholder="Number"
                   onChange={(event) => setCity(event.target.value)}
                 />

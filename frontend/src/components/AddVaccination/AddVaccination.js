@@ -54,13 +54,23 @@ function AddVaccination() {
             diseases:arr
         }
         console.log("DATA",data)
+        
         axios.post(`${backendServer}/addVaccine`, data).then((response) => {
+            
             console.log('Got response data', response.data);
-
-            alert("Vaccination Added!")
-            window.location.reload();
+            if(response.data.statusCodeValue == 400 ){
+              alert(response.data.body);
+            }
+            if(response.data.statusCodeValue == 201){
+              alert("Vaccination Added!")
+              window.location.reload();
+            }
+            
+        }).catch((error)=>{
+          alert(error.response.data);
         });
-      
+        
+       
         
     }
     const handleChange=(newValue)=>

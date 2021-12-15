@@ -96,7 +96,7 @@ function PersistentDrawerLeft(props) {
     const handleLogout=(e)=>
     {
         console.log("Inside Handle Logout")
-        localStorage.removeItem('patientDetails')
+        localStorage.clear();
     }
 
     // const handleLogout = () => {

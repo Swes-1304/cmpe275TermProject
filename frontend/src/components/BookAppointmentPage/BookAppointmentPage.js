@@ -16,7 +16,7 @@ function BookAppointmentPage(props) {
     });
 
     const [value, handleValueChange] = useState(()=>{
-        return[];
+        return [];
     });
 
     let navigate = useNavigate();
@@ -208,15 +208,19 @@ function BookAppointmentPage(props) {
             
             <form id="loginform">
             <label>Select Vaccinies</label>
+            <div className="form-group">
             <Select isMulti
                 options={selectOptions}
+                isSearchable
+            
                 onChange={(event)=>{
                     handleValueChange(event);
                     console.log(value);
                 }}
                 placeholder="Select Vaccines" 
-                
+                required    
                 />
+                </div>
                 <br/>
                 <div className="form-group">
                 <label for='deptime'>Appointment Time:</label>
@@ -225,6 +229,7 @@ function BookAppointmentPage(props) {
                                 type='datetime-local'
                                 id='deptime'
                                 name='deptime'
+                                required
                                 onChange={(e) => {
                                     setSelectedTime(e.target.value);
                                 }}

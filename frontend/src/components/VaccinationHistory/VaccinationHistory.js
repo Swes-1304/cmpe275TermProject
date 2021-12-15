@@ -21,6 +21,7 @@ function VaccinationHistory() {
     const [result,setResult]=useState([])
 
     const createVaccinationHistoryRow = (row, index) => {
+        console.log(typeof(row.dateCompleted))
 
         return (
             // <TableBody>
@@ -41,8 +42,17 @@ function VaccinationHistory() {
                     ))}
                 </TableCell>
                 <TableCell align='center' style={{ fontSize: 15 }}>
-                     {row.numberOfShots}
+                     {row.shotNumber}/{row.numberOfShots}
                 </TableCell>
+                
+                <TableCell align='center' style={{ fontSize: 15 }}>
+                     {row.clinicName}
+                </TableCell>
+
+                <TableCell align='center' style={{ fontSize: 15 }}>
+                     {row.dateCompleted}
+                </TableCell>
+
             </TableRow>
         
             // </TableBody>
@@ -152,12 +162,18 @@ function VaccinationHistory() {
                                 Diseases covered
                                 </TableCell>
                                 <TableCell align='center' style={{ fontWeight: 'bold', fontSize: 16 }}>
-                                    No Of Shots
+                                    Shots Taken/No Of Shots
+                                </TableCell>
+                                <TableCell align='center' style={{ fontWeight: 'bold', fontSize: 16 }}>
+                                    Clinic Name
+                                </TableCell>
+                                <TableCell align='center' style={{ fontWeight: 'bold', fontSize: 16 }}>
+                                    Vaccination Date
                                 </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody align='center' style={{ fontWeight: 'bold', fontSize: 16 }}>
-                            {result ? [result.map(createVaccinationHistoryRow)] : ''}
+                            {result ? [result.sort((a, b) => a.dateCompleted < b.dateCompleted?1:-1).map(createVaccinationHistoryRow)] : ''}
                         </TableBody>
                     </Table>
                 </TableContainer>

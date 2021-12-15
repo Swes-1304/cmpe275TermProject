@@ -28,23 +28,24 @@ const responseGoogle = (response) => {
     }; 
       console.log(data)
 
-    axios.post(`${backendServer}/googlesignon`, data).then((response) => {
-      console.log('Got response data', response.data);
-      console.log(response.status)
-      
+    axios.post(`${backendServer}/googlesignon`, data).then((response1) => {
+      console.log('Got response data', response1.data);
+      console.log(response1.status)
+     
 
-      if(response.status==206)
+      if(response1.status==206)
       {
-        localStorage.setItem("token",response.data.token)
-        localStorage.setItem("token",response.data.subId)
+        localStorage.setItem("token",response.tokenId)
+        localStorage.setItem("subId",response.googleId)
+
         navigate('/googleSignup')
       }
-      else if(response.status==200){
-        localStorage.setItem('patientDetails',JSON.stringify(response.data))
+      else if(response1.status==200){
+        localStorage.setItem('patientDetails',JSON.stringify(response1.data))
       //Time mimicing feature
       setSystemTime(new Date());
       toggleMimicTime(false);
-      if(response.data.adminBoolean==true)
+      if(response1.data.adminBoolean==true)
       {
         console.log("Inside admin")
         navigate('/adminDashboard');
@@ -91,6 +92,9 @@ const loginSubmit=(e)=>
         navigate('/patientDashboard');
       }
       
+  }).catch((error)=>
+  {
+      alert(error.response.data)
   });
 
 }

@@ -18,9 +18,18 @@ function AddDisease(props) {
         axios.post(`${backendServer}/addDisease`, data).then((response) => {
             console.log('Got response data', response.data);
             console.log(response.status)
-            alert("Disease Added Successfully!")
-            window.location.reload()            
-        });
+            if(response.data.statusCodeValue == 400 ){
+              alert(response.data.body);
+            }
+            if(response.data.statusCodeValue == 201){
+              alert("Disease Added!")
+              window.location.reload();
+            }
+        }).catch((error)=>
+        {
+            alert(error.response.data)
+        } 
+        )
     }
 
     return (
@@ -35,7 +44,7 @@ function AddDisease(props) {
                 <input
                   type="text"
                   className="form-control"
-                  id="First Name"
+                  id="Disease Name"
                   name="First Name"
                   aria-describedby="emailHelp"
                   placeholder="Enter Disease Name"
@@ -50,9 +59,10 @@ function AddDisease(props) {
                 <input
                   type="text"
                   className="form-control"
-                  id="StreetAddress"
+                  id="DiseaseDescription"
                   name="Disease Description"
                   aria-describedby="emailHelp"
+                  required
                   placeholder="Enter Disease Description"
                   onChange={(event) => setDiseaseDescription(event.target.value)}
                 />

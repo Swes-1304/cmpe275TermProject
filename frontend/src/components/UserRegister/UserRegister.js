@@ -66,6 +66,8 @@ function App() {
       setBackendOtp(response.data.code);
       setPatient(response.data.patient);
       // navigate('/adminDashboard');
+  }).catch((error)=>{
+    alert(error.response.data)
   });
 
   };
@@ -172,8 +174,9 @@ function App() {
                   className="form-control"
                   id="First Name"
                   name="First Name"
-                  aria-describedby="emailHelp"
+                  required
                   placeholder="Enter First Name"
+                  
                   onChange={(event) => setFirstName(event.target.value)}
                 />
                 </div>
@@ -188,6 +191,7 @@ function App() {
                   name="Middle Name"
                   aria-describedby="emailHelp"
                   placeholder="Enter Middle Name"
+                  required
                   onChange={(event) => setMiddleName(event.target.value)}
                 />
                 </div>
@@ -202,6 +206,7 @@ function App() {
                   name="Last Name"
                   aria-describedby="emailHelp"
                   placeholder="Enter Last Name"
+                  required
                   onChange={(event) => setLastName(event.target.value)}
                 />
                 </div>
@@ -216,6 +221,7 @@ function App() {
                   name="EmailInput"
                   aria-describedby="emailHelp"
                   placeholder="Enter Email Address"
+                  required
                   onChange={(event) => setEmail(event.target.value)}
                 />
                 </div>
@@ -228,6 +234,7 @@ function App() {
                   className="form-control"
                   id="exampleInputPassword1"
                   placeholder="Password"
+                  required
                   onChange={(event) => setPassword(event.target.value)}
                 />
                 </div>
@@ -242,6 +249,7 @@ function App() {
                   name="EmailInput"
                   aria-describedby="emailHelp"
                   placeholder="Enter email"
+                  required
                   onChange={(event) => setDateOfBirth(event.target.value)}
                 />
                 </div>
@@ -256,6 +264,7 @@ function App() {
                   name="Street Address"
                   aria-describedby="emailHelp"
                   placeholder="Enter Street Address"
+                  required
                   onChange={(event) => setStreet(event.target.value)}
                 />
                 </div>
@@ -270,6 +279,7 @@ function App() {
                   name="Apartment Number"
                   aria-describedby="emailHelp"
                   placeholder="Number"
+                  required
                   onChange={(event) => setApartmentNumber(event.target.value)}
                 />
                 </div>
@@ -304,7 +314,7 @@ function App() {
                                             <TextField
                                                 style={{marginTop:"7px"}}
                                                 {...params}
-                                               
+                                                required
                                                 variant='outlined'
                                                 InputLabelProps={{ style: { padding: '0px 0px', color: '#555555', fontSize: 10.5 } }}
                                             />

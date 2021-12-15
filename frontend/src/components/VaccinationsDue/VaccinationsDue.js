@@ -157,7 +157,7 @@ function VaccinationsDue(props) {
                                     Manufacturer
                                 </TableCell>
                                 <TableCell align='center' style={{ fontWeight: 'bold', fontSize: 16 }}>
-                                    Shot validity
+                                    Vaccine Validity
                                 </TableCell>
                                 <TableCell align='center' style={{ fontWeight: 'bold', fontSize: 16 }}>
                                     Due Date
@@ -166,7 +166,7 @@ function VaccinationsDue(props) {
                                 Diseases covered
                                 </TableCell>
                                 <TableCell align='center' style={{ fontWeight: 'bold', fontSize: 16 }}>
-                                    Shots Taken/Total Shots
+                                    Shots Due/Total Shots
                                 </TableCell>
                             </TableRow>
                         </TableHead>

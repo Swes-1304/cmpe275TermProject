@@ -39,7 +39,7 @@ public class PatientController{
     @RequestMapping(value="/googlesignup", method = RequestMethod.POST, produces = {"application/json"})
     public ResponseEntity<?> googleSignup(@RequestBody Map<String, Object> inputJson){
 
-        return patientService.googleSignon(inputJson);
+        return patientService.googleSignup(inputJson);
     }
 
     @RequestMapping(value="/testemail", method = RequestMethod.POST, produces = {"application/json"})

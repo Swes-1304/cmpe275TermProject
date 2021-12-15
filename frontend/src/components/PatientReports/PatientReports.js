@@ -53,7 +53,10 @@ function PatientReports() {
             setResult(response.data)
             console.log(result)
             console.log("result set!")
-        });
+        }).catch((error)=>
+        {
+            alert("Please check the input")
+        })
 
         
     }
@@ -71,11 +74,11 @@ function PatientReports() {
                 <input
                   type="date"
                   className="form-control"
-                  id="EmailInput"
-                  name="EmailInput"
+                  id="fromDate"
+                  name="fromDate"
+                  required
                   aria-describedby="emailHelp"
                   
-                  required
                   onChange={(event) => {
                     //   console.log(event.target.value)
                     setFromDate(event.target.value)}
@@ -90,7 +93,7 @@ function PatientReports() {
                 <input
                   type="date"
                   className="form-control"
-                  id="exampleInputPassword1"
+                  id="fromDate"
                  
                   required
                   onChange={(event) =>{
@@ -116,7 +119,7 @@ function PatientReports() {
   <ListGroup variant="flush">
     <ListGroup.Item><b>Number of Appointments: {result.NOA}</b></ListGroup.Item>
     <ListGroup.Item><b>Number of Appointments Missed: {result.NoShow}</b></ListGroup.Item>
-    <ListGroup.Item><b>No Show Rate (Appointments Booked/Appointments Missed): {result.NoShowRate}</b></ListGroup.Item>
+    <ListGroup.Item><b>No Show Rate (Appointments Missed/Appointments Booked): {result.NoShowRate}%</b></ListGroup.Item>
   </ListGroup>
 </Card></center>):('')}
           </div>
