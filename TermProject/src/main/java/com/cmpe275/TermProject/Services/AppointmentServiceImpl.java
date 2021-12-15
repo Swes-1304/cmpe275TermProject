@@ -7,7 +7,7 @@ import com.cmpe275.TermProject.Repository.VaccinationRepository;
 import com.cmpe275.TermProject.Repository.PatientRepository;
 import com.cmpe275.TermProject.Repository.PatientVaccinationRepository;
 
-import jdk.swing.interop.SwingInterOpUtils;
+//import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

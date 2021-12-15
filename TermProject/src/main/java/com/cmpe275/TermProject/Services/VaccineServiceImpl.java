@@ -132,11 +132,13 @@ public class VaccineServiceImpl implements VaccineService{
                     if ((appointment.getAppointmentDate().compareTo(currentDate) == 0 && appointment.getAppointmentTime().compareTo(currentTime) > 0)) {
                         continue;
                     }
-                    if (shortNum < vaccine.getNumberOfShots() && vaccine.getShotInternalVal() < (daysBetween)){
+                    if (shortNum < vaccine.getNumberOfShots()
+//                            && vaccine.getShotInternalVal() < (daysBetween)
+                           ){
 //                    vaccine.setVaccineName(vaccine.getVaccineName()+":" + (shortNum+1));
                         VaccinationDue vaccineDue = new VaccinationDue();
                         vaccineDue.setVaccineID(vaccine.getVaccineId());
-                        vaccineDue.setVaccineName(vaccine.getVaccineName()+"-" + (shortNum+1));
+                        vaccineDue.setVaccineName(vaccine.getVaccineName());
                         vaccineDue.setDiseases(vaccine.getDiseases());
                         vaccineDue.setManufacturer(vaccine.getManufacturer());
                         vaccineDue.setDuration(vaccine.getDuration());
