@@ -66,6 +66,7 @@ public class AppointmentController {
 
     @RequestMapping(value = "/patientReport" , method = RequestMethod.POST, produces = {"application/json"})
     public ResponseEntity<?> patientReport(@RequestBody Map<String, Object> inputJson){
+        System.out.println("HEY");
 
         return appointmentService.patientReport(inputJson);
     }

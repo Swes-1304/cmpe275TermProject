@@ -7,6 +7,7 @@ import com.cmpe275.TermProject.Repository.VaccinationRepository;
 import com.cmpe275.TermProject.Repository.PatientRepository;
 import com.cmpe275.TermProject.Repository.PatientVaccinationRepository;
 
+import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -385,7 +386,7 @@ public class AppointmentServiceImpl implements AppointmentService{
 
 
 	public ResponseEntity<?> patientReport(Map<String, Object> reqBody){
-
+		System.out.println("Hrllo");
 		long patientID = new Long((Integer)reqBody.get("patientId"));
 		LocalDate startDate = (LocalDate.parse((String)reqBody.get("startDate")));
 		LocalDate endDate = (LocalDate.parse((String)reqBody.get("endDate")));
@@ -407,9 +408,9 @@ public class AppointmentServiceImpl implements AppointmentService{
 		}else {
 			 noShowRate = T/N;
 		}
-		responseMap.put("N: Number of Appointments", N);
-    	responseMap.put("T: No Show Appointments", T);
-    	responseMap.put("T/N: No Show Rate", noShowRate);
+		responseMap.put("NOA", N);
+    	responseMap.put("NoShow", T);
+    	responseMap.put("NoShowRate", noShowRate);
 
 		return new ResponseEntity<>(responseMap,HttpStatus.OK);
 	}

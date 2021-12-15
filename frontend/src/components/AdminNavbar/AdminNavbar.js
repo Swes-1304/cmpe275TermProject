@@ -93,6 +93,12 @@ function PersistentDrawerLeft(props) {
         setOpen(false);
     };
 
+    const handleLogout=(e)=>
+    {
+        console.log("Inside Handle Logout")
+        localStorage.removeItem('patientDetails')
+    }
+
     // const handleLogout = () => {
     //     localStorage.removeItem('adminEmail');
     // };
@@ -180,7 +186,7 @@ function PersistentDrawerLeft(props) {
 
                     
 
-                    <ListItem button component={Link} to='/login'>
+                    <ListItem button component={Link} to='/login' onClick={handleLogout}>
                         <ListItemIcon>
                             <BsFillPersonFill fontSize='large' />
                         </ListItemIcon>

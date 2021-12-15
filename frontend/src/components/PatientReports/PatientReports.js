@@ -2,12 +2,19 @@ import React, { useEffect, useState } from "react";
 import PatientNavbar from "../PatientNavbar/PatientNavbar";
 import axios from 'axios';
 import backendServer from "../../../src/webConfig"
+import './PatientReports.css'
+import {Card,ListGroup} from "react-bootstrap"
+
 
 function PatientReports() {
     const[report, changeReports] = useState([]);
     const[patientid, changePatientId] = useState(-1);
     const[fromDate, setFromDate] = useState("");
     const[toDate, setToDate] = useState("");
+    const[numberOfAppointments, setNumberOfAppointments] = useState(0);
+    const[noShow, setNoShow] = useState(0);
+    const[noShowRate, setNoShowRate] = useState(0);
+    const[result, setResult] = useState("");
     
     
 
@@ -23,11 +30,6 @@ function PatientReports() {
         //     endDate:
         // }
 
-
-
-        axios.post(`${backendServer}/getVaccineHistory`)
-
-
     },[]);
 
 
@@ -36,6 +38,24 @@ function PatientReports() {
         console.log("Inside handle submit")
         console.log(fromDate)
         console.log(toDate)
+        let data=
+        {
+            patientId:parseInt(patientid),
+            startDate:fromDate,
+            endDate:toDate
+        }
+        console.log("DATA",data)
+        axios.post(`${backendServer}/patientReport`, data).then((response) => {
+            console.log('Got response data', response.data);
+            console.log(response.status) 
+            console.log(typeof(response.data))
+            console.log(response.data)
+            setResult(response.data)
+            console.log(result)
+            console.log("result set!")
+        });
+
+        
     }
     return (
         <div>
@@ -89,9 +109,22 @@ function PatientReports() {
               
               
             </form>
+            <br/><br/>
+            {result?(
+            <center><Card style={{ width: '28rem' }}>
+  <Card.Header><h3>YOUR REPORT</h3></Card.Header>
+  <ListGroup variant="flush">
+    <ListGroup.Item><b>Number of Appointments: {result.NOA}</b></ListGroup.Item>
+    <ListGroup.Item><b>Number of Appointments Missed: {result.NoShow}</b></ListGroup.Item>
+    <ListGroup.Item><b>No Show Rate (Appointments Booked/Appointments Missed): {result.NoShowRate}</b></ListGroup.Item>
+  </ListGroup>
+</Card></center>):('')}
           </div>
-         
+          
         </div>
+        
+        
+        
       </div>
         </div>
     );
