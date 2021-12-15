@@ -45,7 +45,7 @@ function App() {
           <Route exact path='/appointmentHistory' element={<AppointmentHistory />} />
           <Route exact path='/vaccinationDue' element={<VaccinationsDue />} />
           <Route exact path='/vaccinationHistory' element={<VaccinationHistory/>} />
-          <Route exact path='/googleSingup' element={<GoogleSignup/>}/>
+          <Route exact path='/googleSignup' element={<GoogleSignup/>}/>
           <Route exact path='/systemreports' element={<SystemReport/>} />
           <Route exact path= '/patientreports' element={<PatientReports/>} />
           </Routes>

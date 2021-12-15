@@ -31,23 +31,29 @@ const responseGoogle = (response) => {
     axios.post(`${backendServer}/googlesignon`, data).then((response) => {
       console.log('Got response data', response.data);
       console.log(response.status)
-      navigate('/googleSignup');
-      // localStorage.setItem('patientDetails',response.data)
-      // if(response.data.adminBoolean==true)
-      // {
-      //   console.log("Inside admin")
-      //   navigate('/adminDashboard');
-      // }
-      // else
-      // {
-      //   navigate('/patientDashboard');
-      // }
-      // if(response.status == 206){
-      //   console.log("Navigate to differet sign up page!");
-      //   console.log("Navigate with subId and tokenID");
-      //   navigate('/googleSignup');
+      
 
-      // }
+      if(response.status==206)
+      {
+        localStorage.setItem("token",response.data.token)
+        localStorage.setItem("token",response.data.subId)
+        navigate('/googleSignup')
+      }
+      else if(response.status==200){
+        localStorage.setItem('patientDetails',JSON.stringify(response.data))
+      //Time mimicing feature
+      setSystemTime(new Date());
+      toggleMimicTime(false);
+      if(response.data.adminBoolean==true)
+      {
+        console.log("Inside admin")
+        navigate('/adminDashboard');
+      }
+      else
+      {
+        navigate('/patientDashboard');
+      }   
+    }
       
   });
   }

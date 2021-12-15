@@ -36,6 +36,12 @@ public class PatientController{
         return patientService.googleSignon(inputJson);
     }
 
+    @RequestMapping(value="/googlesignup", method = RequestMethod.POST, produces = {"application/json"})
+    public ResponseEntity<?> googleSignup(@RequestBody Map<String, Object> inputJson){
+
+        return patientService.googleSignon(inputJson);
+    }
+
     @RequestMapping(value="/testemail", method = RequestMethod.POST, produces = {"application/json"})
     public ResponseEntity<?> testEmail(){
 
