@@ -20,7 +20,6 @@ let navigate = useNavigate();
 const {systemTime, setSystemTime, mimicTime, toggleMimicTime} = useContext(ThemeContext);
 
 const responseGoogle = (response) => {
-
     console.log(response);
 
     var data = {
