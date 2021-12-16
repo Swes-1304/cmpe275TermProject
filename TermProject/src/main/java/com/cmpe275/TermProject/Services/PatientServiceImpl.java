@@ -195,11 +195,12 @@ public class PatientServiceImpl implements PatientService {
                 }
             } else {
                 System.out.println("Invalid ID token.");
-
+                return new ResponseEntity<>("Invalid ID token.", HttpStatus.BAD_REQUEST);
             }
 
         }catch(Exception error){
-            System.out.println(error);
+        	 System.out.println(error);
+        	 return new ResponseEntity<>("User Not Found", HttpStatus.BAD_REQUEST);             
         }
 
 

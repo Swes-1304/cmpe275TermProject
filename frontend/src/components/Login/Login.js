@@ -20,6 +20,7 @@ let navigate = useNavigate();
 const {systemTime, setSystemTime, mimicTime, toggleMimicTime} = useContext(ThemeContext);
 
 const responseGoogle = (response) => {
+  alert("ey from google sign on");
     console.log(response);
 
     var data = {
