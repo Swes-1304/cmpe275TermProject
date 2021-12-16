@@ -158,7 +158,7 @@ public class PatientServiceImpl implements PatientService {
 
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
                 // Specify the CLIENT_ID of the app that accesses the backend:
-                .setAudience(Collections.singletonList("688669885321-12u8129b1kddkg15shhfk2cl2m8dr2qi.apps.googleusercontent.com"))
+                .setAudience(Collections.singletonList("384093796098-o4v5sjmes3i4stdnj9kepq5ftrkno6t9.apps.googleusercontent.com"))
                 // Or, if multiple clients access the backend:
                 //.setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
                 .build();
@@ -254,7 +254,7 @@ public class PatientServiceImpl implements PatientService {
 
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
                 // Specify the CLIENT_ID of the app that accesses the backend:
-                .setAudience(Collections.singletonList("688669885321-12u8129b1kddkg15shhfk2cl2m8dr2qi.apps.googleusercontent.com"))
+                .setAudience(Collections.singletonList("384093796098-o4v5sjmes3i4stdnj9kepq5ftrkno6t9.apps.googleusercontent.com"))
                 // Or, if multiple clients access the backend:
                 //.setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
                 .build();

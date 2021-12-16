@@ -20,7 +20,7 @@ let navigate = useNavigate();
 const {systemTime, setSystemTime, mimicTime, toggleMimicTime} = useContext(ThemeContext);
 
 const responseGoogle = (response) => {
-  alert("ey from google sign on");
+
     console.log(response);
 
     var data = {
@@ -159,7 +159,7 @@ const loginSubmit=(e)=>
               
               <Col sm={6}>
               <GoogleLogin
-                clientId="688669885321-12u8129b1kddkg15shhfk2cl2m8dr2qi.apps.googleusercontent.com"
+                clientId="384093796098-o4v5sjmes3i4stdnj9kepq5ftrkno6t9.apps.googleusercontent.com"
                 buttonText="Login with Google"
                 onSuccess={responseGoogle}
                 onFailure={responseGoogle}
