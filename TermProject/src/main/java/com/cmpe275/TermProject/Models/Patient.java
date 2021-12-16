@@ -28,6 +28,8 @@ public class Patient {
     //for google auth
     private String googleSubId; // not added to the constructor
 
+    private Boolean isOtpVerified;
+
     public String getGoogleSubId() {
         return googleSubId;
     }
@@ -44,7 +46,7 @@ public class Patient {
 
     }
 
-    public Patient(int mrn, String email, String firstName, String middleName, String lastName, String DOB, Address address, String gender, boolean adminBoolean, String password, String googleSubId, List<Vaccine> vaccinations, List<Appointment> appointments) {
+    public Patient(long mrn, String email, String firstName, String middleName, String lastName, String DOB, Address address, String gender, boolean adminBoolean, String password, String googleSubId, Boolean isOtpVerified, List<Appointment> appointments) {
         this.mrn = mrn;
         this.email = email;
         this.firstName = firstName;
@@ -55,11 +57,10 @@ public class Patient {
         this.gender = gender;
         this.adminBoolean = adminBoolean;
         this.password = password;
-//        this.vaccinations = vaccinations;
+        this.googleSubId = googleSubId;
+        this.isOtpVerified = isOtpVerified;
         this.appointments = appointments;
     }
-
-
 
     // Add getter Setter and constructor
 
@@ -145,7 +146,15 @@ public class Patient {
         this.adminBoolean = adminBoolean;
     }
 
-//    public List<Vaccine> getVaccinations() {
+    public Boolean getOtpVerified() {
+        return isOtpVerified;
+    }
+
+    public void setOtpVerified(Boolean otpVerified) {
+        isOtpVerified = otpVerified;
+    }
+
+    //    public List<Vaccine> getVaccinations() {
 //        return vaccinations;
 //    }
 //

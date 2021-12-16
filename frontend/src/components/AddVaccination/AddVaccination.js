@@ -14,7 +14,7 @@ function AddVaccination() {
     const [vaccineManufacturer, setVaccineManufacturer] = useState("");
     const [noOfShots, setNoOfShots] = useState(0);
     const [diseases, setDiseases] = useState([]);
-    const [shotInterval, setShotInterval] = useState("");
+    const [shotInterval, setShotInterval] = useState(0);
     const [duration, setDuration] = useState(0);
     const [diseaseslist, setDiseasesList] = useState([]);
 
@@ -50,11 +50,12 @@ function AddVaccination() {
             vaccineManufacturer:vaccineManufacturer,
             noOfShots:parseInt(noOfShots),
             duration:parseInt(duration),
-            shotInterval:parseInt(shotInterval),
+            shotInternalVal:parseInt(shotInterval),
             diseases:arr
         }
         console.log("DATA",data)
         
+       
         axios.post(`${backendServer}/addVaccine`, data).then((response) => {
             
             console.log('Got response data', response.data);
@@ -150,7 +151,14 @@ function AddVaccination() {
                   name="duration"
                   placeholder="Enter Vaccination Validity Days"
                   required
-                  onChange={(event) => setDuration(event.target.value)}
+                  onChange={(event) => {
+                    if(event.target.value=="Lifetime")
+                  {
+                    setDuration(2147483647)
+                  }
+                  else{
+                    setDuration(event.target.value)
+                  }}}
                 />
                 </div>
                  <br/>
@@ -158,7 +166,7 @@ function AddVaccination() {
               <div className="form-group">
                 <label>Time Between Vaccination Shots</label>
                 <input
-                  type="text"
+                  type="number"
                   className="form-control"
                   id="vaccinationInterval"
                   placeholder="Enter Interval Days Between Vaccination"

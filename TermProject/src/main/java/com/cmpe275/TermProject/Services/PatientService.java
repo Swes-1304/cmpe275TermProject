@@ -16,5 +16,5 @@ public interface PatientService {
 
     public ResponseEntity<?> testEmail();
 
-
+    ResponseEntity<?> getBackendOtp(String email);
 }

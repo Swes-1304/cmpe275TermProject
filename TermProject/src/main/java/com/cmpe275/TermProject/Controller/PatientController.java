@@ -7,6 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Map;
 
 @Transactional
@@ -17,6 +20,15 @@ public class PatientController{
 
     @Autowired
     PatientService patientService;
+
+    @RequestMapping(value = "/getBackendOtp" , method = RequestMethod.GET, produces = {"application/json"})
+    public ResponseEntity<?> getBackendOtp(@RequestParam (value = "email", required = true) String email
+
+    ){
+
+        //System.out.println("appointmentcontroller47 : " + patientId + " " + date + " " + time);
+        return patientService.getBackendOtp(email);
+    }
 
     @RequestMapping(value = "/signup" , method = RequestMethod.POST, produces = {"application/json"})
     public ResponseEntity<?> addPatient(@RequestBody Map<String, Object> inputJson){

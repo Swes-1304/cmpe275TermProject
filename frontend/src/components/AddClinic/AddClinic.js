@@ -176,8 +176,8 @@ function AddClinic() {
                 <input
                   type="number"
                   className="form-control"
-                  id="Middle Name"
-                  name="Middle Name"
+                  id="NoPhysicians"
+                  name="Nophysicians"
                   aria-describedby="emailHelp"
                   placeholder="Enter Number of Physicians"
                   required

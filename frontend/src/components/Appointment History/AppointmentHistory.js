@@ -351,6 +351,9 @@ function AppointmentHistory(props) {
                     alert("Appointment Updated!");
                     navigate("/patientDashboard");
                 }
+            }).catch((error)=>{
+                
+                alert(error.response.data)
             })
 
         }}>
@@ -390,6 +393,8 @@ function AppointmentHistory(props) {
                             onClick={(event)=>{
                                 checkIn(row);
                             }}
+
+                            style={{backgroundColor:"#7C0200"}}
                         >
                             Check in        
                         </Button>

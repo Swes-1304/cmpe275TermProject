@@ -58,13 +58,15 @@ function App() {
     }
     console.log("DATA",data)
 
-    axios.post(`${backendServer}/signup`, data).then((response) => {
+    axios.get(`${backendServer}/getBackendOtp?email=`+data.email).then((response) => {
       console.log('Got response data', response.data);
       handleShow();
+      console.log(response.data)
       console.log(response.status)
       console.log("Response", response);
-      setBackendOtp(response.data.code);
-      setPatient(response.data.patient);
+      // console.log(response.data.code)
+      setBackendOtp(response.data);
+      
       // navigate('/adminDashboard');
   }).catch((error)=>{
     alert(error.response.data)
@@ -75,17 +77,64 @@ function App() {
   const handleOtp = (e) =>{
     e.preventDefault();
 
+
+
+
     if(otp == backendotp){
 
-      if(patient.adminBoolean == true){
+      let data={
+        firstName:firstName,
+        lastName:lastName,
+        email:email,
+        dob:dateOfBirth,
+        middleName:middleName,
+        gender:gender,
+        password:password,
+        lastName:lastName,
+        address:{
+            street:street,
+            apt:apartmentNumber,
+            city:city,
+            state:state,
+            zipcode:parseInt(zipCode)
+  
+        }
+      }
+
+
+      axios.post(`${backendServer}/signup`, data).then((response) => {
+        console.log('Got response data', response.data);
+        // handleShow();
+        console.log(response.status)
+        console.log("Response", response);
+        // setBackendOtp(response.data.code);
+        setPatient(response.data.patient);
+        // navigate('/adminDashboard');
+        if(response.data.patient.adminBoolean == true){
           console.log("Navigate to admin page!");
-          localStorage.setItem('patientDetails',JSON.stringify(patient))
+          console.log(response.data.patient)
+          localStorage.setItem('patientDetails',JSON.stringify(response.data.patient))
           navigate('/adminDashboard')
           
       }else{
         console.log("Navigate to patient dashboard");
+        localStorage.setItem('patientDetails',JSON.stringify(response.data.patient))
         navigate('/patientDashboard')
       }
+
+    }).catch((error)=>{
+      console.log(error)
+    });
+
+    //   if(patient.adminBoolean == true){
+    //       console.log("Navigate to admin page!");
+    //       localStorage.setItem('patientDetails',JSON.stringify(patient))
+    //       navigate('/adminDashboard')
+          
+    //   }else{
+    //     console.log("Navigate to patient dashboard");
+    //     navigate('/patientDashboard')
+    //   }
 
     }else{
       setValidation("Wrong Otp!");

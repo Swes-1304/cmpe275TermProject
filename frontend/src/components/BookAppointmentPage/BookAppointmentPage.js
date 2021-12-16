@@ -212,7 +212,7 @@ function BookAppointmentPage(props) {
             <Select isMulti
                 options={selectOptions}
                 isSearchable
-            
+
                 onChange={(event)=>{
                     handleValueChange(event);
                     console.log(value);
@@ -238,7 +238,8 @@ function BookAppointmentPage(props) {
 
                 </div>
                 <br/>
-                <center><button className="btn btn-primary" style={{backgroundColor:"#7C0200"}}
+                <center><button className="btn btn-primary" style={{backgroundColor:"#7C0200"}} disabled={value.length == 0 ? true: false}
+               
                 onClick={(event)=>{
                     event.preventDefault();
                     console.log("Inside click")
@@ -358,8 +359,11 @@ function BookAppointmentPage(props) {
                             //         arr.push(response.data[i])
                             //     }
 
-                            if(startTime[0]<=selected[0] && endTime[0]>=selected[0])
+                            if(startTime[0]<=selected[0] && endTime[0]>=selected[0])                                
                             {
+                                if((startTime[0] === selected[0] && startTime[1] > selected[1]) || (endTime[0] === selected[0] && endTime[1] < selected[1]))
+                                    continue;
+
                                 arr.push(response.data[i])
                             }
 
@@ -377,6 +381,7 @@ function BookAppointmentPage(props) {
                     });
                     
                 }}
+                
                 >
                 Search Clinics
               </button></center>

@@ -32,6 +32,7 @@ function App() {
     <ThemeContext.Provider value={{systemTime, setSystemTime, mimicTime, toggleMimicTime}}>
       <BrowserRouter>
           <Routes>
+          <Route exact path='/' element={<Login />} />
           <Route exact path='/userRegister' element={<UserRegister />} />
           <Route exact path='/login' element={<Login />} />
           <Route exact path='/adminlanding' element={<CommonDashboard />} />

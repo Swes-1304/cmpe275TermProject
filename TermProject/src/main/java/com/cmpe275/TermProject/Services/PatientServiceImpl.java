@@ -209,6 +209,20 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
+    public ResponseEntity<?> getBackendOtp(String email) {
+        Email thisemail = new Email();
+        thisemail.setReciver(email);
+        thisemail.setSubject("Verification Code Vaccination Management System.");
+        //Random 5 digit code
+        int code = generateVerificationCode();
+        thisemail.setBody("Your verification code is:"+ code);
+
+        emailService.sendEmail(thisemail);
+
+        return new ResponseEntity<>(code,HttpStatus.OK);
+    }
+
+    @Override
     public ResponseEntity<?> googleSignup(Map<String, Object> reqBody) {
 
         System.out.println("ReqBody:"+reqBody);
