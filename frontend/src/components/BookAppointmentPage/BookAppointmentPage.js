@@ -145,20 +145,19 @@ function BookAppointmentPage(props) {
         changePatientId(patientDetails.mrn)
         console.log("System Time",systemTime)
 
-        let map = new Map();
-        map.set("Jan",1);
-        map.set("Feb",2);
-        map.set("Mar",3);
-        map.set("Apr",4);
-        map.set("May",5);
-        map.set("Jun",6);
-        map.set("Jul",7);
-        map.set("Aug",8);
-        map.set("Sep",9);
-        map.set("Oct",10);
-        map.set("Nov",11);
-        map.set("Dec",12);
-
+ let map = new Map();
+        map.set("Jan","01");
+        map.set("Feb","02");
+        map.set("Mar","03");
+        map.set("Apr","04");
+        map.set("May","05");
+        map.set("Jun","06");
+        map.set("Jul","07");
+        map.set("Aug","08");
+        map.set("Sep","09");
+        map.set("Oct","10");
+        map.set("Nov","11");
+        map.set("Dec","12");
         const splittedDate = systemTime.toString().split(' ');
         console.log(splittedDate)
 
@@ -248,20 +247,19 @@ function BookAppointmentPage(props) {
                     let changedDateTime = new window.Date(selectedTime);
                     console.log(changedDateTime)
 
-                    let map = new Map();
-        map.set("Jan",1);
-        map.set("Feb",2);
-        map.set("Mar",3);
-        map.set("Apr",4);
-        map.set("May",5);
-        map.set("Jun",6);
-        map.set("Jul",7);
-        map.set("Aug",8);
-        map.set("Sep",9);
-        map.set("Oct",10);
-        map.set("Nov",11);
-        map.set("Dec",12);
-
+ let map = new Map();
+        map.set("Jan","01");
+        map.set("Feb","02");
+        map.set("Mar","03");
+        map.set("Apr","04");
+        map.set("May","05");
+        map.set("Jun","06");
+        map.set("Jul","07");
+        map.set("Aug","08");
+        map.set("Sep","09");
+        map.set("Oct","10");
+        map.set("Nov","11");
+        map.set("Dec","12");
 
                     const splittedDate = changedDateTime.toString().split(' ');
                 console.log(splittedDate)
